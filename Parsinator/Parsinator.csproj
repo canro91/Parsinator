@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D6A3A129-56E4-43F9-9115-B5302F519C25}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Parsinator</RootNamespace>
+    <AssemblyName>Parsinator</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <RestorePackages>true</RestorePackages>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Extensions\DataSetExtensions.cs" />
+    <Compile Include="Extensions\DictionaryExtensions.cs" />
+    <Compile Include="Extensions\ISkipExtensions.cs" />
+    <Compile Include="ITransform.cs" />
+    <Compile Include="Parsers\FromGenerator.cs" />
+    <Compile Include="Parsers\FromLineNumberUntilFirstMatchOfRegex.cs" />
+    <Compile Include="Parsers\FromLineNumberWithRegex.cs" />
+    <Compile Include="Parsers\FromLineWithCountAfterPosition.cs" />
+    <Compile Include="Parsers\FromRegexToRegex.cs" />
+    <Compile Include="Parsers\FromValue.cs" />
+    <Compile Include="IParse.cs" />
+    <Compile Include="ISkip.cs" />
+    <Compile Include="Parser.cs" />
+    <Compile Include="Parsers\OrThen.cs" />
+    <Compile Include="Parsers\Required.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Parsers\FromRegex.cs" />
+    <Compile Include="Skippers\SkipBeforeRegexAndAfterRegex.cs" />
+    <Compile Include="Skippers\SkipBlankLines.cs" />
+    <Compile Include="Skippers\SkipFromFirstMatchOfRegex.cs" />
+    <Compile Include="Skippers\SkipIfMatches.cs" />
+    <Compile Include="Skippers\SkipIfDoesNotMatch.cs" />
+    <Compile Include="Skippers\SkipLineCountFromStart.cs" />
+    <Compile Include="Transformations\FromMultipleSkipsTransform.cs" />
+    <Compile Include="Transformations\FromSkipTransform.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
