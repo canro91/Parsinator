@@ -2,20 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Parsinator.Transformers
+namespace Parsinator
 {
-    public class FromMultipleSkipsTransform : ITransform
+    public class FromSkipTransform : ITransform
     {
-        private readonly IList<ISkip> ToSkip;
+        private readonly ISkip ToSkip;
 
-        public FromMultipleSkipsTransform(IList<ISkip> skippers)
+        public FromSkipTransform(ISkip skip)
         {
-            ToSkip = skippers;
+            this.ToSkip = skip;
         }
 
         public List<string> Transform(List<List<string>> allPages)
         {
-            List<String> details = ToSkip.Chain(allPages)
+            List<String> details = ToSkip.Skip(allPages)
                                          .SelectMany(t => t)
                                          .ToList();
             return details;
