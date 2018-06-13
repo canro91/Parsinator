@@ -21,8 +21,8 @@ namespace Parsinator.Tests
                     // Missing table creation
                     .WithRelation("Table", missingTableName);
             });
-            StringAssert.Contains(e.Message, dataSetName);
-            StringAssert.Contains(e.Message, missingTableName);
+            StringAssert.Contains(dataSetName, e.Message);
+            StringAssert.Contains(missingTableName, e.Message);
         }
 
         [Test]
