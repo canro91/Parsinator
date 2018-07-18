@@ -11,11 +11,16 @@ namespace Parsinator
         {
             this.P = p;
             this.Key = p.Key;
-            this.Default = p.Default;
         }
 
         public String Key { get; private set; }
-        public Func<String> Default { get; private set; }
+        public Func<String> Default
+        {
+            get
+            {
+                return P.Default ?? throw new ArgumentNullException($"Pattern not found for [{P.Key}]", innerException: null);
+            }
+        }
         public bool HasMatched { get; private set; }
 
         public KeyValuePair<string, string> Parse(string line, int lineNumber, int lineNumberFromBottom)
@@ -26,15 +31,7 @@ namespace Parsinator
                 this.HasMatched = true;
                 return result;
             }
-            else if (P.Default != null)
-            {
-                this.Default = P.Default;
-                return new KeyValuePair<string, string>();
-            }
-            else
-            {
-                throw new ArgumentNullException($"Pattern not found for [{P.Key}] in [{line}]", innerException: null);
-            }
+            return new KeyValuePair<string, string>();
         }
     }
 }
