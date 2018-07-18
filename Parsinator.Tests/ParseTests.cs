@@ -417,6 +417,34 @@ Value: 123456");
             Assert.AreEqual("123456", ds["Key"]["Value"]);
         }
 
+        [Test]
+        public void Parse_RequiredAndValueToMatchIsNotInFirstLine_ParsesValueAndDoesNotThrowException()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new Required(new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")))
+                    }
+                }
+            };
+
+            var lines = FromText(@"
+This line doesn't match
+This line doesn't match
+This line doesn't match
+Value: 123456");
+
+            var parser = new Parser(p);
+            Dictionary<string, Dictionary<string, string>> ds = null;
+
+            Assert.DoesNotThrow(() => { ds = parser.Parse(lines); });
+            Assert.AreEqual("123456", ds["Key"]["Value"]);
+        }
+
+
         private List<List<String>> FromText(String str)
         {
             return new List<List<string>> { str.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).Skip(1).ToList() };
