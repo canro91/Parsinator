@@ -491,7 +491,33 @@ Value: 123456 This value doesn't have more than 10 chars, so it's invalid");
 
             var e = Assert.Throws<ArgumentException>(() => parser.Parse(lines));
             StringAssert.Contains("Value", e.Message);
+            StringAssert.Contains("123456", e.Message);
         }
+
+        [Test]
+        public void Parse_ExceptionInCustomFactory_ThrowsException()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"), factory: (groups) => throw new Exception("An exception"))
+                    }
+                }
+            };
+
+            var lines = FromText(@"
+Value: 123456");
+
+            var parser = new Parser(p);
+
+            var e = Assert.Throws<ArgumentException>(() => parser.Parse(lines));
+            StringAssert.Contains("Value", e.Message);
+            StringAssert.Contains("123456", e.Message);
+        }
+
 
         private List<List<String>> FromText(String str)
         {

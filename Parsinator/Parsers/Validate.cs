@@ -27,7 +27,7 @@ namespace Parsinator
             {
                 this.HasMatched = true;
                 if (!Predicate(result.Value))
-                    throw new ArgumentException($"Invalid parsed value for [{P.Key}]");
+                    throw new ArgumentException($"Invalid parsed value for [{P.Key}]. Value: [{result.Value}]");
 
                 return result;
             }
