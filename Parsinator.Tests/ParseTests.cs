@@ -444,6 +444,54 @@ Value: 123456");
             Assert.AreEqual("123456", ds["Key"]["Value"]);
         }
 
+        [Test]
+        public void Parse_ValidateAndValueParsedThatSatisfyPredicate_ParsesValueAndDoesNotThrowException()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new Validate((parsed) => parsed.Length == 6,
+                                new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")))
+                    }
+                }
+            };
+
+            var lines = FromText(@"
+Value: 123456 This value has 6 chars, so it's valid");
+
+            var parser = new Parser(p);
+            Dictionary<string, Dictionary<string, string>> ds = null;
+
+            Assert.DoesNotThrow(() => { ds = parser.Parse(lines); });
+            Assert.AreEqual("123456", ds["Key"]["Value"]);
+        }
+
+        [Test]
+        public void Parse_ValidationAndValueParseThatDoesNotSatisfyPredicate_ParsesValueAndThrowsException()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new Validate((parsed) => parsed.Length >= 10,
+                                new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")))
+                    }
+                }
+            };
+
+            var lines = FromText(@"
+Value: 123456 This value doesn't have more than 10 chars, so it's invalid");
+
+            var parser = new Parser(p);
+
+            var e = Assert.Throws<ArgumentException>(() => parser.Parse(lines));
+            StringAssert.Contains("Value", e.Message);
+        }
 
         private List<List<String>> FromText(String str)
         {

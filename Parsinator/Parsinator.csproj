@@ -61,6 +61,7 @@
     <Compile Include="Parser.cs" />
     <Compile Include="Parsers\OrThen.cs" />
     <Compile Include="Parsers\Required.cs" />
+    <Compile Include="Parsers\Validate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Parsers\FromRegex.cs" />
     <Compile Include="Skippers\SkipBeforeRegexAndAfterRegex.cs" />
