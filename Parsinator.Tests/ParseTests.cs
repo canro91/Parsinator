@@ -297,7 +297,7 @@ Anything");
         }
 
         [Test]
-        public void Parse_OrParserAndMatchInTheFirstParser_ParsesValueFromFirstParser()
+        public void Parse_OrElseAndMatchInTheFirstParser_ParsesValueFromFirstParser()
         {
             var p = new Dictionary<String, IList<IParse>>
             {
@@ -305,7 +305,7 @@ Anything");
                     "Key",
                     new List<IParse>
                     {
-                        new OrThen(
+                        new OrElse(
                             new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")),
                             new FromRegex(key: "Value", pattern: new Regex(@"Result: \s*(\d+)")))
                     }
@@ -322,7 +322,7 @@ Value: 123456");
         }
 
         [Test]
-        public void Parse_OrParserAndMatchInTheSecondParser_ParsesValueFromSecondParser()
+        public void Parse_OrElseAndMatchInTheSecondParser_ParsesValueFromSecondParser()
         {
             var p = new Dictionary<String, IList<IParse>>
             {
@@ -330,7 +330,7 @@ Value: 123456");
                     "Key",
                     new List<IParse>
                     {
-                        new OrThen(
+                        new OrElse(
                             new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")),
                             new FromRegex(key: "Value", pattern: new Regex(@"Result: \s*(\d+)")))
                     }

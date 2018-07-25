@@ -59,7 +59,7 @@
     <Compile Include="IParse.cs" />
     <Compile Include="ISkip.cs" />
     <Compile Include="Parser.cs" />
-    <Compile Include="Parsers\OrThen.cs" />
+    <Compile Include="Parsers\OrElse.cs" />
     <Compile Include="Parsers\Required.cs" />
     <Compile Include="Parsers\Validate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

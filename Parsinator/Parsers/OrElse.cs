@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace Parsinator
 {
-    public class OrThen : IParse
+    public class OrElse : IParse
     {
         private readonly IParse Parser1;
         private readonly IParse Parser2;
 
-        public OrThen(IParse parser1, IParse parser2)
+        public OrElse(IParse parser1, IParse parser2)
         {
             Parser1 = parser1;
             Parser2 = parser2;
