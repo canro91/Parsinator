@@ -518,6 +518,86 @@ Value: 123456");
             StringAssert.Contains("123456", e.Message);
         }
 
+        [Test]
+        public void Parse_AndThenAndMatchInBothParsers_ParsersValueFromBothParsers()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new AndThen(
+                            (output) => $"{output.Item1}{output.Item2}",
+                            new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")),
+                            new FromRegex(key: "Result", pattern: new Regex(@"Result: \s*(\d+)")))
+                    }
+                }
+            };
+
+            var lines = FromText(@"
+Value: 123
+Result: 456");
+
+            var parser = new Parser(p);
+            var ds = parser.Parse(lines);
+
+            Assert.AreEqual("123456", ds["Key"]["Value&Result"]);
+        }
+
+        [Test]
+        public void Parse_AndThenAndFirstParserDoesNotMatch_DoesNotParse()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new AndThen(
+                            (output) => $"{output.Item1}{output.Item2}",
+                            new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")),
+                            new FromRegex(key: "Result", pattern: new Regex(@"Result: \s*(\d+)")))
+                    }
+                }
+            };
+
+            var lines = FromText(@"
+Value: This line doesn't match
+Result: 456");
+
+            var parser = new Parser(p);
+            var ds = parser.Parse(lines);
+
+            Assert.IsFalse(ds["Key"].ContainsKey("Value&Result"));
+        }
+
+        [Test]
+        public void Parse_AndThenAndSecondParserDoesNotMatch_DoesNotParse()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new AndThen(
+                            (output) => $"{output.Item1}{output.Item2}",
+                            new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")),
+                            new FromRegex(key: "Result", pattern: new Regex(@"Result: \s*(\d+)")))
+                    }
+                }
+            };
+
+            var lines = FromText(@"
+Value: 123
+Result: This line doesn't match");
+
+            var parser = new Parser(p);
+            var ds = parser.Parse(lines);
+
+            Assert.IsFalse(ds["Key"].ContainsKey("Value&Result"));
+        }
 
         private List<List<String>> FromText(String str)
         {
