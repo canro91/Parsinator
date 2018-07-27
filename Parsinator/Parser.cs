@@ -37,8 +37,12 @@ namespace Parsinator
             List<List<String>> pages = _headerSkipers.Chain(lines);
 
             // WARNING: To find values from header, the parsers are only applied
-            // on the first page
-            ParseOnceInPage(_headerParsers, pages.FirstOrDefault());
+            // on the first page, if a page number isn't specified
+            foreach (var page in pages.Select((Content, Number) => new { Number, Content }))
+            {
+                var parsers = FindPasersForPage(_headerParsers, page.Number, lines.Count);
+                ParseOnceInPage(parsers, page.Content);
+            }
 
             if (_detailParsers != null && _detailParsers.Any())
             {
@@ -53,7 +57,20 @@ namespace Parsinator
             return _output;
         }
 
-        private void ParseOnceInPage(IDictionary<string, IList<IParse>> toParse, List<string> page)
+        private IDictionary<string, IEnumerable<IParse>> FindPasersForPage(IDictionary<string, IList<IParse>> parsers, int pageIndex, int totalPages)
+        {
+            bool isInPage(IParse t)
+                => (pageIndex == 0)
+                    ? !t.PageNumber.HasValue || t.PageNumber == 1 || (t.PageNumber == -1 && totalPages == 1)
+                    : t.PageNumber == pageIndex + 1 || t.PageNumber == pageIndex - totalPages;
+
+            var hasParsers = parsers.Any(t => t.Value.Any(isInPage));
+            return hasParsers
+                    ? parsers.ToDictionary(k => k.Key, v => v.Value.Where(isInPage))
+                    : new Dictionary<string, IEnumerable<IParse>>();
+        }
+
+        private void ParseOnceInPage(IDictionary<string, IEnumerable<IParse>> toParse, List<string> page)
         {
             foreach (var item in toParse)
             {
@@ -78,7 +95,7 @@ namespace Parsinator
                 {
                     row[parser.Key] = parser.Default();
                 }
-                _output[sectionName] = row;
+                _output.AddOrMerge(sectionName, row);
             }
         }
 

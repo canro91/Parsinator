@@ -26,6 +26,7 @@ namespace Parsinator
         }
 
         public String Key { get; private set; }
+        public Int32? PageNumber { get; private set; }
         public Func<String> Default { get; private set; }
         public bool HasMatched { get; private set; }
 

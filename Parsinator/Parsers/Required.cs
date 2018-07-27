@@ -11,9 +11,11 @@ namespace Parsinator
         {
             this.P = p;
             this.Key = p.Key;
+            this.PageNumber = p.PageNumber;
         }
 
         public String Key { get; private set; }
+        public Int32? PageNumber { get; private set; }
         public Func<String> Default
         {
             get

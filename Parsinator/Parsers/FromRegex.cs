@@ -6,40 +6,42 @@ namespace Parsinator
 {
     public class FromRegex : IParse
     {
-        public String Key { get; private set; }
         public Regex Pattern { get; private set; }
         public Func<GroupCollection, String> Factory { get; set; }
-        public Func<String> Default { get; set; }
 
-        public bool HasMatched { get; private set; }
-
-        public FromRegex(String key, Regex pattern, Func<GroupCollection, String> factory, Func<String> @default)
+        public FromRegex(String key, Regex pattern, Int32? pageNumber, Func<GroupCollection, String> factory, Func<String> @default)
         {
             this.Key = key;
+            this.PageNumber = pageNumber;
             this.Pattern = pattern;
             this.Factory = factory;
             this.Default = @default;
         }
 
         public FromRegex(String key, Regex pattern, Func<String> @default)
+            : this(key, pattern, null, null, @default)
         {
-            this.Key = key;
-            this.Pattern = pattern;
-            this.Default = @default;
         }
 
         public FromRegex(String key, Regex pattern, Func<GroupCollection, String> factory)
+            : this(key, pattern, null, factory, null)
         {
-            this.Key = key;
-            this.Pattern = pattern;
-            this.Factory = factory;
+        }
+
+        public FromRegex(String key, Regex pattern, Int32 pageNumber)
+            : this(key, pattern, pageNumber, null, null)
+        {
         }
 
         public FromRegex(String key, Regex pattern)
+            : this(key, pattern, null, null, null)
         {
-            this.Key = key;
-            this.Pattern = pattern;
         }
+
+        public String Key { get; private set; }
+        public Int32? PageNumber { get; private set; }
+        public Func<String> Default { get; private set; }
+        public bool HasMatched { get; private set; }
 
         public KeyValuePair<String, String> Parse(String line, int lineNumber, int lineNumberFromBottom)
         {

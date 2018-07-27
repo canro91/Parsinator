@@ -45,5 +45,19 @@ namespace Parsinator
 
             return dataSet;
         }
+
+        internal static Dictionary<String, Dictionary<String, String>> AddOrMerge(this Dictionary<string, Dictionary<string, string>> self, String key, Dictionary<string, string> dict)
+        {
+            if (!self.ContainsKey(key))
+                self[key] = dict;
+            else
+            {
+                foreach (var item in dict)
+                {
+                    self[key].Add(item.Key, item.Value);
+                }
+            }
+            return self;
+        }
     }
 }

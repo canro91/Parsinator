@@ -13,10 +13,12 @@ namespace Parsinator
             this.Predicate = predicate;
             this.P = p;
             this.Key = p.Key;
+            this.PageNumber = p.PageNumber;
             this.Default = p.Default;
         }
 
         public String Key { get; private set; }
+        public Int32? PageNumber { get; }
         public Func<String> Default { get; private set; }
         public bool HasMatched { get; private set; }
 
