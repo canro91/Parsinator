@@ -70,6 +70,7 @@
     <Compile Include="Skippers\SkipFromFirstMatchOfRegex.cs" />
     <Compile Include="Skippers\SkipIfMatches.cs" />
     <Compile Include="Skippers\SkipIfDoesNotMatch.cs" />
+    <Compile Include="Skippers\SkipLineCountFromEnd.cs" />
     <Compile Include="Skippers\SkipLineCountFromStart.cs" />
     <Compile Include="Transformations\FromMultipleSkipsTransform.cs" />
     <Compile Include="Transformations\FromSkipTransform.cs" />
