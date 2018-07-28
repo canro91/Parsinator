@@ -772,6 +772,88 @@ Value: 123456");
             Assert.AreEqual("654321", ds["Key"]["Value"]);
         }
 
+        [Test]
+        public void Parse_OrElseAndMatchInTheFirstParserWithPage_ParsesValueFromFirstParserInGivenPage()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new OrElse(
+                            new FromRegex(key: "Value", pageNumber: 2, pattern: new Regex(@"Value:\s*(\d+)")),
+                            new FromRegex(key: "Result", pageNumber: 3, pattern: new Regex(@"Result:\s*(\d+)")))
+                    }
+                }
+            };
+
+            var lines = FromPagesText(
+@"Page1 This is a dummy page",
+@"Page2 Value: 123456",
+@"Page3 Result: 654321");
+
+            var parser = new Parser(p);
+            var ds = parser.Parse(lines);
+
+            Assert.AreEqual("123456", ds["Key"]["Value"]);
+        }
+
+        [Test]
+        public void Parse_OrElseAndMatchInTheSecondParserWithPage_ParsesValueFromFirstParserInGivenPage()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new OrElse(
+                            new FromRegex(key: "Value", pageNumber: 2, pattern: new Regex(@"Value:\s*(\d+)")),
+                            new FromRegex(key: "Result", pageNumber: 3, pattern: new Regex(@"Result:\s*(\d+)")))
+                    }
+                }
+            };
+
+            var lines = FromPagesText(
+@"Page1 This is a dummy page",
+@"Page2 Value: This line doesn't match",
+@"Page3 Result: 654321");
+
+            var parser = new Parser(p);
+            var ds = parser.Parse(lines);
+
+            Assert.AreEqual("654321", ds["Key"]["Result"]);
+        }
+
+        [Test]
+        public void Parse_AndThenAndMatchInBothParsersWithPages_ParsersValueFromBothParsersInGivenPages()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new AndThen(
+                            (output) => $"{output.Item1}{output.Item2}",
+                            new FromRegex(key: "Value", pageNumber: 2, pattern: new Regex(@"Value:\s*(\d+)")),
+                            new FromRegex(key: "Result", pageNumber: 3, pattern: new Regex(@"Result:\s*(\d+)")))
+                    }
+                }
+            };
+
+            var lines = FromPagesText(
+@"Page1 This is a dummy page",
+@"Page2 Value: 123",
+@"Page3 Result: 456");
+
+            var parser = new Parser(p);
+            var ds = parser.Parse(lines);
+
+            Assert.AreEqual("123456", ds["Key"]["Value&Result"]);
+        }
+
         private List<List<String>> FromPagesText(params String[] str)
         {
             return str.Select(t => t.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).ToList()).ToList();

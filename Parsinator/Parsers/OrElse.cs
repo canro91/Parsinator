@@ -8,10 +8,14 @@ namespace Parsinator
         private readonly IParse Parser1;
         private readonly IParse Parser2;
 
+        // Since parsers are applied in pages in order, first parser
+        // should have a lower page number than second parser. Otherwise
+        // second parser won't be ever evaluated.
         public OrElse(IParse parser1, IParse parser2)
         {
             Parser1 = parser1;
             Parser2 = parser2;
+            PageNumber = parser1.PageNumber;
             HasMatched = false;
         }
 
@@ -30,6 +34,7 @@ namespace Parsinator
             }
             else
             {
+                PageNumber = Parser2.PageNumber;
                 var result2 = Parser2.Parse(line, lineNumber, lineNumberFromBottom);
                 if (result2.Key != null)
                 {

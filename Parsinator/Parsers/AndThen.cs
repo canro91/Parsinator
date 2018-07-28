@@ -17,6 +17,7 @@ namespace Parsinator
             Key = key;
             First = first;
             Second = second;
+            PageNumber = first.PageNumber;
             Factory = factory;
             HasMatched = false;
 
@@ -43,6 +44,7 @@ namespace Parsinator
                 {
                     _firstHasMatched = true;
                     _firstResult = result1;
+                    PageNumber = Second.PageNumber;
                 }
             }
             else
