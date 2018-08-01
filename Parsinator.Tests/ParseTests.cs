@@ -297,6 +297,102 @@ Anything");
         }
 
         [Test]
+        public void Parse_PositionAndNegativeCountInLine_ParsesStringWithCountFromEnd()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new FromLineWithCountAfterPosition(key: "Value", lineNumber: 2, startPosition: 5, charCount: -5)
+                    }
+                }
+            };
+
+            var lines = FromText(@"
+1234512345678912345
+12345Any value12345");
+
+            var parser = new Parser(p);
+            var ds = parser.Parse(lines);
+
+            Assert.AreEqual("Any value", ds["Key"]["Value"]);
+        }
+
+        [Test]
+        public void Parse_NegativePositionAndCountInLine_ParsesStringInPositionFromEnd()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new FromLineWithCountAfterPosition(key: "Value", lineNumber: 2, startPosition: -9, charCount: 9)
+                    }
+                }
+            };
+
+            var lines = FromText(@"
+12345123456789
+12345Any value");
+
+            var parser = new Parser(p);
+            var ds = parser.Parse(lines);
+
+            Assert.AreEqual("Any value", ds["Key"]["Value"]);
+        }
+
+        [Test]
+        public void Parse_NegativePositionAndNegativeCountInLine_ParsesStringWithPositionAndCountFromEnd()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new FromLineWithCountAfterPosition(key: "Value", lineNumber: 2, startPosition: -14, charCount: -5)
+                    }
+                }
+            };
+
+            var lines = FromText(@"
+1234512345678912345
+12345Any value12345");
+
+            var parser = new Parser(p);
+            var ds = parser.Parse(lines);
+
+            Assert.AreEqual("Any value", ds["Key"]["Value"]);
+        }
+
+        [Test]
+        public void Parse_PositionAndZeroCountInLine_DoesNotParse()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new FromLineWithCountAfterPosition(key: "Value", lineNumber: 2, startPosition: 5, charCount: 0)
+                    }
+                }
+            };
+
+            var lines = FromText(@"
+1234512345678912345
+12345Any value12345");
+
+            var parser = new Parser(p);
+            var ds = parser.Parse(lines);
+
+            Assert.IsFalse(ds["Key"].ContainsKey("Value"));
+        }
+
+        [Test]
         public void Parse_OrElseAndMatchInTheFirstParser_ParsesValueFromFirstParser()
         {
             var p = new Dictionary<String, IList<IParse>>

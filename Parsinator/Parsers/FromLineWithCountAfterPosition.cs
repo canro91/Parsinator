@@ -26,11 +26,22 @@ namespace Parsinator
         {
             if (lineNumber == this.LineNumber || (this.LineNumber < 0 && lineNumberFromBottom == this.LineNumber))
             {
-                var isInLine = StartPosition + CharCount <= line.Length;
+                bool isInLine = false;
+                if (StartPosition < 0)
+                    isInLine = isInLine || line.Length + StartPosition >= 0;
+                if (CharCount < 0)
+                    isInLine = isInLine || StartPosition + (line.Length + CharCount) <= line.Length;
+                if (StartPosition >= 0 && CharCount > 0)
+                    isInLine = StartPosition + CharCount <= line.Length;
+
                 if (isInLine)
                 {
                     HasMatched = true;
-                    var value = line.Substring(StartPosition, CharCount);
+
+                    var startIndex = (StartPosition < 0) ? line.Length + StartPosition : StartPosition;
+                    var length = (CharCount < 0) ? line.Length + CharCount - startIndex : CharCount;
+
+                    var value = line.Substring(startIndex, length);
                     return new KeyValuePair<string, string>(Key, value.Trim());
                 }
             }
