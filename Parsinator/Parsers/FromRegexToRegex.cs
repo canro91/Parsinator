@@ -9,29 +9,33 @@ namespace Parsinator
         private readonly Regex FirstPattern;
         private readonly Regex SecondPattern;
         private readonly Func<List<String>, String> Factory;
+        private readonly bool IncludeFirst;
+        private readonly bool IncludeSecond;
 
         private List<String> _content;
         private Boolean _hasAtLeastOneMatch;
 
-        public FromRegexToRegex(String key, Regex first, Regex second, Func<List<String>, String> factory, Func<String> @default)
+        public FromRegexToRegex(String key, Regex first, Regex second, Func<List<String>, String> factory, Func<String> @default, bool includeFirst = false, bool includeSecond = false)
         {
             this.Key = key;
             this.FirstPattern = first;
             this.SecondPattern = second;
             this.Factory = factory;
             this.Default = @default;
+            this.IncludeFirst = includeFirst;
+            this.IncludeSecond = includeSecond;
 
             this._content = new List<string>();
             this._hasAtLeastOneMatch = false;
         }
 
-        public FromRegexToRegex(String key, Regex first, Regex second, Func<List<String>, String> factory)
-            : this(key: key, first: first, second: second, factory: factory, @default: null)
+        public FromRegexToRegex(String key, Regex first, Regex second, Func<List<String>, String> factory, bool includeFirst = false, bool includeSecond = false)
+            : this(key: key, first: first, second: second, factory: factory, @default: null, includeFirst: includeFirst, includeSecond: includeSecond)
         {
         }
 
-        public FromRegexToRegex(String key, Regex first, Regex second)
-            : this(key: key, first: first, second: second, factory: (allLines) => string.Join(" ", allLines), @default: null)
+        public FromRegexToRegex(String key, Regex first, Regex second, bool includeFirst = false, bool includeSecond = false)
+            : this(key: key, first: first, second: second, factory: (allLines) => string.Join(" ", allLines), @default: null, includeFirst: includeFirst, includeSecond: includeSecond)
         {
         }
 
@@ -47,6 +51,9 @@ namespace Parsinator
             if (!_hasAtLeastOneMatch && FirstPattern.IsMatch(line))
             {
                 _hasAtLeastOneMatch = true;
+
+                if (IncludeFirst)
+                    _content.Add(line.Trim());
             }
             else if (_hasAtLeastOneMatch)
             {
@@ -54,6 +61,10 @@ namespace Parsinator
                 if (matches.Success)
                 {
                     HasMatched = true;
+
+                    if (IncludeSecond)
+                        _content.Add(line.Trim());
+
                     var value = Factory(_content) ?? Default();
                     return new KeyValuePair<string, string>(Key, value);
                 }
