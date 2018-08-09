@@ -102,6 +102,10 @@ var xml = parsed.ToDataSet(dataSet).GetXml();
 
 Assert.AreEqual("<Author><PersonalInfo Name="Alice" /></Author>", xml);
 ```
+
+## Contributing
+
+Feel free to report any bug, ask for a new feature or just send a pull-request. All contributions are welcome.
 	
 ## License
 
