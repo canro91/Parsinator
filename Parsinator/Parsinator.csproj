@@ -51,6 +51,9 @@
     <Compile Include="Extensions\ISkipExtensions.cs" />
     <Compile Include="ITransform.cs" />
     <Compile Include="Parsers\AndThen.cs" />
+    <Compile Include="Parsers\FromFirstRegexToLastRegex.cs" />
+    <Compile Include="Parsers\FromRegexToLastRegex.cs" />
+    <Compile Include="Parsers\FromFirstRegexToRegex.cs" />
     <Compile Include="Parsers\FromGenerator.cs" />
     <Compile Include="Parsers\FromLineNumberUntilFirstMatchOfRegex.cs" />
     <Compile Include="Parsers\FromLineNumberWithRegex.cs" />

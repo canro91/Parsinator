@@ -238,7 +238,7 @@ This line will be ignored");
                     "Key",
                     new List<IParse>
                     {
-                        new FromRegexToRegex(key: "Value", first: new Regex(@"--Begin--"), second: new Regex(@"--End--"), includeFirst: true),
+                        new FromFirstRegexToRegex(key: "Value", first: new Regex(@"--Begin--"), second: new Regex(@"--End--")),
                     }
                 }
             };
@@ -265,7 +265,7 @@ This line will be ignored");
                     "Key",
                     new List<IParse>
                     {
-                        new FromRegexToRegex(key: "Value", first: new Regex(@"--Begin--"), second: new Regex(@"--End--"), includeSecond: true),
+                        new FromRegexToLastRegex(key: "Value", first: new Regex(@"--Begin--"), second: new Regex(@"--End--")),
                     }
                 }
             };
@@ -281,6 +281,33 @@ This line will be ignored");
             var ds = parser.Parse(lines);
 
             Assert.AreEqual("Any value --End--", ds["Key"]["Value"]);
+        }
+
+        [Test]
+        public void Parse_MultipleLineStringBetweenTwoRegexes_ParseStringBetweenRegexesIncludingFirstAndSecond()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new FromFirstRegexToLastRegex(key: "Value", first: new Regex(@"--Begin--"), second: new Regex(@"--End--")),
+                    }
+                }
+            };
+            var lines = FromText(@"
+This line will be ignored
+--Begin--
+Any
+value
+--End--
+This line will be ignored");
+
+            var parser = new Parser(p);
+            var ds = parser.Parse(lines);
+
+            Assert.AreEqual("--Begin-- Any value --End--", ds["Key"]["Value"]);
         }
 
         [Test]
