@@ -402,6 +402,31 @@ Anything");
         }
 
         [Test]
+        public void Parse_PositionAfterHalfLengthAndNegativeCountInLine_ParsesStringWithCountFromEnd()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new FromLineWithCountAfterPosition(key: "Value", lineNumber: 2, startPosition: 9, charCount: -5)
+                    }
+                }
+            };
+
+            var lines = FromText(@"
+1234512345678912345
+12345Any value12345");
+
+            var parser = new Parser(p);
+            var ds = parser.Parse(lines);
+
+            Assert.AreEqual("value", ds["Key"]["Value"]);
+        }
+
+
+        [Test]
         public void Parse_NegativePositionAndCountInLine_ParsesStringInPositionFromEnd()
         {
             var p = new Dictionary<String, IList<IParse>>

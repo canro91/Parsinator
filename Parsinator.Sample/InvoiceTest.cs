@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 namespace Parsinator.Sample
 {
     [TestFixture]
-    public class ParseTest
+    public class InvoiceTest
     {
         private readonly String InputFile = @"
 +-------------------------------------------------------------------------------------------------------------------------------------+

@@ -30,7 +30,7 @@ namespace Parsinator
                 if (StartPosition < 0)
                     isInLine = isInLine || line.Length + StartPosition >= 0;
                 if (CharCount < 0)
-                    isInLine = isInLine || StartPosition + (line.Length + CharCount) <= line.Length;
+                    isInLine = isInLine || (line.Length + CharCount) <= line.Length;
                 if (StartPosition >= 0 && CharCount > 0)
                     isInLine = StartPosition + CharCount <= line.Length;
 
