@@ -499,6 +499,30 @@ Anything");
         }
 
         [Test]
+        public void Parse_PositionAndCountInLineWithFactory_ParsesAndAppliesFactory()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new FromLineWithCountAfterPosition(key: "Value", lineNumber: 2, startPosition: 5, charCount: 9, factory: (str) => str.ToUpper())
+                    }
+                }
+            };
+
+            var lines = FromText(@"
+12345123456789
+12345Any value");
+
+            var parser = new Parser(p);
+            var ds = parser.Parse(lines);
+
+            Assert.AreEqual("ANY VALUE", ds["Key"]["Value"]);
+        }
+
+        [Test]
         public void Parse_OrElseAndMatchInTheFirstParser_ParsesValueFromFirstParser()
         {
             var p = new Dictionary<String, IList<IParse>>

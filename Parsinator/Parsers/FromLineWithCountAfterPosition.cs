@@ -8,13 +8,20 @@ namespace Parsinator
         private readonly int LineNumber;
         private readonly int StartPosition;
         private readonly int CharCount;
+        private readonly Func<String, String> Factory;
 
-        public FromLineWithCountAfterPosition(string key, int lineNumber, int startPosition, int charCount)
+        public FromLineWithCountAfterPosition(string key, int lineNumber, int startPosition, int charCount, Func<String, String> factory)
         {
             this.Key = key;
             this.LineNumber = lineNumber;
             this.StartPosition = startPosition;
             this.CharCount = charCount;
+            this.Factory = factory;
+        }
+
+        public FromLineWithCountAfterPosition(string key, int lineNumber, int startPosition, int charCount)
+            : this(key, lineNumber, startPosition, charCount, null)
+        {
         }
 
         public String Key { get; private set; }
@@ -41,7 +48,8 @@ namespace Parsinator
                     var startIndex = (StartPosition < 0) ? line.Length + StartPosition : StartPosition;
                     var length = (CharCount < 0) ? line.Length + CharCount - startIndex : CharCount;
 
-                    var value = line.Substring(startIndex, length);
+                    var substring = line.Substring(startIndex, length);
+                    var value = (Factory != null) ? Factory(substring) : substring;
                     return new KeyValuePair<string, string>(Key, value.Trim());
                 }
             }
