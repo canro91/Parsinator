@@ -86,7 +86,7 @@ namespace Parsinator
                         var result = parser.Parse(line.Content, line.Number + 1, line.Number - page.Count);
                         if (parser.HasMatched)
                         {
-                            row[result.Key] = result.Value;
+                            row.Merge(result);
                         }
                     }
                 }
@@ -115,11 +115,11 @@ namespace Parsinator
                         var result = parser.Parse(line.Content, line.Number + 1, line.Number - page.Count);
                         if (parser.HasMatched)
                         {
-                            row[result.Key] = result.Value;
+                            row.Merge(result);
                         }
                         else if (parser.Default != null)
                         {
-                            row[result.Key] = parser.Default();
+                            row[parser.Key] = parser.Default();
                         }
                     }
                     _output[$"{sectionName}[{line.Number + 1}]"] = row;

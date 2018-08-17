@@ -22,10 +22,10 @@ namespace Parsinator
         public Func<String> Default { get; private set; }
         public bool HasMatched { get; private set; }
 
-        public KeyValuePair<string, string> Parse(string line, int lineNumber, int lineNumberFromBottom)
+        public IDictionary<string, string> Parse(string line, int lineNumber, int lineNumberFromBottom)
         {
             _current = Next(_current);
-            return new KeyValuePair<string, string>(Key, _current.ToString());
+            return new Dictionary<string, string> { { Key, _current.ToString() } };
         }
     }
 }

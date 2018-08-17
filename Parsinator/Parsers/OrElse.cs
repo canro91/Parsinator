@@ -24,10 +24,10 @@ namespace Parsinator
         public Func<String> Default { get; private set; }
         public bool HasMatched { get; private set; }
 
-        public KeyValuePair<string, string> Parse(string line, int lineNumber, int lineNumberFromBottom)
+        public IDictionary<string, string> Parse(string line, int lineNumber, int lineNumberFromBottom)
         {
             var result1 = Parser1.Parse(line, lineNumber, lineNumberFromBottom);
-            if (result1.Key != null)
+            if (Parser1.HasMatched)
             {
                 HasMatched = true;
                 return result1;
@@ -36,13 +36,13 @@ namespace Parsinator
             {
                 PageNumber = Parser2.PageNumber;
                 var result2 = Parser2.Parse(line, lineNumber, lineNumberFromBottom);
-                if (result2.Key != null)
+                if (Parser2.HasMatched)
                 {
                     HasMatched = true;
                     return result2;
                 }
             }
-            return new KeyValuePair<string, string>();
+            return new Dictionary<string, string>();
         }
     }
 }

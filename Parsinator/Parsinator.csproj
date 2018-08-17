@@ -52,6 +52,7 @@
     <Compile Include="ITransform.cs" />
     <Compile Include="Parsers\AndThen.cs" />
     <Compile Include="Parsers\FromFirstRegexToLastRegex.cs" />
+    <Compile Include="Parsers\FromOutput.cs" />
     <Compile Include="Parsers\FromRegexToLastRegex.cs" />
     <Compile Include="Parsers\FromFirstRegexToRegex.cs" />
     <Compile Include="Parsers\FromGenerator.cs" />

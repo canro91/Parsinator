@@ -29,7 +29,7 @@ namespace Parsinator
         public Func<String> Default { get; private set; }
         public bool HasMatched { get; private set; }
 
-        public KeyValuePair<string, string> Parse(string line, int lineNumber, int lineNumberFromBottom)
+        public IDictionary<string, string> Parse(string line, int lineNumber, int lineNumberFromBottom)
         {
             if (lineNumber == this.LineNumber || (this.LineNumber < 0 && lineNumberFromBottom == this.LineNumber))
             {
@@ -50,10 +50,10 @@ namespace Parsinator
 
                     var substring = line.Substring(startIndex, length);
                     var value = (Factory != null) ? Factory(substring) : substring;
-                    return new KeyValuePair<string, string>(Key, value.Trim());
+                    return new Dictionary<string, string> { { Key, value.Trim() } };
                 }
             }
-            return new KeyValuePair<string, string>();
+            return new Dictionary<string, string>();
         }
     }
 }

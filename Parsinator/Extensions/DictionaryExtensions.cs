@@ -59,5 +59,15 @@ namespace Parsinator
             }
             return self;
         }
+
+        internal static IDictionary<String, String> Merge(this IDictionary<String, String> self, IDictionary<string, string> dict)
+        {
+            foreach (var item in dict)
+            {
+                if (!self.ContainsKey(item.Key))
+                    self.Add(item.Key, item.Value);
+            }
+            return self;
+        }
     }
 }

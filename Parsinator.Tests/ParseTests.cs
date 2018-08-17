@@ -679,7 +679,7 @@ Value: 123456");
                     "Key",
                     new List<IParse>
                     {
-                        new Validate((parsed) => parsed.Length == 6,
+                        new Validate((parsed) => parsed.FirstOrDefault().Value?.Length == 6,
                                 new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")))
                     }
                 }
@@ -704,7 +704,7 @@ Value: 123456 This value has 6 chars, so it's valid");
                     "Key",
                     new List<IParse>
                     {
-                        new Validate((parsed) => parsed.Length >= 10,
+                        new Validate((parsed) => parsed.FirstOrDefault().Value?.Length >= 10,
                                 new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")))
                     }
                 }
@@ -720,6 +720,7 @@ Value: 123456 This value doesn't have more than 10 chars, so it's invalid");
             StringAssert.Contains("123456", e.Message);
         }
 
+        [Ignore("TODO")]
         [Test]
         public void Parse_ExceptionInCustomFactory_ThrowsException()
         {
@@ -754,7 +755,7 @@ Value: 123456");
                     new List<IParse>
                     {
                         new AndThen(
-                            (output) => $"{output.Item1}{output.Item2}",
+                            (output) => $"{string.Join("", output.Item1.Values)}{string.Join("", output.Item2.Values)}",
                             new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")),
                             new FromRegex(key: "Result", pattern: new Regex(@"Result: \s*(\d+)")))
                     }
@@ -981,7 +982,7 @@ Value: 123456");
                     "Key",
                     new List<IParse>
                     {
-                        new Validate((parsed) => parsed.Length == 6,
+                        new Validate((parsed) => parsed.FirstOrDefault().Value?.Length == 6,
                                 new FromRegex(key: "Value", pageNumber: -1, pattern: new Regex(@"Value:\s*(\d+)")))
                     }
                 }
@@ -1062,7 +1063,7 @@ Value: 123456");
                     new List<IParse>
                     {
                         new AndThen(
-                            (output) => $"{output.Item1}{output.Item2}",
+                            (output) => $"{string.Join("", output.Item1.Values)}{string.Join("", output.Item2.Values)}",
                             new FromRegex(key: "Value", pageNumber: 2, pattern: new Regex(@"Value:\s*(\d+)")),
                             new FromRegex(key: "Result", pageNumber: 3, pattern: new Regex(@"Result:\s*(\d+)")))
                     }
@@ -1078,6 +1079,66 @@ Value: 123456");
             var ds = parser.Parse(lines);
 
             Assert.AreEqual("123456", ds["Key"]["Value&Result"]);
+        }
+
+        [Test]
+        public void Parse_MatchingParserToParseFrom_ParsesFromOutputOfParser()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new FromOutput(
+                            new FromLineWithCountAfterPosition(key: "Value", lineNumber: 2, startPosition: 5, charCount: 9),
+                            new List<IParse>
+                            {
+                                new FromRegex(key: "First", pattern: new Regex(@"(\w+)\s(\w+)"), factory: (groups) => groups[1].Value),
+                                new FromRegex(key: "Second", pattern: new Regex(@"(\w+)\s(\w+)"), factory: (groups) => groups[2].Value),
+                            })
+                    }
+                }
+            };
+            var lines = FromText(@"
+12345123456789
+12345Any value");
+
+            var parser = new Parser(p);
+            var ds = parser.Parse(lines);
+
+            Assert.AreEqual("Any", ds["Key"]["First"]);
+            Assert.AreEqual("value", ds["Key"]["Second"]);
+        }
+
+        [Test]
+        public void Parse_NonMatchingParserToParseFrom_DoesNotParseFromOutputOfParser()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new FromOutput(
+                            new FromLineWithCountAfterPosition(key: "Value", lineNumber: 2, startPosition: 5, charCount: 100),
+                            new List<IParse>
+                            {
+                                new FromRegex(key: "First", pattern: new Regex(@"(\w+)\s(\w+)"), factory: (groups) => groups[1].Value),
+                                new FromRegex(key: "Second", pattern: new Regex(@"(\w+)\s(\w+)"), factory: (groups) => groups[2].Value),
+                            })
+                    }
+                }
+            };
+            var lines = FromText(@"
+12345123456789
+12345Any value");
+
+            var parser = new Parser(p);
+            var ds = parser.Parse(lines);
+
+            Assert.IsFalse(ds["Key"].ContainsKey("First"));
+            Assert.IsFalse(ds["Key"].ContainsKey("Second"));
         }
 
         private List<List<String>> FromPagesText(params String[] str)

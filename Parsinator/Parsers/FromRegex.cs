@@ -43,7 +43,7 @@ namespace Parsinator
         public Func<String> Default { get; private set; }
         public bool HasMatched { get; private set; }
 
-        public KeyValuePair<String, String> Parse(String line, int lineNumber, int lineNumberFromBottom)
+        public IDictionary<String, String> Parse(String line, int lineNumber, int lineNumberFromBottom)
         {
             // TODO Check pattern is not null
 
@@ -52,9 +52,9 @@ namespace Parsinator
             {
                 HasMatched = true;
                 var value = (Factory != null) ? Factory(matches.Groups) : matches.Groups[1].Value;
-                return new KeyValuePair<string, string>(Key, value.Trim());
+                return new Dictionary<string, string> { { Key, value.Trim() } };
             }
-            return new KeyValuePair<string, string>();
+            return new Dictionary<string, string>();
         }
     }
 }

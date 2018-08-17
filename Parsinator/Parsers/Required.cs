@@ -25,7 +25,7 @@ namespace Parsinator
         }
         public bool HasMatched { get; private set; }
 
-        public KeyValuePair<string, string> Parse(string line, int lineNumber, int lineNumberFromBottom)
+        public IDictionary<string, string> Parse(string line, int lineNumber, int lineNumberFromBottom)
         {
             var result = P.Parse(line, lineNumber, lineNumberFromBottom);
             if (P.HasMatched)
@@ -33,7 +33,7 @@ namespace Parsinator
                 this.HasMatched = true;
                 return result;
             }
-            return new KeyValuePair<string, string>();
+            return new Dictionary<string, string>();
         }
     }
 }

@@ -40,7 +40,7 @@ namespace Parsinator
         public Func<String> Default { get; private set; }
         public bool HasMatched { get; private set; }
 
-        public KeyValuePair<String, String> Parse(String line, int lineNumber, int lineNumberFromBottom)
+        public IDictionary<String, String> Parse(String line, int lineNumber, int lineNumberFromBottom)
         {
             // TODO Check pattern is not null
 
@@ -55,7 +55,7 @@ namespace Parsinator
                 {
                     HasMatched = true;
                     var value = Factory(_content) ?? Default();
-                    return new KeyValuePair<string, string>(Key, value);
+                    return new Dictionary<string, string> { { Key, value } };
                 }
                 else
                 {
@@ -63,7 +63,7 @@ namespace Parsinator
                 }
             }
 
-            return new KeyValuePair<string, string>();
+            return new Dictionary<string, string>();
         }
     }
 }

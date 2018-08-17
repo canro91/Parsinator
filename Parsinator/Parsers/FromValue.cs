@@ -16,10 +16,10 @@ namespace Parsinator
         public Func<String> Default { get; private set; }
         public bool HasMatched { get; private set; }
 
-        public KeyValuePair<string, string> Parse(string line, int lineNumber, int lineNumberFromBottom)
+        public IDictionary<string, string> Parse(string line, int lineNumber, int lineNumberFromBottom)
         {
             HasMatched = true;
-            return new KeyValuePair<string, string>(Key, Default());
+            return new Dictionary<string, string> { { Key, Default() } };
         }
     }
 }

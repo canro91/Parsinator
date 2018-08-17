@@ -34,7 +34,7 @@ namespace Parsinator
         public Func<String> Default { get; private set; }
         public bool HasMatched { get; private set; }
 
-        public KeyValuePair<String, String> Parse(String line, int lineNumber, int lineNumberFromBottom)
+        public IDictionary<String, String> Parse(String line, int lineNumber, int lineNumberFromBottom)
         {
             if (lineNumber == this.LineNumber || (this.LineNumber < 0 && lineNumberFromBottom == this.LineNumber))
             {
@@ -48,14 +48,14 @@ namespace Parsinator
                 {
                     HasMatched = true;
                     var value = Factory(_content);
-                    return new KeyValuePair<string, string>(Key, value);
+                    return new Dictionary<string, string> { { Key, value } };
                 }
                 else
                 {
                     _content.Add(line.Trim());
                 }
             }
-            return new KeyValuePair<string, string>();
+            return new Dictionary<string, string>();
         }
     }
 }

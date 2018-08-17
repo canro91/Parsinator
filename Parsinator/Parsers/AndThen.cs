@@ -7,12 +7,12 @@ namespace Parsinator
     {
         private readonly IParse First;
         private readonly IParse Second;
-        private readonly Func<Tuple<String, String>, String> Factory;
+        private readonly Func<Tuple<IDictionary<string, string>, IDictionary<string, string>>, String> Factory;
 
         private bool _firstHasMatched;
-        private KeyValuePair<string, string> _firstResult;
+        private IDictionary<string, string> _firstResult;
 
-        public AndThen(String key, Func<Tuple<String, String>, String> factory, IParse first, IParse second)
+        public AndThen(String key, Func<Tuple<IDictionary<string, string>, IDictionary<string, string>>, String> factory, IParse first, IParse second)
         {
             Key = key;
             First = first;
@@ -22,10 +22,10 @@ namespace Parsinator
             HasMatched = false;
 
             _firstHasMatched = false;
-            _firstResult = new KeyValuePair<string, string>();
+            _firstResult = new Dictionary<string, string>();
         }
 
-        public AndThen(Func<Tuple<String, String>, String> factory, IParse first, IParse second)
+        public AndThen(Func<Tuple<IDictionary<string, string>, IDictionary<string, string>>, String> factory, IParse first, IParse second)
             : this($"{first.Key}&{second.Key}", factory, first, second)
         {
         }
@@ -35,12 +35,12 @@ namespace Parsinator
         public Func<String> Default { get; private set; }
         public bool HasMatched { get; private set; }
 
-        public KeyValuePair<string, string> Parse(string line, int lineNumber, int lineNumberFromBottom)
+        public IDictionary<string, string> Parse(string line, int lineNumber, int lineNumberFromBottom)
         {
             if (!_firstHasMatched)
             {
                 var result1 = First.Parse(line, lineNumber, lineNumberFromBottom);
-                if (result1.Key != null)
+                if (First.HasMatched)
                 {
                     _firstHasMatched = true;
                     _firstResult = result1;
@@ -50,14 +50,14 @@ namespace Parsinator
             else
             {
                 var result2 = Second.Parse(line, lineNumber, lineNumberFromBottom);
-                if (result2.Key != null)
+                if (Second.HasMatched)
                 {
                     HasMatched = true;
-                    var accumulated = new Tuple<string, string>(_firstResult.Value, result2.Value);
-                    return new KeyValuePair<string, string>(Key, Factory(accumulated));
+                    var accumulated = new Tuple<IDictionary<string, string>, IDictionary<string, string>>(_firstResult, result2);
+                    return new Dictionary<string, string> { { Key, Factory(accumulated) } };
                 }
             }
-            return new KeyValuePair<string, string>();
+            return new Dictionary<string, string>();
         }
     }
 }

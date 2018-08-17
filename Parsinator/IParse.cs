@@ -9,6 +9,6 @@ namespace Parsinator
         Int32? PageNumber { get; }
         bool HasMatched { get; }
         Func<String> Default { get; }
-        KeyValuePair<String, String> Parse(String line, int lineNumber, int lineNumberFromBottom);
+        IDictionary<String, String> Parse(String line, int lineNumber, int lineNumberFromBottom);
     }
 }
