@@ -1141,6 +1141,29 @@ Value: 123456");
             Assert.IsFalse(ds["Key"].ContainsKey("Second"));
         }
 
+        [Test]
+        public void Parse_LineMatchesGivenRegex_ParsesMultipleGroupsInMatchedValue()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new FromMultiGroupRegex(pattern: new Regex(@"Value:\s*(?<First>\d+)\s*(?<Second>\d+)"))
+                    }
+                }
+            };
+            var lines = FromText(@"
+Value: 12345 67890");
+
+            var parser = new Parser(p);
+            var ds = parser.Parse(lines);
+
+            Assert.AreEqual("12345", ds["Key"]["First"]);
+            Assert.AreEqual("67890", ds["Key"]["Second"]);
+        }
+
         private List<List<String>> FromPagesText(params String[] str)
         {
             return str.Select(t => t.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).ToList()).ToList();

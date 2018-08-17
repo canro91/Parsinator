@@ -49,9 +49,11 @@
     <Compile Include="Extensions\DataSetExtensions.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\ISkipExtensions.cs" />
+    <Compile Include="Extensions\MatchExtensions.cs" />
     <Compile Include="ITransform.cs" />
     <Compile Include="Parsers\AndThen.cs" />
     <Compile Include="Parsers\FromFirstRegexToLastRegex.cs" />
+    <Compile Include="Parsers\FromMultiGroupRegex.cs" />
     <Compile Include="Parsers\FromOutput.cs" />
     <Compile Include="Parsers\FromRegexToLastRegex.cs" />
     <Compile Include="Parsers\FromFirstRegexToRegex.cs" />
