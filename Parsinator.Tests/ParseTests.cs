@@ -910,6 +910,144 @@ Value: 12345 67890");
             Assert.AreEqual("67890", ds["Key"]["Second"]);
         }
 
+        [Test]
+        public void Parse_IfWithMatchingParserAndTruePredicate_ParsesThenParser()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new IfThen(
+                            predicate: (str) => str.Length >= 6,
+                            @if: new FromRegex(key: "If", pattern: new Regex(@"Value:\s*(\d+)")),
+                            then: new FromRegex(key: "Then", pattern: new Regex(@"Result:\s*(\d+)")))
+                    }
+                }
+            };
+            var lines = FromText(@"
+Value: 123456 This value has 6 chars, so it's valid
+Result: 654321");
+
+            var parser = new Parser(p);
+            var ds = parser.Parse(lines);
+
+            Assert.AreEqual("123456", ds["Key"]["If"]);
+            Assert.AreEqual("654321", ds["Key"]["Then"]);
+        }
+
+        [Test]
+        public void Parse_IfWithMatchingParserInTheSameLine_ParsesThenParser()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new IfThen(
+                            predicate: (str) => str.Length >= 6,
+                            @if: new FromRegex(key: "If", pattern: new Regex(@"Value:\s*(\d+)")),
+                            then: new FromRegex(key: "Then", pattern: new Regex(@"Result:\s*(\d+)")))
+                    }
+                }
+            };
+            var lines = FromText(@"
+Value: 123456 This value has 6 chars, so it's valid Result: 654321");
+
+            var parser = new Parser(p);
+            var ds = parser.Parse(lines);
+
+            Assert.AreEqual("123456", ds["Key"]["If"]);
+            Assert.AreEqual("654321", ds["Key"]["Then"]);
+        }
+
+        [Test]
+        public void Parse_IfWithMatchingParserAndTruePredicate_DoesNotAddThenParserIfItDoesNotParse()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new IfThen(
+                            predicate: (str) => str.Length >= 6,
+                            @if: new FromRegex(key: "If", pattern: new Regex(@"Value:\s*(\d+)")),
+                            then: new FromRegex(key: "Then", pattern: new Regex(@"Result:\s*(\d+)")))
+                    }
+                }
+            };
+            var lines = FromText(@"
+Value: 123456 This value has 6 chars, so it's valid
+Result: This line doesn't match");
+
+            var parser = new Parser(p);
+            var ds = parser.Parse(lines);
+
+            Assert.IsTrue(ds["Key"].ContainsKey("If"));
+            Assert.AreEqual("123456", ds["Key"]["If"]);
+            Assert.IsFalse(ds["Key"].ContainsKey("Then"));
+        }
+
+        [Test]
+        public void Parse_IfWithMatchingParserAndFalsePredicate_ParsesElseParser()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new IfThen(
+                            predicate: (str) => str.Length >= 6,
+                            @if: new FromRegex(key: "If", pattern: new Regex(@"Value:\s*(\d+)")),
+                            then: new FromRegex(key: "Then", pattern: new Regex(@"Result:\s*(\d+)")),
+                            @else: new FromRegex(key: "Else", pattern: new Regex(@"Foo:\s*(\w+)")))
+                    }
+                }
+            };
+            var lines = FromText(@"
+Value: 123 This value has 3 chars, so it's invalid
+Result: 654321
+Foo: Bar");
+
+            var parser = new Parser(p);
+            var ds = parser.Parse(lines);
+
+            Assert.AreEqual("123", ds["Key"]["If"]);
+            Assert.IsFalse(ds["Key"].ContainsKey("Then"));
+            Assert.AreEqual("Bar", ds["Key"]["Else"]);
+        }
+
+        [Test]
+        public void Parse_IfWithNonMatchingParserAndTruePredicate_DoesNotParseSingleThenParser()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new IfThen(
+                            predicate: (str) => str.Length >= 6,
+                            @if: new FromRegex(key: "If", pattern: new Regex(@"Value:\s*(\d+)")),
+                            then: new FromRegex(key: "Then", pattern: new Regex(@"Result:\s*(\d+)")))
+                    }
+                }
+            };
+            var lines = FromText(@"
+This line doesn't match
+Result: 654321");
+
+            var parser = new Parser(p);
+            var ds = parser.Parse(lines);
+
+            Assert.IsFalse(ds["Key"].ContainsKey("If"));
+            Assert.IsFalse(ds["Key"].ContainsKey("Then"));
+        }
+
         private List<List<String>> FromPagesText(params String[] str)
         {
             return str.Select(t => t.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).ToList()).ToList();
