@@ -859,6 +859,7 @@ Result: This line doesn't match");
         [Test]
         public void Parse_NonMatchingParserToParseFrom_DoesNotParseFromOutputOfParser()
         {
+            var greatherThanLineLength = 100;
             var p = new Dictionary<String, IList<IParse>>
             {
                 {
@@ -866,7 +867,7 @@ Result: This line doesn't match");
                     new List<IParse>
                     {
                         new FromOutput(
-                            new FromLineWithCountAfterPosition(key: "Value", lineNumber: 2, startPosition: 5, charCount: 100),
+                            new FromLineWithCountAfterPosition(key: "Value", lineNumber: 2, startPosition: 5, charCount: greatherThanLineLength),
                             new List<IParse>
                             {
                                 new FromRegex(key: "First", pattern: new Regex(@"(\w+)\s(\w+)"), factory: (groups) => groups[1].Value),
