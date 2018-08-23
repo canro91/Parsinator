@@ -129,14 +129,20 @@ namespace Parsinator.Sample
                         new IfThen(
                             predicate: (str) => str == "9999",
                             @if: new FromLineWithCountAfterPosition(key: "Cmd", lineNumber: 1, startPosition: 22, charCount: 4),
-                            then: new FromOutput(
-                                    parseFrom: new FromLineWithCountAfterPosition(key: "Body", lineNumber: 1, startPosition: 26, charCount: -8, factory: (str) => str.Substring(0, 2) + ConvertHexToAscii(str.Substring(2))),
-                                    parsers: new List<IParse>
-                                    {
-                                        new FromMultiGroupRegex(pattern: new Regex(@"(?<Event>\d{1,2})(?<TimeStamp>\d{6}(\.\d{2})?),(?<Validity>A|V),(?<Latitude>\d{4,5}\.\d{4,5}),(?<NorthSouth>N|S),(?<Longitude>\d{4,5}\.\d{4,5}),(?<EastWest>E|W),(?<SpeedInKnots>\d+(\.\d+)?),(?<TrueCourse>\d+(\.\d+)?)?,(?<DateStamp>\d{6})\|(?<Custom>\S*)"))
-                                    }),
-                            @else: new FromMultiGroupRegex(pattern: new Regex(@"(?<TimeStamp>\d{6}(\.\d{2})?),(?<Validity>A|V),(?<Latitude>\d{4,5}\.\d{4,5}),(?<NorthSouth>N|S),(?<Longitude>\d{4,5}\.\d{4,5}),(?<EastWest>E|W),(?<SpeedInKnots>\d+(\.\d+)?),(?<TrueCourse>\d+(\.\d+)?)?,(?<DateStamp>\d{6})\|(?<Custom>\S*)"))
-                            ),
+                            then: new AndThen(
+                                    first: new FromLineWithCountAfterPosition(key: "Event", lineNumber: 1, startPosition: 26, charCount: 2),
+                                    second: new FromOutput(
+                                        parseFrom: new FromLineWithCountAfterPosition(key: "Body", lineNumber: 1, startPosition: 28, charCount: -8, factory: (str) => ConvertHexToAscii(str)),
+                                        parsers: new List<IParse>
+                                        {
+                                            new FromMultiGroupRegex(pattern: new Regex(@"(?<TimeStamp>\d{6}(\.\d{2})?),(?<Validity>A|V),(?<Latitude>\d{4,5}\.\d{4,5}),(?<NorthSouth>N|S),(?<Longitude>\d{4,5}\.\d{4,5}),(?<EastWest>E|W),(?<SpeedInKnots>\d+(\.\d+)?),(?<TrueCourse>\d+(\.\d+)?)?,(?<DateStamp>\d{6})\|(?<Custom>\S*)"))
+                                        })),
+                            @else: new FromOutput(
+                                parseFrom: new FromLineWithCountAfterPosition(key: "Body", lineNumber: 1, startPosition: 26, charCount: -8, factory: (str) => ConvertHexToAscii(str)),
+                                parsers: new List<IParse>
+                                {
+                                    new FromMultiGroupRegex(pattern: new Regex(@"(?<TimeStamp>\d{6}\.\d{2}),(?<Validity>A|V),(?<Latitude>\d{4,5}\.\d{5}),(?<NorthSouth>N|S),(?<Longitude>\d{4,5}\.\d{5}),(?<EastWest>E|W),(?<SpeedInKnots>\d+\.\d+),(?<TrueCourse>\d+\.\d+)?,(?<DateStamp>\d{6})\|(?<Custom>\S*)"))
+                                })),
                         new FromLineWithCountAfterPosition(key: "CheckSum",lineNumber: 1, startPosition: -8, charCount: 4),
                         new FromLineWithCountAfterPosition(key: "EOF",     lineNumber: 1, startPosition: -4, charCount: 4),
                     }
