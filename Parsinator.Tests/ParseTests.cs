@@ -851,6 +851,32 @@ Result: This line doesn't match");
         }
 
         [Test]
+        public void Parse_AndThenAndMatchInBothParsersInTheSameLine_ParsersValueFromBothParsers()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new AndThen(
+                            new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")),
+                            new FromRegex(key: "Result", pattern: new Regex(@"Result:\s*(\d+)")))
+                    }
+                }
+            };
+
+            var lines = FromText(@"
+Value: 123 Result: 456");
+
+            var parser = new Parser(p);
+            var ds = parser.Parse(lines);
+
+            Assert.AreEqual("123", ds["Key"]["Value"]);
+            Assert.AreEqual("456", ds["Key"]["Result"]);
+        }
+
+        [Test]
         public void Parse_MatchingParserToParseFrom_ParsesFromOutputOfParser()
         {
             var p = new Dictionary<String, IList<IParse>>

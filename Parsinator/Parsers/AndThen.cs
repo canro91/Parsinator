@@ -30,6 +30,12 @@ namespace Parsinator
         {
         }
 
+        public AndThen(IParse first, IParse second)
+            : this($"{first.Key}&{second.Key}", null, first, second)
+        {
+        }
+
+
         public String Key { get; private set; }
         public Int32? PageNumber { get; private set; }
         public Func<String> Default { get; private set; }
@@ -47,14 +53,22 @@ namespace Parsinator
                     PageNumber = Second.PageNumber;
                 }
             }
-            else
+
+            if (_firstHasMatched)
             {
                 var result2 = Second.Parse(line, lineNumber, lineNumberFromBottom);
                 if (Second.HasMatched)
                 {
                     HasMatched = true;
-                    var accumulated = new Tuple<IDictionary<string, string>, IDictionary<string, string>>(_firstResult, result2);
-                    return new Dictionary<string, string> { { Key, Factory(accumulated) } };
+                    if (Factory == null)
+                    {
+                        return new Dictionary<String, String>(_firstResult).Merge(result2);
+                    }
+                    else
+                    {
+                        var accumulated = new Tuple<IDictionary<string, string>, IDictionary<string, string>>(_firstResult, result2);
+                        return new Dictionary<string, string> { { Key, Factory(accumulated) } };
+                    }
                 }
             }
             return new Dictionary<string, string>();
