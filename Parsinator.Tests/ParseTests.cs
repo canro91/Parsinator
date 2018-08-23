@@ -179,6 +179,30 @@ value
         }
 
         [Test]
+        public void Parse_PatternInMultipleLinesAndLineNumber_ParsesRegexInTheGivenLine()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new FromLineNumberWithRegex(key: "Value", lineNumber: 2, pattern: new Regex(@"Value:\s*(\d+)"))
+                    }
+                }
+            };
+            var lines = FromText(@"
+1 Value: 654321 This line will be ignored   -3
+2 Value: 123456                             -2
+3 This line will be ignored                 -1");
+
+            var parser = new Parser(p);
+            var ds = parser.Parse(lines);
+
+            Assert.AreEqual("123456", ds["Key"]["Value"]);
+        }
+
+        [Test]
         public void Parse_PatternAndNegativeLineNumber_ParsesRegexInTheLineFromBottom()
         {
             var p = new Dictionary<String, IList<IParse>>
