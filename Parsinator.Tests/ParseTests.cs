@@ -115,7 +115,7 @@ Value: 123456");
                     "Key",
                     new List<IParse>
                     {
-                        new FromLineNumberUntilFirstMatchOfRegex(key: "Value", lineNumber: 1, pattern: new Regex(@"--End--"), factory: (allLines) => string.Join(" ", allLines)),
+                        new FromLineNumberUntilFirstMatchOfRegex(key: "Value", lineNumber: 1, pattern: new Regex(@"--End--"), factory: (allLines) => string.Join(" ", allLines.Values)),
                     }
                 }
             };
@@ -235,7 +235,34 @@ value
                     "Key",
                     new List<IParse>
                     {
-                        new FromRegexToRegex(key: "Value", first: new Regex(@"--Begin--"), second: new Regex(@"--End--"), factory: (allLines) => string.Join(" ", allLines)),
+                        new FromRegexToRegex(key: "Value", first: new Regex(@"--Begin--"), second: new Regex(@"--End--"), factory: (allLines) => string.Join(" ", allLines.Values)),
+                    }
+                }
+            };
+            var lines = FromText(@"
+This line will be ignored
+--Begin--
+Any
+value
+--End--
+This line will be ignored");
+
+            var parser = new Parser(p);
+            var ds = parser.Parse(lines);
+
+            Assert.AreEqual("Any value", ds["Key"]["Value"]);
+        }
+
+        [Test]
+        public void Parse_MultipleLineStringBetweenTwoRegexes_ParseStringBetweenRegexesAndConcatenateThemByDefault()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new FromRegexToRegex(key: "Value", first: new Regex(@"--Begin--"), second: new Regex(@"--End--")),
                     }
                 }
             };
@@ -744,7 +771,6 @@ Value: 123456 This value doesn't have more than 10 chars, so it's invalid");
             StringAssert.Contains("123456", e.Message);
         }
 
-        [Ignore("TODO")]
         [Test]
         public void Parse_ExceptionInCustomFactory_ThrowsException()
         {
@@ -779,7 +805,7 @@ Value: 123456");
                     new List<IParse>
                     {
                         new AndThen(
-                            (output) => $"{string.Join("", output.Item1.Values)}{string.Join("", output.Item2.Values)}",
+                            (output) => $"{string.Join("", output.Values)}",
                             new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")),
                             new FromRegex(key: "Result", pattern: new Regex(@"Result: \s*(\d+)")))
                     }
@@ -806,7 +832,7 @@ Result: 456");
                     new List<IParse>
                     {
                         new AndThen(
-                            (output) => $"{output.Item1}{output.Item2}",
+                            (output) => $"{string.Join("", output.Values)}",
                             new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")),
                             new FromRegex(key: "Result", pattern: new Regex(@"Result: \s*(\d+)")))
                     }
@@ -833,7 +859,7 @@ Result: 456");
                     new List<IParse>
                     {
                         new AndThen(
-                            (output) => $"{output.Item1}{output.Item2}",
+                            (output) => $"{string.Join("", output.Values)}",
                             new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")),
                             new FromRegex(key: "Result", pattern: new Regex(@"Result: \s*(\d+)")))
                     }
@@ -889,8 +915,8 @@ Value: 123 Result: 456");
                             new FromLineWithCountAfterPosition(key: "Value", lineNumber: 2, startPosition: 5, charCount: 9),
                             new List<IParse>
                             {
-                                new FromRegex(key: "First", pattern: new Regex(@"(\w+)\s(\w+)"), factory: (groups) => groups[1].Value),
-                                new FromRegex(key: "Second", pattern: new Regex(@"(\w+)\s(\w+)"), factory: (groups) => groups[2].Value),
+                                new FromRegex(key: "First", pattern: new Regex(@"(\w+)\s(\w+)"), factory: (groups) => groups["1"]),
+                                new FromRegex(key: "Second", pattern: new Regex(@"(\w+)\s(\w+)"), factory: (groups) => groups["2"]),
                             })
                     }
                 }
@@ -920,8 +946,8 @@ Value: 123 Result: 456");
                             new FromLineWithCountAfterPosition(key: "Value", lineNumber: 2, startPosition: 5, charCount: greatherThanLineLength),
                             new List<IParse>
                             {
-                                new FromRegex(key: "First", pattern: new Regex(@"(\w+)\s(\w+)"), factory: (groups) => groups[1].Value),
-                                new FromRegex(key: "Second", pattern: new Regex(@"(\w+)\s(\w+)"), factory: (groups) => groups[2].Value),
+                                new FromRegex(key: "First", pattern: new Regex(@"(\w+)\s(\w+)"), factory: (groups) => groups["1"]),
+                                new FromRegex(key: "Second", pattern: new Regex(@"(\w+)\s(\w+)"), factory: (groups) => groups["2"]),
                             })
                     }
                 }

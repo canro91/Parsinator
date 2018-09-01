@@ -3,29 +3,27 @@ using System.Collections.Generic;
 
 namespace Parsinator
 {
-    public class AndThen : IParse
+    public class AndThen : ParseWithFactory
     {
         private readonly IParse First;
         private readonly IParse Second;
-        private readonly Func<Tuple<IDictionary<string, string>, IDictionary<string, string>>, String> Factory;
 
         private bool _firstHasMatched;
         private IDictionary<string, string> _firstResult;
 
-        public AndThen(String key, Func<Tuple<IDictionary<string, string>, IDictionary<string, string>>, String> factory, IParse first, IParse second)
+        public AndThen(String key, Func<IDictionary<string, string>, string> factory, IParse first, IParse second)
+            : base(key, factory)
         {
-            Key = key;
             First = first;
             Second = second;
             PageNumber = first.PageNumber;
-            Factory = factory;
             HasMatched = false;
 
             _firstHasMatched = false;
             _firstResult = new Dictionary<string, string>();
         }
 
-        public AndThen(Func<Tuple<IDictionary<string, string>, IDictionary<string, string>>, String> factory, IParse first, IParse second)
+        public AndThen(Func<IDictionary<string, string>, String> factory, IParse first, IParse second)
             : this($"{first.Key}&{second.Key}", factory, first, second)
         {
         }
@@ -36,12 +34,7 @@ namespace Parsinator
         }
 
 
-        public String Key { get; private set; }
-        public Int32? PageNumber { get; private set; }
-        public Func<String> Default { get; private set; }
-        public bool HasMatched { get; private set; }
-
-        public IDictionary<string, string> Parse(string line, int lineNumber, int lineNumberFromBottom)
+        public override IDictionary<string, string> Parse(string line, int lineNumber, int lineNumberFromBottom)
         {
             if (!_firstHasMatched)
             {
@@ -60,15 +53,10 @@ namespace Parsinator
                 if (Second.HasMatched)
                 {
                     HasMatched = true;
-                    if (Factory == null)
-                    {
-                        return new Dictionary<String, String>(_firstResult).Merge(result2);
-                    }
-                    else
-                    {
-                        var accumulated = new Tuple<IDictionary<string, string>, IDictionary<string, string>>(_firstResult, result2);
-                        return new Dictionary<string, string> { { Key, Factory(accumulated) } };
-                    }
+                    var accumulated = new Dictionary<String, String>(_firstResult).Merge(result2);
+                    return (HasFactory)
+                                ? new Dictionary<string, string> { { Key, Factory(accumulated) } }
+                                : accumulated;
                 }
             }
             return new Dictionary<string, string>();

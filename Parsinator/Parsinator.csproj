@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Extensions\DataSetExtensions.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
+    <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Extensions\ISkipExtensions.cs" />
     <Compile Include="Extensions\MatchExtensions.cs" />
     <Compile Include="ITransform.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="Parsers\OrElse.cs" />
     <Compile Include="Parsers\Required.cs" />
     <Compile Include="Parsers\Validate.cs" />
+    <Compile Include="ParseWithFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Parsers\FromRegex.cs" />
     <Compile Include="Skippers\SkipBeforeRegexAndAfterRegex.cs" />

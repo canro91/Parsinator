@@ -245,7 +245,7 @@ Value: 123456");
                     new List<IParse>
                     {
                         new AndThen(
-                            (output) => $"{string.Join("", output.Item1.Values)}{string.Join("", output.Item2.Values)}",
+                            (output) => $"{string.Join("", output.Values)}",
                             new FromRegex(key: "Value", pageNumber: 2, pattern: new Regex(@"Value:\s*(\d+)")),
                             new FromRegex(key: "Result", pageNumber: 3, pattern: new Regex(@"Result:\s*(\d+)")))
                     }

@@ -4,38 +4,30 @@ using System.Text.RegularExpressions;
 
 namespace Parsinator
 {
-    public class FromFirstRegexToRegex : IParse
+    public class FromFirstRegexToRegex : ParseWithFactory
     {
         private readonly Regex FirstPattern;
         private readonly Regex SecondPattern;
-        private readonly Func<List<String>, String> Factory;
 
         private List<String> _content;
         private Boolean _hasAtLeastOneMatch;
 
-        public FromFirstRegexToRegex(String key, Regex first, Regex second, Func<List<String>, String> factory, Func<String> @default)
+        public FromFirstRegexToRegex(String key, Regex first, Regex second, Func<IDictionary<String, String>, String> factory, Func<String> @default)
+            : base(key, factory, @default)
         {
-            this.Key = key;
             this.FirstPattern = first;
             this.SecondPattern = second;
-            this.Factory = factory;
-            this.Default = @default;
 
             this._content = new List<string>();
             this._hasAtLeastOneMatch = false;
         }
 
         public FromFirstRegexToRegex(String key, Regex first, Regex second)
-            : this(key, first, second, factory: (allLines) => string.Join(" ", allLines), @default: null)
+            : this(key, first, second, factory: (allLines) => string.Join(" ", allLines.Values), @default: null)
         {
         }
 
-        public String Key { get; private set; }
-        public Int32? PageNumber { get; private set; }
-        public Func<String> Default { get; private set; }
-        public bool HasMatched { get; private set; }
-
-        public IDictionary<string, string> Parse(string line, int lineNumber, int lineNumberFromBottom)
+        public override IDictionary<string, string> Parse(string line, int lineNumber, int lineNumberFromBottom)
         {
             // TODO Check pattern is not null
 
@@ -50,7 +42,7 @@ namespace Parsinator
                 if (matches.Success)
                 {
                     HasMatched = true;
-                    var value = Factory(_content) ?? Default();
+                    var value = Factory(_content.Enumerate()) ?? Default();
                     return new Dictionary<string, string> { { Key, value } };
                 }
                 else

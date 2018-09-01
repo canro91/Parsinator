@@ -32,9 +32,9 @@ namespace Parsinator.Tests
 					"Details",
 					new List<IParse>
 					{
-						new FromRegex(key: "Code", pattern: new Regex(@"^(\d)\s*(\w+)\s*(\d+)$"), factory: (group) => group[1].Value),
-						new FromRegex(key: "Name", pattern: new Regex(@"^(\d)\s*(\w+)\s*(\d+)$"), factory: (group) => group[2].Value),
-						new FromRegex(key: "Value", pattern: new Regex(@"^(\d)\s*(\w+)\s*(\d+)$"), factory: (group) => group[3].Value)
+						new FromRegex(key: "Code", pattern: new Regex(@"^(\d)\s*(\w+)\s*(\d+)$"), factory: (group) => group["1"]),
+						new FromRegex(key: "Name", pattern: new Regex(@"^(\d)\s*(\w+)\s*(\d+)$"), factory: (group) => group["2"]),
+						new FromRegex(key: "Value", pattern: new Regex(@"^(\d)\s*(\w+)\s*(\d+)$"), factory: (group) => group["3"])
 					}
 				}
 			};
@@ -84,8 +84,8 @@ Value: 20
 					new List<IParse>
 					{
 						new FromGenerator<int>(key: "Code", seed: 0, next: (current) => current + 1),
-						new FromRegex(key: "Name", pattern: new Regex(@"^(\d)\s*(\w+)\s*(\d+)$"), factory: (group) => group[2].Value),
-						new FromRegex(key: "Value", pattern: new Regex(@"^(\d)\s*(\w+)\s*(\d+)$"), factory: (group) => group[3].Value)
+						new FromRegex(key: "Name", pattern: new Regex(@"^(\d)\s*(\w+)\s*(\d+)$"), factory: (group) => group["2"]),
+						new FromRegex(key: "Value", pattern: new Regex(@"^(\d)\s*(\w+)\s*(\d+)$"), factory: (group) => group["3"])
 					}
 				}
 			};

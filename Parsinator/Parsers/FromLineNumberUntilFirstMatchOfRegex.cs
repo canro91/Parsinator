@@ -4,37 +4,30 @@ using System.Text.RegularExpressions;
 
 namespace Parsinator
 {
-    public class FromLineNumberUntilFirstMatchOfRegex : IParse
+    public class FromLineNumberUntilFirstMatchOfRegex : ParseWithFactory
     {
         private readonly int LineNumber;
         private readonly Regex Pattern;
-        private readonly Func<List<String>, String> Factory;
 
         private List<String> _content;
         private Boolean _hasAtLeastOneMatch;
 
-        public FromLineNumberUntilFirstMatchOfRegex(String key, int lineNumber, Regex pattern, Func<List<String>, String> factory)
+        public FromLineNumberUntilFirstMatchOfRegex(String key, int lineNumber, Regex pattern, Func<IDictionary<String, String>, String> factory)
+            : base(key, factory)
         {
-            this.Key = key;
             this.LineNumber = lineNumber;
             this.Pattern = pattern;
-            this.Factory = factory;
 
             _content = new List<string>();
             _hasAtLeastOneMatch = false;
         }
 
         public FromLineNumberUntilFirstMatchOfRegex(String key, int lineNumber, Regex pattern)
-            : this(key: key, lineNumber: lineNumber, pattern: pattern, factory: (allLines) => string.Join(" ", allLines))
+            : this(key: key, lineNumber: lineNumber, pattern: pattern, factory: (allLines) => string.Join(" ", allLines.Values))
         {
         }
 
-        public String Key { get; private set; }
-        public Int32? PageNumber { get; private set; }
-        public Func<String> Default { get; private set; }
-        public bool HasMatched { get; private set; }
-
-        public IDictionary<String, String> Parse(String line, int lineNumber, int lineNumberFromBottom)
+        public override IDictionary<String, String> Parse(String line, int lineNumber, int lineNumberFromBottom)
         {
             if (lineNumber == this.LineNumber || (this.LineNumber < 0 && lineNumberFromBottom == this.LineNumber))
             {
@@ -47,7 +40,7 @@ namespace Parsinator
                 if (matches.Success)
                 {
                     HasMatched = true;
-                    var value = Factory(_content);
+                    var value = Factory(_content.Enumerate());
                     return new Dictionary<string, string> { { Key, value } };
                 }
                 else

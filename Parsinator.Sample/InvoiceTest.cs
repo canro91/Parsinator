@@ -118,11 +118,11 @@ namespace Parsinator.Sample
                     "Product",
                     new List<IParse>
                     {
-                        new FromRegex(key: "Code", pattern: detailRegex, factory: (g) => g["Code"].Value),
-                        new FromRegex(key: "Description", pattern: detailRegex, factory: (g) => g["Description"].Value),
-                        new FromRegex(key: "Quantity", pattern: detailRegex, factory: (g) => g["Quantity"].Value),
-                        new FromRegex(key: "UnitPrice", pattern: detailRegex, factory: (g) => g["UnitPrice"].Value),
-                        new FromRegex(key: "Total", pattern: detailRegex, factory: (g) => g["Total"].Value),
+                        new FromRegex(key: "Code", pattern: detailRegex, factory: (g) => g["Code"]),
+                        new FromRegex(key: "Description", pattern: detailRegex, factory: (g) => g["Description"]),
+                        new FromRegex(key: "Quantity", pattern: detailRegex, factory: (g) => g["Quantity"]),
+                        new FromRegex(key: "UnitPrice", pattern: detailRegex, factory: (g) => g["UnitPrice"]),
+                        new FromRegex(key: "Total", pattern: detailRegex, factory: (g) => g["Total"]),
                     }
                 }
             };

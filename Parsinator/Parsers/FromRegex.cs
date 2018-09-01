@@ -4,18 +4,14 @@ using System.Text.RegularExpressions;
 
 namespace Parsinator
 {
-    public class FromRegex : IParse
+    public class FromRegex : ParseWithFactory
     {
         public Regex Pattern { get; private set; }
-        public Func<GroupCollection, String> Factory { get; set; }
 
-        public FromRegex(String key, Regex pattern, Int32? pageNumber, Func<GroupCollection, String> factory, Func<String> @default)
+        public FromRegex(String key, Regex pattern, Int32? pageNumber, Func<IDictionary<String, String>, String> factory, Func<String> @default)
+            : base(key, pageNumber, factory, @default)
         {
-            this.Key = key;
-            this.PageNumber = pageNumber;
             this.Pattern = pattern;
-            this.Factory = factory;
-            this.Default = @default;
         }
 
         public FromRegex(String key, Regex pattern, Func<String> @default)
@@ -23,7 +19,7 @@ namespace Parsinator
         {
         }
 
-        public FromRegex(String key, Regex pattern, Func<GroupCollection, String> factory)
+        public FromRegex(String key, Regex pattern, Func<IDictionary<String, String>, String> factory)
             : this(key, pattern, null, factory, null)
         {
         }
@@ -38,12 +34,7 @@ namespace Parsinator
         {
         }
 
-        public String Key { get; private set; }
-        public Int32? PageNumber { get; private set; }
-        public Func<String> Default { get; private set; }
-        public bool HasMatched { get; private set; }
-
-        public IDictionary<String, String> Parse(String line, int lineNumber, int lineNumberFromBottom)
+        public override IDictionary<String, String> Parse(String line, int lineNumber, int lineNumberFromBottom)
         {
             // TODO Check pattern is not null
 
@@ -51,7 +42,7 @@ namespace Parsinator
             if (matches.Success)
             {
                 HasMatched = true;
-                var value = (Factory != null) ? Factory(matches.Groups) : matches.Groups[1].Value;
+                var value = (HasFactory) ? Factory(matches.Enumerate(Pattern)) : matches.Groups[1].Value;
                 return new Dictionary<string, string> { { Key, value.Trim() } };
             }
             return new Dictionary<string, string>();
