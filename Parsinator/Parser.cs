@@ -41,7 +41,8 @@ namespace Parsinator
             foreach (var page in pages.Select((Content, Number) => new { Number, Content }))
             {
                 var parsers = FindPasersForPage(_headerParsers, page.Number, lines.Count);
-                ParseOnceInPage(parsers, page.Content);
+                if (parsers.Any())
+                    ParseOnceInPage(parsers, page.Content);
             }
 
             if (_detailParsers != null && _detailParsers.Any())
@@ -80,6 +81,9 @@ namespace Parsinator
                 var row = new Dictionary<string, string>();
                 foreach (var line in page.Select((Content, Number) => new { Number, Content }))
                 {
+                    if (!parsers.Any(t => !t.HasMatched))
+                        break;
+
                     // TODO Call only once a parser if it has line number
                     foreach (var parser in parsers.Where(t => !t.HasMatched))
                     {

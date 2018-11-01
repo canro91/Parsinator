@@ -1124,6 +1124,33 @@ Result: 654321");
             Assert.IsFalse(ds["Key"].ContainsKey("Then"));
         }
 
+        [Test]
+        public void Parse_SingleMatchingLineAndMultipleNonMatchingLines_ParsesMatchedValueAndStopsParsing()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"))
+                    }
+                }
+            };
+            var lines = FromText(@"
+This line doesn't match
+Value: 123456
+This line doesn't match
+This line doesn't match
+This line doesn't match
+This line doesn't match");
+
+            var parser = new Parser(p);
+            var ds = parser.Parse(lines);
+
+            Assert.AreEqual("123456", ds["Key"]["Value"]);
+        }
+
         private List<List<String>> FromPagesText(params String[] str)
         {
             return str.Select(t => t.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).ToList()).ToList();
