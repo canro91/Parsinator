@@ -337,6 +337,97 @@ This line will be ignored");
             Assert.IsFalse(ds["Key"].ContainsKey("Value"));
         }
 
+        [Test]
+        public void Parse_SkipFromFristRegexToLastRegex_DoNotParseValueBetweenRegexes()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"))
+                    }
+                }
+            };
+            var s = new List<ISkip>
+            {
+                new SkipFromFirstRegexToLastRegex(first: new Regex(@"--BEGIN--"), last: new Regex(@"--END--")),
+            };
+            var lines = FromText(@"
+--BEGIN--
+1 Value: 123456. This line will be ignored too
+2 This line will be ignored
+--END--");
+
+            var parser = new Parser(p, s);
+            var ds = parser.Parse(lines);
+
+            Assert.IsFalse(ds["Key"].ContainsKey("Value"));
+        }
+
+        [Test]
+        public void Parse_SkipFromFristRegexToLastRegex_ParseValueBeforeFirstRegex()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"))
+                    }
+                }
+            };
+            var s = new List<ISkip>
+            {
+                new SkipFromFirstRegexToLastRegex(first: new Regex(@"--BEGIN--"), last: new Regex(@"--END--")),
+            };
+            var lines = FromText(@"
+Value: 654321
+--BEGIN--
+1 Value: 123456. This line will be ignored too
+2 This line will be ignored
+--END--");
+
+            var parser = new Parser(p, s);
+            var ds = parser.Parse(lines);
+
+            Assert.IsTrue(ds["Key"].ContainsKey("Value"));
+            Assert.AreEqual("654321", ds["Key"]["Value"]);
+        }
+
+        [Test]
+        public void Parse_SkipFromFristRegexToLastRegex_ParseValueAfterLastRegex()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"))
+                    }
+                }
+            };
+            var s = new List<ISkip>
+            {
+                new SkipFromFirstRegexToLastRegex(first: new Regex(@"--BEGIN--"), last: new Regex(@"--END--")),
+            };
+            var lines = FromText(@"
+--BEGIN--
+1 Value: 123456. This line will be ignored too
+2 This line will be ignored
+--END--
+Value: 654321");
+
+            var parser = new Parser(p, s);
+            var ds = parser.Parse(lines);
+
+            Assert.IsTrue(ds["Key"].ContainsKey("Value"));
+            Assert.AreEqual("654321", ds["Key"]["Value"]);
+        }
+
         private List<List<String>> FromText(String str)
         {
             return new List<List<string>> { str.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).Skip(1).ToList() };

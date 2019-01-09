@@ -77,6 +77,7 @@
     <Compile Include="Skippers\SkipBeforeRegexAndAfterRegex.cs" />
     <Compile Include="Skippers\SkipBlankLines.cs" />
     <Compile Include="Skippers\SkipFromFirstMatchOfRegex.cs" />
+    <Compile Include="Skippers\SkipFromFirstRegexToLastRegex.cs" />
     <Compile Include="Skippers\SkipIfMatches.cs" />
     <Compile Include="Skippers\SkipIfDoesNotMatch.cs" />
     <Compile Include="Skippers\SkipLineCountFromEnd.cs" />
