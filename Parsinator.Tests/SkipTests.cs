@@ -338,7 +338,7 @@ This line will be ignored");
         }
 
         [Test]
-        public void Parse_SkipFromFristRegexToLastRegex_DoNotParseValueBetweenRegexes()
+        public void Parse_SkipFromFirstRegexToLastRegex_DoNotParseValueBetweenRegexes()
         {
             var p = new Dictionary<String, IList<IParse>>
             {
@@ -367,7 +367,7 @@ This line will be ignored");
         }
 
         [Test]
-        public void Parse_SkipFromFristRegexToLastRegex_ParseValueBeforeFirstRegex()
+        public void Parse_SkipFromFirstRegexToLastRegex_ParseValueBeforeFirstRegex()
         {
             var p = new Dictionary<String, IList<IParse>>
             {
@@ -398,7 +398,7 @@ Value: 654321
         }
 
         [Test]
-        public void Parse_SkipFromFristRegexToLastRegex_ParseValueAfterLastRegex()
+        public void Parse_SkipFromFirstRegexToLastRegex_ParseValueAfterLastRegex()
         {
             var p = new Dictionary<String, IList<IParse>>
             {
