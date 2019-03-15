@@ -428,6 +428,36 @@ Value: 654321");
             Assert.AreEqual("654321", ds["Key"]["Value"]);
         }
 
+        [Test]
+        public void Parse_SkipFromFirstRegexToLastRegexWithoutMatchingPattern_ParseValue()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"))
+                    }
+                }
+            };
+            var s = new List<ISkip>
+            {
+                new SkipFromFirstRegexToLastRegex(first: new Regex(@"--BEGIN--"), last: new Regex(@"--END--")),
+            };
+            var lines = FromText(@"
+1 This line won't be ignored
+2 Value: 123456
+3 This line won't be ignored");
+
+            var parser = new Parser(p, s);
+            var ds = parser.Parse(lines);
+
+            Assert.IsTrue(ds["Key"].ContainsKey("Value"));
+            Assert.AreEqual("123456", ds["Key"]["Value"]);
+        }
+
+
         private List<List<String>> FromText(String str)
         {
             return new List<List<string>> { str.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).Skip(1).ToList() };
