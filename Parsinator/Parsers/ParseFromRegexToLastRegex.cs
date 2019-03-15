@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace Parsinator
 {
-    public class FromFirstRegexToLastRegex : ParseWithFactory
+    public class ParseFromRegexToLastRegex : ParseWithFactory
     {
         private readonly Regex FirstPattern;
         private readonly Regex SecondPattern;
@@ -12,8 +12,8 @@ namespace Parsinator
         private List<String> _content;
         private Boolean _hasAtLeastOneMatch;
 
-        public FromFirstRegexToLastRegex(String key, Regex first, Regex second, Func<IDictionary<String, String>, String> factory, Func<String> @default)
-            : base(key, factory, @default)
+        public ParseFromRegexToLastRegex(String key, Regex first, Regex second, Func<IDictionary<String, String>, String> factory, Func<String> @default)
+            : base(key, factory)
         {
             this.FirstPattern = first;
             this.SecondPattern = second;
@@ -22,7 +22,7 @@ namespace Parsinator
             this._hasAtLeastOneMatch = false;
         }
 
-        public FromFirstRegexToLastRegex(String key, Regex first, Regex second)
+        public ParseFromRegexToLastRegex(String key, Regex first, Regex second)
             : this(key, first, second, factory: (allLines) => string.Join(" ", allLines.Values), @default: null)
         {
         }
@@ -34,7 +34,6 @@ namespace Parsinator
             if (!_hasAtLeastOneMatch && FirstPattern.IsMatch(line))
             {
                 _hasAtLeastOneMatch = true;
-                _content.Add(line.Trim());
             }
             else if (_hasAtLeastOneMatch)
             {
@@ -42,7 +41,9 @@ namespace Parsinator
                 if (matches.Success)
                 {
                     HasMatched = true;
+
                     _content.Add(line.Trim());
+
                     var value = Factory(_content.Enumerate()) ?? Default();
                     return new Dictionary<string, string> { { Key, value } };
                 }

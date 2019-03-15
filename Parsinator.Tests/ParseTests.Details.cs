@@ -16,12 +16,12 @@ namespace Parsinator.Tests
 					"Header",
 					new List<IParse>
 					{
-						new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"))
+						new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"))
 					}
 				}
 			};
 			var s = new List<ISkip>();
-			var t = new FromSkipTransform(
+			var t = new TransformFromSingleSkip(
 							new SkipBeforeRegexAndAfterRegex(
 								before: new Regex(@"-- Details --"),
 								after: new Regex(@"-- End of Details --")));
@@ -32,9 +32,9 @@ namespace Parsinator.Tests
 					"Details",
 					new List<IParse>
 					{
-						new FromRegex(key: "Code", pattern: new Regex(@"^(\d)\s*(\w+)\s*(\d+)$"), factory: (group) => group["1"]),
-						new FromRegex(key: "Name", pattern: new Regex(@"^(\d)\s*(\w+)\s*(\d+)$"), factory: (group) => group["2"]),
-						new FromRegex(key: "Value", pattern: new Regex(@"^(\d)\s*(\w+)\s*(\d+)$"), factory: (group) => group["3"])
+						new ParseFromRegex(key: "Code", pattern: new Regex(@"^(\d)\s*(\w+)\s*(\d+)$"), factory: (group) => group["1"]),
+						new ParseFromRegex(key: "Name", pattern: new Regex(@"^(\d)\s*(\w+)\s*(\d+)$"), factory: (group) => group["2"]),
+						new ParseFromRegex(key: "Value", pattern: new Regex(@"^(\d)\s*(\w+)\s*(\d+)$"), factory: (group) => group["3"])
 					}
 				}
 			};
@@ -67,12 +67,12 @@ Value: 20
 					"Header",
 					new List<IParse>
 					{
-						new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"))
+						new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"))
 					}
 				}
 			};
 			var s = new List<ISkip>();
-			var t = new FromSkipTransform(
+			var t = new TransformFromSingleSkip(
 							new SkipBeforeRegexAndAfterRegex(
 								before: new Regex(@"-- Details --"),
 								after: new Regex(@"-- End of Details --")));
@@ -83,9 +83,9 @@ Value: 20
 					"Details",
 					new List<IParse>
 					{
-						new FromGenerator<int>(key: "Code", seed: 0, next: (current) => current + 1),
-						new FromRegex(key: "Name", pattern: new Regex(@"^(\d)\s*(\w+)\s*(\d+)$"), factory: (group) => group["2"]),
-						new FromRegex(key: "Value", pattern: new Regex(@"^(\d)\s*(\w+)\s*(\d+)$"), factory: (group) => group["3"])
+						new ParseFromGenerator<int>(key: "Code", seed: 0, next: (current) => current + 1),
+						new ParseFromRegex(key: "Name", pattern: new Regex(@"^(\d)\s*(\w+)\s*(\d+)$"), factory: (group) => group["2"]),
+						new ParseFromRegex(key: "Value", pattern: new Regex(@"^(\d)\s*(\w+)\s*(\d+)$"), factory: (group) => group["3"])
 					}
 				}
 			};

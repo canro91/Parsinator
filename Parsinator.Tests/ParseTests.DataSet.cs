@@ -42,16 +42,16 @@ namespace Parsinator.Tests
                     "FullName",
                     new List<IParse>
                     {
-                        new FromLineNumberWithRegex(key: "Name", lineNumber: 1, pattern: new Regex(@"Name:\s*(\w+);")),
-                        new FromLineNumberWithRegex(key: "LastName", lineNumber: 1, pattern: new Regex(@"Last name:\s*(\w+)")),
+                        new ParseFromLineNumberWithRegex(key: "Name", lineNumber: 1, pattern: new Regex(@"Name:\s*(\w+);")),
+                        new ParseFromLineNumberWithRegex(key: "LastName", lineNumber: 1, pattern: new Regex(@"Last name:\s*(\w+)")),
                     }
                 },
                 {
                     "Address",
                     new List<IParse>
                     {
-                        new FromLineNumberWithRegex(key: "StreetName", lineNumber: 2, pattern: new Regex(@"Street name:\s*(\w+);")),
-                        new FromLineNumberWithRegex(key: "City", lineNumber: 2, pattern: new Regex(@"City:\s*(\w+)")),
+                        new ParseFromLineNumberWithRegex(key: "StreetName", lineNumber: 2, pattern: new Regex(@"Street name:\s*(\w+);")),
+                        new ParseFromLineNumberWithRegex(key: "City", lineNumber: 2, pattern: new Regex(@"City:\s*(\w+)")),
                     }
                 }
             };
@@ -83,7 +83,7 @@ Street name: Main; City: Wonderland");
                     "Key",
                     new List<IParse>
                     {
-                        new FromValue(key: "Name", value: "Any value")
+                        new ParseFromValue(key: "Name", value: "Any value")
                     }
                 }
             };

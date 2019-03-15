@@ -4,12 +4,12 @@ using System.Linq;
 
 namespace Parsinator
 {
-    public class FromOutput : IParse
+    public class ParseFromOutput : IParse
     {
         private readonly IParse Parser;
         private readonly IList<IParse> Parsers;
 
-        public FromOutput(IParse parseFrom, List<IParse> parsers)
+        public ParseFromOutput(IParse parseFrom, List<IParse> parsers)
         {
             Parser = parseFrom;
             Parsers = parsers;

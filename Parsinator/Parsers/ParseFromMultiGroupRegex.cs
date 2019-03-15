@@ -4,11 +4,11 @@ using System.Text.RegularExpressions;
 
 namespace Parsinator
 {
-    public class FromMultiGroupRegex : IParse
+    public class ParseFromMultiGroupRegex : IParse
     {
         private readonly Regex Pattern;
 
-        public FromMultiGroupRegex(Regex pattern)
+        public ParseFromMultiGroupRegex(Regex pattern)
         {
             this.Key = "";
             this.Pattern = pattern;

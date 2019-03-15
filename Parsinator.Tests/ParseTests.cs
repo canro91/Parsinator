@@ -18,7 +18,7 @@ namespace Parsinator.Tests
                     "Key",
                     new List<IParse>
                     {
-                        new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"))
+                        new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"))
                     }
                 }
             };
@@ -40,7 +40,7 @@ Value: 123456");
                     "Key",
                     new List<IParse>
                     {
-                        new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"), @default: ()=> "default")
+                        new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"), @default: ()=> "default")
                     }
                 }
             };
@@ -62,8 +62,8 @@ This line doesn't match the given regex");
                     "Key",
                     new List<IParse>
                     {
-                        new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")),
-                        new FromValue(key: "Value2", value: "Another value")
+                        new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")),
+                        new ParseFromValue(key: "Value2", value: "Another value")
                     }
                 }
             };
@@ -86,14 +86,14 @@ Value: 123456");
                     "Key",
                     new List<IParse>
                     {
-                        new FromValue(key: "Value", value: "A value")
+                        new ParseFromValue(key: "Value", value: "A value")
                     }
                 },
                 {
                     "Key2",
                     new List<IParse>
                     {
-                        new FromValue(key: "Value2", value: "Another value")
+                        new ParseFromValue(key: "Value2", value: "Another value")
                     }
                 }
             };
@@ -115,7 +115,7 @@ Value: 123456");
                     "Key",
                     new List<IParse>
                     {
-                        new FromLineNumberUntilFirstMatchOfRegex(key: "Value", lineNumber: 1, pattern: new Regex(@"--End--"), factory: (allLines) => string.Join(" ", allLines.Values)),
+                        new ParseFromLineNumberUntilFirstMatchOfRegex(key: "Value", lineNumber: 1, pattern: new Regex(@"--End--"), factory: (allLines) => string.Join(" ", allLines.Values)),
                     }
                 }
             };
@@ -139,7 +139,7 @@ value
                     "Key",
                     new List<IParse>
                     {
-                        new FromLineNumberUntilFirstMatchOfRegex(key: "Value", lineNumber: 1, pattern: new Regex(@"--End--"))
+                        new ParseFromLineNumberUntilFirstMatchOfRegex(key: "Value", lineNumber: 1, pattern: new Regex(@"--End--"))
                     }
                 }
             };
@@ -163,7 +163,7 @@ value
                     "Key",
                     new List<IParse>
                     {
-                        new FromLineNumberWithRegex(key: "Value", lineNumber: 2, pattern: new Regex(@"Value:\s*(\d+)"))
+                        new ParseFromLineNumberWithRegex(key: "Value", lineNumber: 2, pattern: new Regex(@"Value:\s*(\d+)"))
                     }
                 }
             };
@@ -187,7 +187,7 @@ value
                     "Key",
                     new List<IParse>
                     {
-                        new FromLineNumberWithRegex(key: "Value", lineNumber: 2, pattern: new Regex(@"Value:\s*(\d+)"))
+                        new ParseFromLineNumberWithRegex(key: "Value", lineNumber: 2, pattern: new Regex(@"Value:\s*(\d+)"))
                     }
                 }
             };
@@ -211,7 +211,7 @@ value
                     "Key",
                     new List<IParse>
                     {
-                        new FromLineNumberWithRegex(key: "Value", lineNumber: -1, pattern: new Regex(@"Value:\s*(\d+)"))
+                        new ParseFromLineNumberWithRegex(key: "Value", lineNumber: -1, pattern: new Regex(@"Value:\s*(\d+)"))
                     }
                 }
             };
@@ -235,7 +235,7 @@ value
                     "Key",
                     new List<IParse>
                     {
-                        new FromRegexToRegex(key: "Value", first: new Regex(@"--Begin--"), second: new Regex(@"--End--"), factory: (allLines) => string.Join(" ", allLines.Values)),
+                        new ParseFromRegexToRegex(key: "Value", first: new Regex(@"--Begin--"), second: new Regex(@"--End--"), factory: (allLines) => string.Join(" ", allLines.Values)),
                     }
                 }
             };
@@ -262,7 +262,7 @@ This line will be ignored");
                     "Key",
                     new List<IParse>
                     {
-                        new FromRegexToRegex(key: "Value", first: new Regex(@"--Begin--"), second: new Regex(@"--End--")),
+                        new ParseFromRegexToRegex(key: "Value", first: new Regex(@"--Begin--"), second: new Regex(@"--End--")),
                     }
                 }
             };
@@ -289,7 +289,7 @@ This line will be ignored");
                     "Key",
                     new List<IParse>
                     {
-                        new FromFirstRegexToRegex(key: "Value", first: new Regex(@"--Begin--"), second: new Regex(@"--End--")),
+                        new ParseFromFirstRegexToRegex(key: "Value", first: new Regex(@"--Begin--"), second: new Regex(@"--End--")),
                     }
                 }
             };
@@ -316,7 +316,7 @@ This line will be ignored");
                     "Key",
                     new List<IParse>
                     {
-                        new FromRegexToLastRegex(key: "Value", first: new Regex(@"--Begin--"), second: new Regex(@"--End--")),
+                        new ParseFromRegexToLastRegex(key: "Value", first: new Regex(@"--Begin--"), second: new Regex(@"--End--")),
                     }
                 }
             };
@@ -343,7 +343,7 @@ This line will be ignored");
                     "Key",
                     new List<IParse>
                     {
-                        new FromFirstRegexToLastRegex(key: "Value", first: new Regex(@"--Begin--"), second: new Regex(@"--End--")),
+                        new ParseFromFirstRegexToLastRegex(key: "Value", first: new Regex(@"--Begin--"), second: new Regex(@"--End--")),
                     }
                 }
             };
@@ -370,7 +370,7 @@ This line will be ignored");
                     "Key",
                     new List<IParse>
                     {
-                        new FromValue(key: "Value", value: "Any value")
+                        new ParseFromValue(key: "Value", value: "Any value")
                     }
                 }
             };
@@ -391,7 +391,7 @@ This line will be ignored");
                     "Key",
                     new List<IParse>
                     {
-                        new FromValue(key: "Value", value: "Any value")
+                        new ParseFromValue(key: "Value", value: "Any value")
                     }
                 }
             };
@@ -413,7 +413,7 @@ Anything");
                     "Key",
                     new List<IParse>
                     {
-                        new FromLineWithCountAfterPosition(key: "Value", lineNumber: 2, startPosition: 5, charCount: 9)
+                        new ParseFromLineWithCountAfterPosition(key: "Value", lineNumber: 2, startPosition: 5, charCount: 9)
                     }
                 }
             };
@@ -437,7 +437,7 @@ Anything");
                     "Key",
                     new List<IParse>
                     {
-                        new FromLineWithCountAfterPosition(key: "Value", lineNumber: 2, startPosition: 5, charCount: -5)
+                        new ParseFromLineWithCountAfterPosition(key: "Value", lineNumber: 2, startPosition: 5, charCount: -5)
                     }
                 }
             };
@@ -461,7 +461,7 @@ Anything");
                     "Key",
                     new List<IParse>
                     {
-                        new FromLineWithCountAfterPosition(key: "Value", lineNumber: 2, startPosition: 9, charCount: -5)
+                        new ParseFromLineWithCountAfterPosition(key: "Value", lineNumber: 2, startPosition: 9, charCount: -5)
                     }
                 }
             };
@@ -486,7 +486,7 @@ Anything");
                     "Key",
                     new List<IParse>
                     {
-                        new FromLineWithCountAfterPosition(key: "Value", lineNumber: 2, startPosition: -9, charCount: 9)
+                        new ParseFromLineWithCountAfterPosition(key: "Value", lineNumber: 2, startPosition: -9, charCount: 9)
                     }
                 }
             };
@@ -510,7 +510,7 @@ Anything");
                     "Key",
                     new List<IParse>
                     {
-                        new FromLineWithCountAfterPosition(key: "Value", lineNumber: 2, startPosition: -14, charCount: -5)
+                        new ParseFromLineWithCountAfterPosition(key: "Value", lineNumber: 2, startPosition: -14, charCount: -5)
                     }
                 }
             };
@@ -534,7 +534,7 @@ Anything");
                     "Key",
                     new List<IParse>
                     {
-                        new FromLineWithCountAfterPosition(key: "Value", lineNumber: 2, startPosition: 5, charCount: 0)
+                        new ParseFromLineWithCountAfterPosition(key: "Value", lineNumber: 2, startPosition: 5, charCount: 0)
                     }
                 }
             };
@@ -558,7 +558,7 @@ Anything");
                     "Key",
                     new List<IParse>
                     {
-                        new FromLineWithCountAfterPosition(key: "Value", lineNumber: 2, startPosition: 5, charCount: 9, factory: (str) => str.ToUpper())
+                        new ParseFromLineWithCountAfterPosition(key: "Value", lineNumber: 2, startPosition: 5, charCount: 9, factory: (str) => str.ToUpper())
                     }
                 }
             };
@@ -583,8 +583,8 @@ Anything");
                     new List<IParse>
                     {
                         new OrElse(
-                            new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")),
-                            new FromRegex(key: "Value", pattern: new Regex(@"Result: \s*(\d+)")))
+                            new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")),
+                            new ParseFromRegex(key: "Value", pattern: new Regex(@"Result: \s*(\d+)")))
                     }
                 }
             };
@@ -608,8 +608,8 @@ Value: 123456");
                     new List<IParse>
                     {
                         new OrElse(
-                            new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")),
-                            new FromRegex(key: "Value", pattern: new Regex(@"Result: \s*(\d+)")))
+                            new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")),
+                            new ParseFromRegex(key: "Value", pattern: new Regex(@"Result: \s*(\d+)")))
                     }
                 }
             };
@@ -632,7 +632,7 @@ Result: 123456");
                     "Key",
                     new List<IParse>
                     {
-                        new Required(new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")))
+                        new Required(new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")))
                     }
                 }
             };
@@ -655,7 +655,7 @@ This line doesn't match");
                     "Key",
                     new List<IParse>
                     {
-                        new Required(new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"), @default: () => "default"))
+                        new Required(new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"), @default: () => "default"))
                     }
                 }
             };
@@ -679,7 +679,7 @@ This line doesn't match");
                     "Key",
                     new List<IParse>
                     {
-                        new Required(new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")))
+                        new Required(new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")))
                     }
                 }
             };
@@ -703,7 +703,7 @@ Value: 123456");
                     "Key",
                     new List<IParse>
                     {
-                        new Required(new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")))
+                        new Required(new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")))
                     }
                 }
             };
@@ -731,7 +731,7 @@ Value: 123456");
                     new List<IParse>
                     {
                         new Validate((parsed) => parsed.FirstOrDefault().Value?.Length == 6,
-                                new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")))
+                                new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")))
                     }
                 }
             };
@@ -756,7 +756,7 @@ Value: 123456 This value has 6 chars, so it's valid");
                     new List<IParse>
                     {
                         new Validate((parsed) => parsed.FirstOrDefault().Value?.Length >= 10,
-                                new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")))
+                                new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")))
                     }
                 }
             };
@@ -780,7 +780,7 @@ Value: 123456 This value doesn't have more than 10 chars, so it's invalid");
                     "Key",
                     new List<IParse>
                     {
-                        new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"), factory: (groups) => throw new Exception("An exception"))
+                        new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"), factory: (groups) => throw new Exception("An exception"))
                     }
                 }
             };
@@ -806,8 +806,8 @@ Value: 123456");
                     {
                         new AndThen(
                             (output) => $"{string.Join("", output.Values)}",
-                            new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")),
-                            new FromRegex(key: "Result", pattern: new Regex(@"Result: \s*(\d+)")))
+                            new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")),
+                            new ParseFromRegex(key: "Result", pattern: new Regex(@"Result: \s*(\d+)")))
                     }
                 }
             };
@@ -833,8 +833,8 @@ Result: 456");
                     {
                         new AndThen(
                             (output) => $"{string.Join("", output.Values)}",
-                            new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")),
-                            new FromRegex(key: "Result", pattern: new Regex(@"Result: \s*(\d+)")))
+                            new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")),
+                            new ParseFromRegex(key: "Result", pattern: new Regex(@"Result: \s*(\d+)")))
                     }
                 }
             };
@@ -860,8 +860,8 @@ Result: 456");
                     {
                         new AndThen(
                             (output) => $"{string.Join("", output.Values)}",
-                            new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")),
-                            new FromRegex(key: "Result", pattern: new Regex(@"Result: \s*(\d+)")))
+                            new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")),
+                            new ParseFromRegex(key: "Result", pattern: new Regex(@"Result: \s*(\d+)")))
                     }
                 }
             };
@@ -886,8 +886,8 @@ Result: This line doesn't match");
                     new List<IParse>
                     {
                         new AndThen(
-                            new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")),
-                            new FromRegex(key: "Result", pattern: new Regex(@"Result:\s*(\d+)")))
+                            new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")),
+                            new ParseFromRegex(key: "Result", pattern: new Regex(@"Result:\s*(\d+)")))
                     }
                 }
             };
@@ -911,12 +911,12 @@ Value: 123 Result: 456");
                     "Key",
                     new List<IParse>
                     {
-                        new FromOutput(
-                            new FromLineWithCountAfterPosition(key: "Value", lineNumber: 2, startPosition: 5, charCount: 9),
+                        new ParseFromOutput(
+                            new ParseFromLineWithCountAfterPosition(key: "Value", lineNumber: 2, startPosition: 5, charCount: 9),
                             new List<IParse>
                             {
-                                new FromRegex(key: "First", pattern: new Regex(@"(\w+)\s(\w+)"), factory: (groups) => groups["1"]),
-                                new FromRegex(key: "Second", pattern: new Regex(@"(\w+)\s(\w+)"), factory: (groups) => groups["2"]),
+                                new ParseFromRegex(key: "First", pattern: new Regex(@"(\w+)\s(\w+)"), factory: (groups) => groups["1"]),
+                                new ParseFromRegex(key: "Second", pattern: new Regex(@"(\w+)\s(\w+)"), factory: (groups) => groups["2"]),
                             })
                     }
                 }
@@ -942,12 +942,12 @@ Value: 123 Result: 456");
                     "Key",
                     new List<IParse>
                     {
-                        new FromOutput(
-                            new FromLineWithCountAfterPosition(key: "Value", lineNumber: 2, startPosition: 5, charCount: greatherThanLineLength),
+                        new ParseFromOutput(
+                            new ParseFromLineWithCountAfterPosition(key: "Value", lineNumber: 2, startPosition: 5, charCount: greatherThanLineLength),
                             new List<IParse>
                             {
-                                new FromRegex(key: "First", pattern: new Regex(@"(\w+)\s(\w+)"), factory: (groups) => groups["1"]),
-                                new FromRegex(key: "Second", pattern: new Regex(@"(\w+)\s(\w+)"), factory: (groups) => groups["2"]),
+                                new ParseFromRegex(key: "First", pattern: new Regex(@"(\w+)\s(\w+)"), factory: (groups) => groups["1"]),
+                                new ParseFromRegex(key: "Second", pattern: new Regex(@"(\w+)\s(\w+)"), factory: (groups) => groups["2"]),
                             })
                     }
                 }
@@ -972,7 +972,7 @@ Value: 123 Result: 456");
                     "Key",
                     new List<IParse>
                     {
-                        new FromMultiGroupRegex(pattern: new Regex(@"Value:\s*(?<First>\d+)\s*(?<Second>\d+)"))
+                        new ParseFromMultiGroupRegex(pattern: new Regex(@"Value:\s*(?<First>\d+)\s*(?<Second>\d+)"))
                     }
                 }
             };
@@ -997,8 +997,8 @@ Value: 12345 67890");
                     {
                         new IfThen(
                             predicate: (str) => str.Length >= 6,
-                            @if: new FromRegex(key: "If", pattern: new Regex(@"Value:\s*(\d+)")),
-                            then: new FromRegex(key: "Then", pattern: new Regex(@"Result:\s*(\d+)")))
+                            @if: new ParseFromRegex(key: "If", pattern: new Regex(@"Value:\s*(\d+)")),
+                            then: new ParseFromRegex(key: "Then", pattern: new Regex(@"Result:\s*(\d+)")))
                     }
                 }
             };
@@ -1024,8 +1024,8 @@ Result: 654321");
                     {
                         new IfThen(
                             predicate: (str) => str.Length >= 6,
-                            @if: new FromRegex(key: "If", pattern: new Regex(@"Value:\s*(\d+)")),
-                            then: new FromRegex(key: "Then", pattern: new Regex(@"Result:\s*(\d+)")))
+                            @if: new ParseFromRegex(key: "If", pattern: new Regex(@"Value:\s*(\d+)")),
+                            then: new ParseFromRegex(key: "Then", pattern: new Regex(@"Result:\s*(\d+)")))
                     }
                 }
             };
@@ -1050,8 +1050,8 @@ Value: 123456 This value has 6 chars, so it's valid Result: 654321");
                     {
                         new IfThen(
                             predicate: (str) => str.Length >= 6,
-                            @if: new FromRegex(key: "If", pattern: new Regex(@"Value:\s*(\d+)")),
-                            then: new FromRegex(key: "Then", pattern: new Regex(@"Result:\s*(\d+)")))
+                            @if: new ParseFromRegex(key: "If", pattern: new Regex(@"Value:\s*(\d+)")),
+                            then: new ParseFromRegex(key: "Then", pattern: new Regex(@"Result:\s*(\d+)")))
                     }
                 }
             };
@@ -1078,9 +1078,9 @@ Result: This line doesn't match");
                     {
                         new IfThen(
                             predicate: (str) => str.Length >= 6,
-                            @if: new FromRegex(key: "If", pattern: new Regex(@"Value:\s*(\d+)")),
-                            then: new FromRegex(key: "Then", pattern: new Regex(@"Result:\s*(\d+)")),
-                            @else: new FromRegex(key: "Else", pattern: new Regex(@"Foo:\s*(\w+)")))
+                            @if: new ParseFromRegex(key: "If", pattern: new Regex(@"Value:\s*(\d+)")),
+                            then: new ParseFromRegex(key: "Then", pattern: new Regex(@"Result:\s*(\d+)")),
+                            @else: new ParseFromRegex(key: "Else", pattern: new Regex(@"Foo:\s*(\w+)")))
                     }
                 }
             };
@@ -1108,8 +1108,8 @@ Foo: Bar");
                     {
                         new IfThen(
                             predicate: (str) => str.Length >= 6,
-                            @if: new FromRegex(key: "If", pattern: new Regex(@"Value:\s*(\d+)")),
-                            then: new FromRegex(key: "Then", pattern: new Regex(@"Result:\s*(\d+)")))
+                            @if: new ParseFromRegex(key: "If", pattern: new Regex(@"Value:\s*(\d+)")),
+                            then: new ParseFromRegex(key: "Then", pattern: new Regex(@"Result:\s*(\d+)")))
                     }
                 }
             };
@@ -1133,7 +1133,7 @@ Result: 654321");
                     "Key",
                     new List<IParse>
                     {
-                        new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"))
+                        new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"))
                     }
                 }
             };

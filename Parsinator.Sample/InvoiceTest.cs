@@ -76,37 +76,37 @@ namespace Parsinator.Sample
                     "Billing",
                     new List<IParse>
                     {
-                        new FromLineNumberWithRegex(key: "Number", lineNumber: 2, pattern: new Regex(@"Number\s+:\s+(\d+)")),
-                        new FromLineNumberWithRegex(key: "Date", lineNumber: 3, pattern: new Regex(@"Date\s+:\s+(\d{1,4}\-\d{1,2}\-\d{1,2})")),
-                        new FromLineNumberWithRegex(key: "Total", lineNumber: -1, pattern: new Regex(@"\|\s+([\d\,\.]+)\s+\|")),
+                        new ParseFromLineNumberWithRegex(key: "Number", lineNumber: 2, pattern: new Regex(@"Number\s+:\s+(\d+)")),
+                        new ParseFromLineNumberWithRegex(key: "Date", lineNumber: 3, pattern: new Regex(@"Date\s+:\s+(\d{1,4}\-\d{1,2}\-\d{1,2})")),
+                        new ParseFromLineNumberWithRegex(key: "Total", lineNumber: -1, pattern: new Regex(@"\|\s+([\d\,\.]+)\s+\|")),
                     }
                 },
                 {
                     "Customer",
                     new List<IParse>
                     {
-                        new FromLineNumberWithRegex(key: "Name", lineNumber: 2, pattern: new Regex(@"\|\s+Customer\s+:\s+([\w\s]+)Number"))
+                        new ParseFromLineNumberWithRegex(key: "Name", lineNumber: 2, pattern: new Regex(@"\|\s+Customer\s+:\s+([\w\s]+)Number"))
                     }
                 },
                 {
                     "Address",
                     new List<IParse>
                     {
-                        new FromLineNumberWithRegex(key: "AddressLine", lineNumber: 4, pattern: new Regex(@"\|\s+Address\s+:([\w\s\-_\.]+)Seller")),
-                        new FromLineNumberWithRegex(key: "City", lineNumber: 5, pattern: new Regex(@"\|\s+City\s+:([\w\s\-_\.]+)\|")),
+                        new ParseFromLineNumberWithRegex(key: "AddressLine", lineNumber: 4, pattern: new Regex(@"\|\s+Address\s+:([\w\s\-_\.]+)Seller")),
+                        new ParseFromLineNumberWithRegex(key: "City", lineNumber: 5, pattern: new Regex(@"\|\s+City\s+:([\w\s\-_\.]+)\|")),
                     }
                 },
                 {
                     "Supplier",
                     new List<IParse>
                     {
-                        new FromLineNumberWithRegex(key: "Contact", lineNumber: 3, pattern: new Regex(@"\|\s+Contact\s+:([\w\s\-_\.]+)Date")),
-                        new FromLineNumberWithRegex(key: "Seller", lineNumber: 4, pattern: new Regex(@"Seller\s+:([\w\s\-_\.]+)\|")),
+                        new ParseFromLineNumberWithRegex(key: "Contact", lineNumber: 3, pattern: new Regex(@"\|\s+Contact\s+:([\w\s\-_\.]+)Date")),
+                        new ParseFromLineNumberWithRegex(key: "Seller", lineNumber: 4, pattern: new Regex(@"Seller\s+:([\w\s\-_\.]+)\|")),
                     }
                 }
             };
 
-            var transformation = new FromSkipTransform(
+            var transformation = new TransformFromSingleSkip(
                 new SkipBeforeRegexAndAfterRegex(
                     before: new Regex(@"\|\s+Code\s+.+Total\s+\|"),
                     after: new Regex(@"\|\s+\|\s+T O T A L\s+\|")));
@@ -118,11 +118,11 @@ namespace Parsinator.Sample
                     "Product",
                     new List<IParse>
                     {
-                        new FromRegex(key: "Code", pattern: detailRegex, factory: (g) => g["Code"]),
-                        new FromRegex(key: "Description", pattern: detailRegex, factory: (g) => g["Description"]),
-                        new FromRegex(key: "Quantity", pattern: detailRegex, factory: (g) => g["Quantity"]),
-                        new FromRegex(key: "UnitPrice", pattern: detailRegex, factory: (g) => g["UnitPrice"]),
-                        new FromRegex(key: "Total", pattern: detailRegex, factory: (g) => g["Total"]),
+                        new ParseFromRegex(key: "Code", pattern: detailRegex, factory: (g) => g["Code"]),
+                        new ParseFromRegex(key: "Description", pattern: detailRegex, factory: (g) => g["Description"]),
+                        new ParseFromRegex(key: "Quantity", pattern: detailRegex, factory: (g) => g["Quantity"]),
+                        new ParseFromRegex(key: "UnitPrice", pattern: detailRegex, factory: (g) => g["UnitPrice"]),
+                        new ParseFromRegex(key: "Total", pattern: detailRegex, factory: (g) => g["Total"]),
                     }
                 }
             };

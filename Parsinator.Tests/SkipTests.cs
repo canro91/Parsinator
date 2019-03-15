@@ -18,7 +18,7 @@ namespace Parsinator.Tests
                     "Key",
                     new List<IParse>
                     {
-                        new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"))
+                        new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"))
                     }
                 }
             };
@@ -49,7 +49,7 @@ This line won't be ignored
                     "Key",
                     new List<IParse>
                     {
-                        new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"))
+                        new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"))
                     }
                 }
             };
@@ -80,7 +80,7 @@ Value: 123456
                     "Key",
                     new List<IParse>
                     {
-                        new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"))
+                        new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"))
                     }
                 }
             };
@@ -110,7 +110,7 @@ Value: 123456
                     "Key",
                     new List<IParse>
                     {
-                        new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"))
+                        new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"))
                     }
                 }
             };
@@ -141,7 +141,7 @@ Value: 123456");
                     "Key",
                     new List<IParse>
                     {
-                        new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"))
+                        new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"))
                     }
                 }
             };
@@ -170,7 +170,7 @@ Value: 123456 This line will be ignored too");
                     "Key",
                     new List<IParse>
                     {
-                        new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"))
+                        new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"))
                     }
                 }
             };
@@ -199,7 +199,7 @@ This line will be ignored");
                     "Key",
                     new List<IParse>
                     {
-                        new FromLineWithCountAfterPosition(key: "Value", lineNumber: 1, startPosition: 5, charCount: 9)
+                        new ParseFromLineWithCountAfterPosition(key: "Value", lineNumber: 1, startPosition: 5, charCount: 9)
                     }
                 }
             };
@@ -230,7 +230,7 @@ This line will be ignored
                     "Key",
                     new List<IParse>
                     {
-                        new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"))
+                        new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"))
                     }
                 }
             };
@@ -259,7 +259,7 @@ This line will be ignored");
                     "Key",
                     new List<IParse>
                     {
-                        new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"))
+                        new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"))
                     }
                 }
             };
@@ -288,7 +288,7 @@ This line will be ignored");
                     "Key",
                     new List<IParse>
                     {
-                        new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"))
+                        new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"))
                     }
                 }
             };
@@ -317,7 +317,7 @@ This line will be ignored");
                     "Key",
                     new List<IParse>
                     {
-                        new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"))
+                        new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"))
                     }
                 }
             };
@@ -346,7 +346,7 @@ This line will be ignored");
                     "Key",
                     new List<IParse>
                     {
-                        new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"))
+                        new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"))
                     }
                 }
             };
@@ -375,7 +375,7 @@ This line will be ignored");
                     "Key",
                     new List<IParse>
                     {
-                        new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"))
+                        new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"))
                     }
                 }
             };
@@ -406,7 +406,7 @@ Value: 654321
                     "Key",
                     new List<IParse>
                     {
-                        new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"))
+                        new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"))
                     }
                 }
             };
@@ -437,7 +437,7 @@ Value: 654321");
                     "Key",
                     new List<IParse>
                     {
-                        new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"))
+                        new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"))
                     }
                 }
             };

@@ -17,7 +17,7 @@ namespace Parsinator.Tests
                     "Key",
                     new List<IParse>
                     {
-                        new FromRegex(key: "Value", pageNumber: 2, pattern: new Regex(@"Value:\s*(\d+)")),
+                        new ParseFromRegex(key: "Value", pageNumber: 2, pattern: new Regex(@"Value:\s*(\d+)")),
                     }
                 }
             };
@@ -42,7 +42,7 @@ namespace Parsinator.Tests
                     "Key",
                     new List<IParse>
                     {
-                        new FromRegex(key: "Value", pageNumber: -1, pattern: new Regex(@"Value:\s*(\d+)")),
+                        new ParseFromRegex(key: "Value", pageNumber: -1, pattern: new Regex(@"Value:\s*(\d+)")),
                     }
                 }
             };
@@ -66,7 +66,7 @@ namespace Parsinator.Tests
                     "Key",
                     new List<IParse>
                     {
-                        new FromRegex(key: "Value", pageNumber: -1, pattern: new Regex(@"Value:\s*(\d+)")),
+                        new ParseFromRegex(key: "Value", pageNumber: -1, pattern: new Regex(@"Value:\s*(\d+)")),
                     }
                 }
             };
@@ -89,8 +89,8 @@ Value: 123456");
                     "Key",
                     new List<IParse>
                     {
-                        new FromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")),
-                        new FromRegex(key: "Result", pageNumber: -1, pattern: new Regex(@"Result: \s*(\d+)"))
+                        new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")),
+                        new ParseFromRegex(key: "Result", pageNumber: -1, pattern: new Regex(@"Result: \s*(\d+)"))
                     }
                 }
             };
@@ -115,7 +115,7 @@ Value: 123456");
                     "Key",
                     new List<IParse>
                     {
-                        new FromRegex(key: "Value", pageNumber: 1, pattern: new Regex(@"Value:\s*(\d+)")),
+                        new ParseFromRegex(key: "Value", pageNumber: 1, pattern: new Regex(@"Value:\s*(\d+)")),
                     }
                 }
             };
@@ -139,7 +139,7 @@ Value: 123456");
                     "Key",
                     new List<IParse>
                     {
-                        new Required(new FromRegex(key: "Value", pageNumber: -1, pattern: new Regex(@"Value:\s*(\d+)")))
+                        new Required(new ParseFromRegex(key: "Value", pageNumber: -1, pattern: new Regex(@"Value:\s*(\d+)")))
                     }
                 }
             };
@@ -165,7 +165,7 @@ Value: 123456");
                     new List<IParse>
                     {
                         new Validate((parsed) => parsed.FirstOrDefault().Value?.Length == 6,
-                                new FromRegex(key: "Value", pageNumber: -1, pattern: new Regex(@"Value:\s*(\d+)")))
+                                new ParseFromRegex(key: "Value", pageNumber: -1, pattern: new Regex(@"Value:\s*(\d+)")))
                     }
                 }
             };
@@ -191,8 +191,8 @@ Value: 123456");
                     new List<IParse>
                     {
                         new OrElse(
-                            new FromRegex(key: "Value", pageNumber: 2, pattern: new Regex(@"Value:\s*(\d+)")),
-                            new FromRegex(key: "Result", pageNumber: 3, pattern: new Regex(@"Result:\s*(\d+)")))
+                            new ParseFromRegex(key: "Value", pageNumber: 2, pattern: new Regex(@"Value:\s*(\d+)")),
+                            new ParseFromRegex(key: "Result", pageNumber: 3, pattern: new Regex(@"Result:\s*(\d+)")))
                     }
                 }
             };
@@ -218,8 +218,8 @@ Value: 123456");
                     new List<IParse>
                     {
                         new OrElse(
-                            new FromRegex(key: "Value", pageNumber: 2, pattern: new Regex(@"Value:\s*(\d+)")),
-                            new FromRegex(key: "Result", pageNumber: 3, pattern: new Regex(@"Result:\s*(\d+)")))
+                            new ParseFromRegex(key: "Value", pageNumber: 2, pattern: new Regex(@"Value:\s*(\d+)")),
+                            new ParseFromRegex(key: "Result", pageNumber: 3, pattern: new Regex(@"Result:\s*(\d+)")))
                     }
                 }
             };
@@ -246,8 +246,8 @@ Value: 123456");
                     {
                         new AndThen(
                             (output) => $"{string.Join("", output.Values)}",
-                            new FromRegex(key: "Value", pageNumber: 2, pattern: new Regex(@"Value:\s*(\d+)")),
-                            new FromRegex(key: "Result", pageNumber: 3, pattern: new Regex(@"Result:\s*(\d+)")))
+                            new ParseFromRegex(key: "Value", pageNumber: 2, pattern: new Regex(@"Value:\s*(\d+)")),
+                            new ParseFromRegex(key: "Result", pageNumber: 3, pattern: new Regex(@"Result:\s*(\d+)")))
                     }
                 }
             };
