@@ -30,7 +30,7 @@ var parser = new Dictionary<string, IList<IParser>>
 		"PersonalData",
 		new List<IParser>
 		{
-			new FromLineWithRegex(key: "FullName", lineNumber: 2, pattern: new Regex("^Name: (\w+)$"))
+			new ParseFromLineWithRegex(key: "FullName", lineNumber: 2, pattern: new Regex("^Name: (\w+)$"))
 		}
 	}
 };
@@ -63,8 +63,8 @@ var parsers = new Dictionary<string, IList<IParser>>
 		"PersonalData",
 		new List<IParser>
 		{
-			new FromLineWithRegex(key: "FullName", lineNumber: 2, pattern: new Regex("^Name: (\w+)$")),
-			new FromRegex(key: "Address", pattern: new Regex("Address: (\w+)$")
+			new ParseFromLineWithRegex(key: "FullName", lineNumber: 2, pattern: new Regex("^Name: (\w+)$")),
+			new ParseFromRegex(key: "Address", pattern: new Regex("Address: (\w+)$")
 		}
 	}
 };
@@ -94,7 +94,7 @@ var lines = new List<List<string>>
 	}
 };
 
-var parser = new FromLineWithRegex(key: "FullName", lineNumber: 2, pattern: new Regex("^Name: (\w+)$"));
+var parser = new ParseFromLineWithRegex(key: "FullName", lineNumber: 2, pattern: new Regex("^Name: (\w+)$"));
 var parsinator = new Parser(parser);
 Dictionary<string, Dictionary<string, string>> parsed = parsinator.Parse(lines);
 
