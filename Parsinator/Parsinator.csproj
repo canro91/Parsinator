@@ -53,6 +53,7 @@
     <Compile Include="Extensions\MatchExtensions.cs" />
     <Compile Include="ITransform.cs" />
     <Compile Include="Parsers\AndThen.cs" />
+    <Compile Include="Parsers\Not.cs" />
     <Compile Include="Parsers\ParseFromFirstRegexToLastRegex.cs" />
     <Compile Include="Parsers\ParseFromMultiGroupRegex.cs" />
     <Compile Include="Parsers\ParseFromOutput.cs" />

@@ -1151,6 +1151,76 @@ This line doesn't match");
             Assert.AreEqual("123456", ds["Key"]["Value"]);
         }
 
+        [Test]
+        public void Parse_NotParseAndAMatchingParser_ThrowsException()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new Not(new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")))
+                    }
+                }
+            };
+            var lines = FromText(@"
+Value: 123456");
+
+            var parser = new Parser(p);
+
+            var e = Assert.Throws<ArgumentException>(() => parser.Parse(lines));
+            StringAssert.Contains("Value", e.Message);
+            StringAssert.Contains("123456", e.Message);
+        }
+
+        [Test]
+        public void Parse_NotParseAndANonMatchingParserWithDefaultValue_DoesNotThrowException()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new Not(new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"), @default: () => "Default"))
+                    }
+                }
+            };
+            var lines = FromText(@"
+This line doesn't match the given regex");
+
+            var parser = new Parser(p);
+
+            var e = Assert.Throws<ArgumentException>(() => parser.Parse(lines));
+            StringAssert.Contains("Value", e.Message);
+            StringAssert.Contains("Default", e.Message);
+        }
+
+
+        [Test]
+        public void Parse_NotParseAndANonMatchingParserWithoutDefaultValue_DoesNotThrowException()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new Not(new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")))
+                    }
+                }
+            };
+            var lines = FromText(@"
+This line doesn't match the given regex");
+
+            var parser = new Parser(p);
+            var ds = parser.Parse(lines);
+
+            Assert.IsFalse(ds["Key"].ContainsKey("Value"));
+        }
+
+
         private List<List<String>> FromPagesText(params String[] str)
         {
             return str.Select(t => t.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).ToList()).ToList();
