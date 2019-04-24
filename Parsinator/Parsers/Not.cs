@@ -19,7 +19,7 @@ namespace Parsinator
         {
             get
             {
-                var @default = P.Default();
+                var @default = P.Default?.Invoke();
                 if (!string.IsNullOrEmpty(@default))
                     throw new ArgumentException($"Pattern for [{P.Key}] expected to fail. Value: [{P.Key}:{@default}]", innerException: null);
 
