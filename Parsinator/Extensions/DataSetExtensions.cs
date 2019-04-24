@@ -27,11 +27,6 @@ namespace Parsinator
             return $"{table.TableName}-Empty";
         }
 
-        // WARNING: It only works for two-level nested nodes with the parent node
-        // without any attributes
-        //      <parent>
-        //          <child />
-        //      </parent>
         public static DataSet WithRelation(this DataSet dataSet, String parentTableName, String childTableName)
         {
             if (!dataSet.Tables.Contains(parentTableName))
@@ -62,8 +57,9 @@ namespace Parsinator
 
             // HACK Since we want a parent node without attributes, we create
             // a table with a dummy column. So we check if the parent table
-            // contains the dummy column and add a row
-            if (parent.Columns.Contains(parent.NameForEmptyColumn()))
+            // contains the dummy column and add a row, there isn't already one
+            if (parent.Columns.Contains(parent.NameForEmptyColumn())
+                    && parent.Rows.Count == 0)
             {
                 parent.Rows.Add(parent.NewRow());
             }

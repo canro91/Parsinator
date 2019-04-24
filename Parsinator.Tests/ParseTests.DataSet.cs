@@ -71,6 +71,58 @@ Street name: Main; City: Wonderland");
         }
 
         [Test]
+        public void Parse_EmptyParentTableWithTwoChildTables_BuildsXmlWithParsedValues()
+        {
+            var ds = new DataSet("Person")
+                        .WithTable(new DataTable("PersonalInformation")
+                            .Empty())
+                        .WithTable(new DataTable("FullName")
+                            .WithColumn("Name")
+                            .WithColumn("LastName"))
+                        .WithRelation("PersonalInformation", "FullName")
+                        .WithTable(new DataTable("Address")
+                            .WithColumn("StreetName")
+                            .WithColumn("City"))
+                        .WithRelation("PersonalInformation", "Address");
+
+
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "FullName",
+                    new List<IParse>
+                    {
+                        new ParseFromLineNumberWithRegex(key: "Name", lineNumber: 1, pattern: new Regex(@"Name:\s*(\w+);")),
+                        new ParseFromLineNumberWithRegex(key: "LastName", lineNumber: 1, pattern: new Regex(@"Last name:\s*(\w+)")),
+                    }
+                },
+                {
+                    "Address",
+                    new List<IParse>
+                    {
+                        new ParseFromLineNumberWithRegex(key: "StreetName", lineNumber: 2, pattern: new Regex(@"Street name:\s*(\w+);")),
+                        new ParseFromLineNumberWithRegex(key: "City", lineNumber: 2, pattern: new Regex(@"City:\s*(\w+)")),
+                    }
+                }
+            };
+            var lines = FromText(@"
+Name: John; Last name: Doe
+Street name: Main; City: Wonderland");
+
+            var parser = new Parser(p);
+            var parsed = parser.Parse(lines);
+
+            var xml = parsed.ToDataSet(ds).GetXml();
+
+            Assert.AreEqual(@"<Person>
+  <PersonalInformation>
+    <FullName Name=""John"" LastName=""Doe"" />
+    <Address StreetName=""Main"" City=""Wonderland"" />
+  </PersonalInformation>
+</Person>", xml);
+        }
+
+        [Test]
         public void Parse_MultipleParsers_BuildsXmlWithNestedNodes()
         {
             var ds = new DataSet("Person")
