@@ -1175,7 +1175,7 @@ Value: 123456");
         }
 
         [Test]
-        public void Parse_NotParseAndANonMatchingParserWithDefaultValue_DoesNotThrowException()
+        public void Parse_NotParseAndANonMatchingParserWithDefaultValue_ThrowsException()
         {
             var p = new Dictionary<String, IList<IParse>>
             {
