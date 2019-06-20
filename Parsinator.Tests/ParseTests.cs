@@ -1197,7 +1197,6 @@ This line doesn't match the given regex");
             StringAssert.Contains("Default", e.Message);
         }
 
-
         [Test]
         public void Parse_NotParseAndANonMatchingParserWithoutDefaultValue_DoesNotThrowException()
         {
@@ -1220,6 +1219,32 @@ This line doesn't match the given regex");
             Assert.IsFalse(ds["Key"].ContainsKey("Value"));
         }
 
+        [Test]
+        public void Parse_TwoMatchingParsers_ParsesValueAndConcatenatesThem()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new Concatenate(key: "Value", separator: "|", parsers: new List<IParse>
+                        {
+                            new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")),
+                            new ParseFromRegex(key: "Result", pattern: new Regex(@"Result:\s*(\w+)")),
+                        })
+                    }
+                }
+            };
+            var lines = FromText(@"
+Value: 123456
+Result: Foo");
+
+            var parser = new Parser(p);
+            var ds = parser.Parse(lines);
+
+            Assert.AreEqual("123456|Foo", ds["Key"]["Value"]);
+        }
 
         private List<List<String>> FromPagesText(params String[] str)
         {
