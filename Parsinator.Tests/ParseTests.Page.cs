@@ -344,7 +344,7 @@ Value: 123456");
             var parser = new Parser(p);
             var ds = parser.Parse(lines);
 
-            Assert.AreEqual("123456|Foo", ds["Key"]["Value"]);
+            Assert.AreEqual("Foo|123456", ds["Key"]["Value"]);
         }
     }
 }

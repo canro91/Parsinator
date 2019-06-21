@@ -10,7 +10,7 @@ namespace Parsinator
         private readonly List<IParse> Parsers;
 
         private int? _lastParsedPage;
-        private Dictionary<string, string> _results;
+        private Dictionary<IParse, IDictionary<string, string>> _results;
 
         public Concatenate(string key, string separator, List<IParse> parsers)
         {
@@ -19,7 +19,7 @@ namespace Parsinator
             Parsers = parsers;
 
             _lastParsedPage = null;
-            _results = new Dictionary<string, string>();
+            _results = new Dictionary<IParse, IDictionary<string, string>>();
         }
 
         public String Key { get; private set; }
@@ -40,12 +40,15 @@ namespace Parsinator
         {
             get
             {
-                if (_results.Any())
+                var values = new List<string>();
+                foreach (var p in Parsers)
                 {
-                    return () => string.Join(Separator, _results.Select(t => t.Value));
+                    if (_results.ContainsKey(p))
+                        values.AddRange(_results[p].Values);
+                    else
+                        values.Add(p.Default());
                 }
-
-                return null;
+                return () => string.Join(Separator, values);
             }
         }
         public bool HasMatched { get; private set; }
@@ -57,7 +60,7 @@ namespace Parsinator
                 var result = p.Parse(line, lineNumber, lineNumberFromBottom);
                 if (p.HasMatched)
                 {
-                    _results.Merge(result);
+                    _results.Add(p, result);
                     _lastParsedPage = p.PageNumber;
                 }
             }

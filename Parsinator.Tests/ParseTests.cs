@@ -1246,6 +1246,60 @@ Result: Foo");
             Assert.AreEqual("123456|Foo", ds["Key"]["Value"]);
         }
 
+        [Test]
+        public void Parse_TwoNonMatchingParsersWithDefaultValues_ParsesValueAndConcatenatesDefaultValues()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new Concatenate(key: "Value", separator: "|", parsers: new List<IParse>
+                        {
+                            new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"), @default: () => "123456"),
+                            new ParseFromRegex(key: "Result", pattern: new Regex(@"Result:\s*(\w+)"), @default: () => "Foo"),
+                        })
+                    }
+                }
+            };
+            var lines = FromText(@"
+This line doesn't match
+This line doesn't match");
+
+            var parser = new Parser(p);
+            var ds = parser.Parse(lines);
+
+            Assert.AreEqual("123456|Foo", ds["Key"]["Value"]);
+        }
+
+        [Test]
+        public void Parse_AMatchingAndNonMatchingParsersWithDefaultValue_ParsesValueAndConcatenatesParsedAndDefaultValues()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new Concatenate(key: "Value", separator: "|", parsers: new List<IParse>
+                        {
+                            new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")),
+                            new ParseFromRegex(key: "Result", pattern: new Regex(@"Result:\s*(\w+)"), @default: () => "Foo"),
+                        })
+                    }
+                }
+            };
+            var lines = FromText(@"
+Value: 123456
+This line doesn't match");
+
+            var parser = new Parser(p);
+            var ds = parser.Parse(lines);
+
+            Assert.AreEqual("123456|Foo", ds["Key"]["Value"]);
+        }
+
         private List<List<String>> FromPagesText(params String[] str)
         {
             return str.Select(t => t.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).ToList()).ToList();
