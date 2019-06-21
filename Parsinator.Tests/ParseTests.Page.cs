@@ -262,5 +262,89 @@ Value: 123456");
 
             Assert.AreEqual("123456", ds["Key"]["Value&Result"]);
         }
+
+        [Test]
+        public void Parse_ConcatenateTwoPagedParsers_ParsersValueFromBothParsersInGivenPages()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new Concatenate(key: "Value", separator: "|", new List<IParse>
+                        {
+                            new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")),
+                            new ParseFromRegex(key: "Result", pageNumber: 2, pattern: new Regex(@"Result:\s*(\w+)"))
+                        })
+                    }
+                }
+            };
+
+            var lines = FromPagesText(
+@"Page1 Value: 123456",
+@"Page2 Result: Foo");
+
+            var parser = new Parser(p);
+            var ds = parser.Parse(lines);
+
+            Assert.AreEqual("123456|Foo", ds["Key"]["Value"]);
+        }
+
+        [Test]
+        public void Parse_ConcatenateTwoPagedParsersAndNegativePageNumber_ParsersValueFromBothParsersInGivenPages()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new Concatenate(key: "Value", separator: "|", new List<IParse>
+                        {
+                            new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")),
+                            new ParseFromRegex(key: "Result", pageNumber: -1, pattern: new Regex(@"Result:\s*(\w+)"))
+                        })
+                    }
+                }
+            };
+
+            var lines = FromPagesText(
+@"Page1 Value: 123456   Page-2",
+@"Page2 Result: Foo     Page-1");
+
+            var parser = new Parser(p);
+            var ds = parser.Parse(lines);
+
+            Assert.AreEqual("123456|Foo", ds["Key"]["Value"]);
+        }
+
+        [Test]
+        public void Parse_ConcatenateTwoPagedParsersAnNegativePageNumberFirst_ParsersValueFromBothParsersInGivenPages()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new Concatenate(key: "Value", separator: "|", new List<IParse>
+                        {
+                            new ParseFromRegex(key: "Result", pageNumber: -1, pattern: new Regex(@"Result:\s*(\w+)")),
+                            new ParseFromRegex(key: "Value", pageNumber: 1, pattern: new Regex(@"Value:\s*(\d+)"))
+                        })
+                    }
+                }
+            };
+
+            var lines = FromPagesText(
+@"Page1 Value: 123456           Page-2",
+@"Page2 Result: Foo             Page-1");
+
+            var parser = new Parser(p);
+            var ds = parser.Parse(lines);
+
+            Assert.AreEqual("123456|Foo", ds["Key"]["Value"]);
+        }
     }
 }
