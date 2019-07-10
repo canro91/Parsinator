@@ -14,7 +14,7 @@ Parsinator uses three type of entities:
 * Parser: It captures text based on a pattern
 * Transformation: It reduces lines spawning multiples pages into a single stream of text.
 
-Parsinator provides a set of basic skippers, parsers and transformation methods, but you can add your own entities.
+Parsinator provides a set of basic skippers, parsers and transformation methods, but you can add your own entities. You can find a list of the available entities in the [Wiki](https://github.com/canro91/Parsinator/wiki)
 
 ### Parse patterns
 
@@ -76,6 +76,8 @@ var xml = parsed.ToDataSet(dataSet).GetXml();
 
 Assert.AreEqual("<Author><PersonalInfo Name="Alice" /></Author>", xml);
 ```
+
+Please, take a look at the [Sample project](https://github.com/canro91/Parsinator/tree/master/Parsinator.Sample) to see how to parse a plain-text invoice and a GPS frame.
 
 ## Installation
 
