@@ -11,5 +11,11 @@ namespace Parsinator
             return self.Select((item, i) => new { Item = item, Index = i })
                        .ToDictionary(k => k.Index.ToString(), v => v.Item);
         }
+
+        public static IDictionary<String, String> Enumerate(this IEnumerable<String> self, string prefix)
+        {
+            return self.Select((item, i) => new { Item = item, Index = i })
+                       .ToDictionary(k => $"{prefix}[{k.Index}]", v => v.Item);
+        }
     }
 }

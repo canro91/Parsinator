@@ -1300,6 +1300,56 @@ This line doesn't match");
             Assert.AreEqual("123456|Foo", ds["Key"]["Value"]);
         }
 
+        [Test]
+        public void Parse_LineSeparatedByComma_ParsesValuesBetweenCommas()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new ParseFromSplitting(key: "Value", separator: ",")
+                    }
+                }
+            };
+            var lines = FromText(@"
+Value: 123456, Result: Foo");
+
+            var parser = new Parser(p);
+            var ds = parser.Parse(lines);
+
+            Assert.IsTrue(ds["Key"].ContainsKey("Value[0]"));
+            Assert.IsTrue(ds["Key"].ContainsKey("Value[1]"));
+            Assert.AreEqual("Value: 123456", ds["Key"]["Value[0]"]);
+            Assert.AreEqual("Result: Foo", ds["Key"]["Value[1]"]);
+        }
+
+        [Test]
+        public void Parse_LineSeparatedByCommaAndIgnoreTwoSegments_ParsesValuesAfterTheSecondComma()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new ParseFromSplitting(key: "Value", separator: ",", skipFirsts: 2)
+                    }
+                }
+            };
+            var lines = FromText(@"
+This segment will be ignored, This segment will be ignored too, Value: 123456, Result: Foo");
+
+            var parser = new Parser(p);
+            var ds = parser.Parse(lines);
+
+            Assert.IsTrue(ds["Key"].ContainsKey("Value[0]"));
+            Assert.IsTrue(ds["Key"].ContainsKey("Value[1]"));
+            Assert.AreEqual("Value: 123456", ds["Key"]["Value[0]"]);
+            Assert.AreEqual("Result: Foo", ds["Key"]["Value[1]"]);
+        }
+
         private List<List<String>> FromPagesText(params String[] str)
         {
             return str.Select(t => t.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).ToList()).ToList();

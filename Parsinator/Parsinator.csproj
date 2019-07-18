@@ -65,6 +65,7 @@
     <Compile Include="Parsers\ParseFromLineNumberWithRegex.cs" />
     <Compile Include="Parsers\ParseFromLineWithCountAfterPosition.cs" />
     <Compile Include="Parsers\ParseFromRegexToRegex.cs" />
+    <Compile Include="Parsers\ParseFromSplitting.cs" />
     <Compile Include="Parsers\ParseFromValue.cs" />
     <Compile Include="IParse.cs" />
     <Compile Include="ISkip.cs" />
