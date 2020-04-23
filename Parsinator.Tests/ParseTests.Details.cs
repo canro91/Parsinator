@@ -32,9 +32,9 @@ namespace Parsinator.Tests
 					"Details",
 					new List<IParse>
 					{
-						new ParseFromRegex(key: "Code", pattern: new Regex(@"^(\d)\s*(\w+)\s*(\d+)$"), factory: (group) => group["1"]),
-						new ParseFromRegex(key: "Name", pattern: new Regex(@"^(\d)\s*(\w+)\s*(\d+)$"), factory: (group) => group["2"]),
-						new ParseFromRegex(key: "Value", pattern: new Regex(@"^(\d)\s*(\w+)\s*(\d+)$"), factory: (group) => group["3"])
+						new ParseFromRegex(key: "Code", pattern: new Regex(@"^(\d)\s*(\w+)\s*(\d+)(.*)$"), factory: (group) => group["1"]),
+						new ParseFromRegex(key: "Name", pattern: new Regex(@"^(\d)\s*(\w+)\s*(\d+)(.*)$"), factory: (group) => group["2"]),
+						new ParseFromRegex(key: "Value", pattern: new Regex(@"^(\d)\s*(\w+)\s*(\d+)(.*)$"), factory: (group) => group["3"])
 					}
 				}
 			};
@@ -84,8 +84,8 @@ Value: 20
 					new List<IParse>
 					{
 						new ParseFromGenerator<int>(key: "Code", seed: 0, next: (current) => current + 1),
-						new ParseFromRegex(key: "Name", pattern: new Regex(@"^(\d)\s*(\w+)\s*(\d+)$"), factory: (group) => group["2"]),
-						new ParseFromRegex(key: "Value", pattern: new Regex(@"^(\d)\s*(\w+)\s*(\d+)$"), factory: (group) => group["3"])
+						new ParseFromRegex(key: "Name", pattern: new Regex(@"^(\d)\s*(\w+)\s*(\d+)(.*)$"), factory: (group) => group["2"]),
+						new ParseFromRegex(key: "Value", pattern: new Regex(@"^(\d)\s*(\w+)\s*(\d+)(.*)$"), factory: (group) => group["3"])
 					}
 				}
 			};

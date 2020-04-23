@@ -1,5 +1,7 @@
 # Parsinator
 
+![](https://img.shields.io/badge/netstandard-2.0-brightgreen.svg) ![](https://github.com/canro91/Parsinator/workflows/Build/badge.svg) ![](https://img.shields.io/github/license/canro91/Parsinator)
+
 Parsinator turns structured and unstructured text into a header-detail representation. You could use Parsinator to create an xml file from a pdf file, an object from a printer spool file or to parse relevant data from any text.
 
 ## Why
