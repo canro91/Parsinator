@@ -64,7 +64,7 @@ Street name: Main; City: Wonderland");
 
             var xml = parsed.ToDataSet(ds).GetXml();
 
-            Assert.AreEqual(@"<Person>
+            XmlAssert.AreEqual(@"<Person>
   <FullName Name=""John"" LastName=""Doe"" />
   <Address StreetName=""Main"" City=""Wonderland"" />
 </Person>", xml);
@@ -84,7 +84,6 @@ Street name: Main; City: Wonderland");
                             .WithColumn("StreetName")
                             .WithColumn("City"))
                         .WithRelation("PersonalInformation", "Address");
-
 
             var p = new Dictionary<String, IList<IParse>>
             {
@@ -114,7 +113,7 @@ Street name: Main; City: Wonderland");
 
             var xml = parsed.ToDataSet(ds).GetXml();
 
-            Assert.AreEqual(@"<Person>
+            XmlAssert.AreEqual(@"<Person>
   <PersonalInformation>
     <FullName Name=""John"" LastName=""Doe"" />
     <Address StreetName=""Main"" City=""Wonderland"" />
@@ -175,7 +174,7 @@ State: Somewhere; Country: United States of Wonderland");
 
             var xml = parsed.ToDataSet(ds).GetXml();
 
-            Assert.AreEqual(@"<Person>
+            XmlAssert.AreEqual(@"<Person>
   <FullName Name=""John"" LastName=""Doe"">
     <Address StreetName=""Main"" City=""Wonderland"">
       <Country State=""Somewhere"" Country=""United"" />
