@@ -23,25 +23,25 @@ Parsinator provides a set of basic skippers, parsers and transformation methods,
 ```csharp
 var lines = new List<List<string>>
 {
-	new List<string>
-	{
-		"Any text",
-		"Name: Alice",
-		"Any text",
-		"Any text Address: Wonderland"
-	}
+    new List<string>
+    {
+        "Any text",
+        "Name: Alice",
+        "Any text",
+        "Any text Address: Wonderland"
+    }
 };
 
 var parsers = new Dictionary<string, IList<IParser>>
 {
-	{
-		"PersonalData",
-		new List<IParser>
-		{
-			new ParseFromLineWithRegex(key: "FullName", lineNumber: 2, pattern: new Regex("^Name: (\w+)$")),
-			new ParseFromRegex(key: "Address", pattern: new Regex("Address: (\w+)$")
-		}
-	}
+    {
+        "PersonalData",
+        new List<IParser>
+        {
+            new ParseFromLineWithRegex(key: "FullName", lineNumber: 2, pattern: new Regex("^Name: (\w+)$")),
+            new ParseFromRegex(key: "Address", pattern: new Regex("Address: (\w+)$")
+        }
+    }
 };
 
 var parsinator = new Parser(parsers);
@@ -58,16 +58,16 @@ Parsinators relies on `DataSet` and `DataTable` to build xml files from parsed v
 
 ```csharp
 var dataSet = new DataSet("Author")
-	.WithTable(new DataTable("PersonalInfo")
-		.WithColumn("Name"));
+    .WithTable(new DataTable("PersonalInfo")
+        .WithColumn("Name"));
 
 var lines = new List<List<string>>
 {
-	new List<string>
-	{
-		"Any text",
-		"Name: Alice"
-	}
+    new List<string>
+    {
+        "Any text",
+        "Name: Alice"
+    }
 };
 
 var parser = new ParseFromLineWithRegex(key: "FullName", lineNumber: 2, pattern: new Regex("^Name: (\w+)$"));
