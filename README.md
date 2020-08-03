@@ -6,7 +6,7 @@ Parsinator turns structured and unstructured text into a header-detail represent
 
 ## Why
 
-Parsinator allows you to extract relevant information from any text-based file. You can parse a file by composing small functions to read or ignore text at the page or line level. Parsinator was heavily inspired by functional parsers combinators. You can read more about Parsinator motivation [here](https://canro91.github.io/2019/03/08/ATaleOfAPdfParser/).
+Parsinator allows you to extract relevant information from any text-based file. You can parse a file by composing small functions to read or ignore text at the page or line level. Parsinator was heavily inspired by functional parsers combinators. You can read more about Parsinator motivation in [Parsinator, a tale of a pdf parser](https://canro91.github.io/2019/03/08/ATaleOfAPdfParser/).
 
 ## Usage
 
