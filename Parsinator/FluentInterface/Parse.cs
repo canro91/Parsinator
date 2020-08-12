@@ -43,6 +43,16 @@ namespace Parsinator.FluentInterface
             };
             return builder;
         }
+
+        public FromFirstRegexBuilder FromFirstRegex(Regex regex)
+        {
+            var builder = new FromFirstRegexBuilder
+            {
+                Key = Key,
+                First = regex
+            };
+            return builder;
+        }
     }
 
     public class FromLineBuilder
@@ -66,5 +76,21 @@ namespace Parsinator.FluentInterface
 
         public ParseFromRegexToRegex ToRegex(Regex regex)
             => new ParseFromRegexToRegex(Key, First, regex);
+
+        public IParse ToLastRegex(Regex regex)
+            => new ParseFromRegexToLastRegex(Key, First, regex);
+    }
+
+    public class FromFirstRegexBuilder
+    {
+        public string Key { get; internal set; }
+
+        public Regex First { get; internal set; }
+
+        public ParseFromFirstRegexToRegex ToRegex(Regex regex)
+            => new ParseFromFirstRegexToRegex(Key, First, regex);
+
+        public IParse ToLastRegex(Regex regex)
+            => new ParseFromFirstRegexToLastRegex(Key, First, regex);
     }
 }
