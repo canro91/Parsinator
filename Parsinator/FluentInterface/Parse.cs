@@ -66,6 +66,17 @@ namespace Parsinator.FluentInterface
 
         public ParseFromLineNumberWithRegex Regex(Regex regex)
             => new ParseFromLineNumberWithRegex(Key, LineNumber, regex);
+
+        public StartingAtBuilder StartingAt(int position)
+        {
+            var builder = new StartingAtBuilder
+            {
+                Key = Key,
+                LineNumber = LineNumber,
+                StartPosition = position
+            };
+            return builder;
+        }
     }
 
     public class FromRegexBuilder
@@ -92,5 +103,15 @@ namespace Parsinator.FluentInterface
 
         public IParse ToLastRegex(Regex regex)
             => new ParseFromFirstRegexToLastRegex(Key, First, regex);
+    }
+
+    public class StartingAtBuilder
+    {
+        public string Key { get; internal set; }
+        public int LineNumber { get; internal set; }
+        public int StartPosition { get; internal set; }
+
+        public IParse Chars(int charCount)
+            => new ParseFromLineWithCountAfterPosition(Key, LineNumber, StartPosition, charCount);
     }
 }

@@ -211,6 +211,30 @@ This line will be ignored");
             Assert.AreEqual("--Begin-- Any value --End--", ds["Key"]["Value"]);
         }
 
+        [Test]
+        public void Parse_PositionAndCountInLine_ParsesStringInGivenPosition()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        Parse.Key("Value").FromLine(2).StartingAt(5).Chars(9)
+                    }
+                }
+            };
+
+            var lines = FromText(@"
+12345123456789
+12345Any value");
+
+            var parser = new Parser(p);
+            var ds = parser.Parse(lines);
+
+            Assert.AreEqual("Any value", ds["Key"]["Value"]);
+        }
+
         private List<List<String>> FromText(String str)
         {
             return new List<List<string>> { str.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).Skip(1).ToList() };
