@@ -4,9 +4,9 @@ namespace Parsinator.FluentInterface
 {
     public static class Skip
     {
-        public static SkipBeforeRegexAndAfterRegexBuilder BeforeRegex(Regex before)
+        public static SkipBeforeRegexBuilder BeforeRegex(Regex before)
         {
-            var builder = new SkipBeforeRegexAndAfterRegexBuilder
+            var builder = new SkipBeforeRegexBuilder
             {
                 Before = before
             };
@@ -37,18 +37,18 @@ namespace Parsinator.FluentInterface
         public static ISkip OneLineFromEnd
             => new SkipLineCountFromEnd();
 
-        public static SkipLineCountFromLineNumberBuilder Lines(int lineCount)
+        public static SkipLineCountBuilder Lines(int lineCount)
         {
-            var builder = new SkipLineCountFromLineNumberBuilder
+            var builder = new SkipLineCountBuilder
             {
                 LineCount = lineCount
             };
             return builder;
         }
 
-        public static SkipFromFirstRegexToLastRegexBuilder FromFirstRegex(Regex firstRegex)
+        public static SkipFromFirstRegexBuilder FromFirstRegex(Regex firstRegex)
         {
-            var builder = new SkipFromFirstRegexToLastRegexBuilder
+            var builder = new SkipFromFirstRegexBuilder
             {
                 FirstRegex = firstRegex
             };
@@ -56,7 +56,7 @@ namespace Parsinator.FluentInterface
         }
     }
 
-    public class SkipBeforeRegexAndAfterRegexBuilder
+    public class SkipBeforeRegexBuilder
     {
         public Regex Before { get; internal set; }
 
@@ -66,7 +66,7 @@ namespace Parsinator.FluentInterface
         }
     }
 
-    public class SkipLineCountFromLineNumberBuilder
+    public class SkipLineCountBuilder
     {
         public int LineCount { get; internal set; }
 
@@ -76,7 +76,7 @@ namespace Parsinator.FluentInterface
         }
     }
 
-    public class SkipFromFirstRegexToLastRegexBuilder
+    public class SkipFromFirstRegexBuilder
     {
         public Regex FirstRegex { get; set; }
 
