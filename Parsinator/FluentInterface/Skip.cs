@@ -78,7 +78,7 @@ namespace Parsinator.FluentInterface
 
     public class SkipFromFirstRegexBuilder
     {
-        public Regex FirstRegex { get; set; }
+        public Regex FirstRegex { get; internal set; }
 
         public ISkip ToLastRegex(Regex lastRegex)
         {
