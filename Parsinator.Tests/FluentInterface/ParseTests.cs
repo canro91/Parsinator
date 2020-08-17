@@ -283,9 +283,39 @@ Value: 123456, Result: Foo");
             Assert.AreEqual("Result: Foo", ds["Key"]["Value[1]"]);
         }
 
+        [Test]
+        public void Parse_GivenPageAndMatchingPattern_ParsesPatternFromGivenPage()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        Parse.Key("Value").FromPage(2).Regex(new Regex(@"Value:\s*(\d+)"))
+                    }
+                }
+            };
+
+            var lines = FromPagesText(
+@"Value: 654321",
+@"Value: 123456");
+
+            var parser = new Parser(p);
+            var ds = parser.Parse(lines);
+
+            Assert.IsTrue(ds["Key"].ContainsKey("Value"));
+            Assert.AreEqual("123456", ds["Key"]["Value"]);
+        }
+
         private List<List<String>> FromText(String str)
         {
             return new List<List<string>> { str.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).Skip(1).ToList() };
+        }
+
+        private List<List<String>> FromPagesText(params String[] str)
+        {
+            return str.Select(t => t.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).ToList()).ToList();
         }
     }
 }

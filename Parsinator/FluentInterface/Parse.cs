@@ -59,6 +59,16 @@ namespace Parsinator.FluentInterface
 
         public ParseFromSplitting SplitBy(string separator)
             => new ParseFromSplitting(Key, separator);
+
+        public FromPageBuilder FromPage(int pageNumber)
+        {
+            var builder = new FromPageBuilder
+            {
+                Key = Key,
+                PageNumber = pageNumber
+            };
+            return builder;
+        }
     }
 
     public class FromLineBuilder
@@ -119,5 +129,14 @@ namespace Parsinator.FluentInterface
 
         public IParse Chars(int charCount)
             => new ParseFromLineWithCountAfterPosition(Key, LineNumber, StartPosition, charCount);
+    }
+
+    public class FromPageBuilder
+    {
+        public string Key { get; internal set; }
+        public int PageNumber { get; internal set; }
+
+        public ParseFromRegex Regex(Regex regex)
+            => new ParseFromRegex(Key, regex, PageNumber);
     }
 }
