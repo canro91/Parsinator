@@ -21,6 +21,8 @@ Parsinator provides a set of basic skippers, parsers and transformation methods,
 ### Parse patterns
 
 ```csharp
+using Parsinator;
+
 var lines = new List<List<string>>
 {
     new List<string>
@@ -52,6 +54,24 @@ Assert.AreEqual("Alice", parsed["PersonalData"]["FullName"]);
 Assert.AreEqual("Wonderland", parsed["PersonalData"]["Address"]);
 ```
 
+Alternatively, you can use Parsinator fluent API to create some of the skippers and parsers. Refer to the [Parsinator.Fluent](https://github.com/canro91/Parsinator/tree/master/Parsinator/Fluent) namespace for all supported skippers and parsers.
+
+```csharp
+using Parsinator.Fluent;
+
+var parsers = new Dictionary<string, IList<IParser>>
+{
+    {
+        "PersonalData",
+        new List<IParser>
+        {
+            Parse.Key("FullName").FromLine(2).Regex(new Regex("^Name: (\w+)$")),
+            Parse.Key("Address").Regex(new Regex("Address: (\w+)$")
+        }
+    }
+};
+```
+
 ### Create Xml
 
 Parsinators relies on `DataSet` and `DataTable` to build xml files from parsed values. It provides extension methods to build tables and columns.
@@ -79,7 +99,7 @@ var xml = parsed.ToDataSet(dataSet).GetXml();
 Assert.AreEqual("<Author><PersonalInfo Name="Alice" /></Author>", xml);
 ```
 
-Please, take a look at the [Sample project](https://github.com/canro91/Parsinator/tree/master/Parsinator.Sample) to see how to parse a plain-text invoice and a GPS frame.
+Please, take a look at the [Sample project](https://github.com/canro91/Parsinator/tree/master/Parsinator.Sample) to see how to parse a plain-text invoice, a GPS frame and an ebook table of content.
 
 ## Installation
 
