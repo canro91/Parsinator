@@ -42,7 +42,7 @@ Value: 123456");
                     "Key",
                     new List<IParse>
                     {
-                        Parse.Key("Value").Value("Another value")
+                        Parse.Key("Value").Value("Any given value")
                     }
                 }
             };
@@ -52,7 +52,7 @@ Value: 123456");
             var parser = new Parser(p);
             var ds = parser.Parse(lines);
 
-            Assert.AreEqual("Another value", ds["Key"]["Value"]);
+            Assert.AreEqual("Any given value", ds["Key"]["Value"]);
         }
 
         [Test]
@@ -279,6 +279,7 @@ Value: 123456, Result: Foo");
 
             Assert.IsTrue(ds["Key"].ContainsKey("Value[0]"));
             Assert.IsTrue(ds["Key"].ContainsKey("Value[1]"));
+
             Assert.AreEqual("Value: 123456", ds["Key"]["Value[0]"]);
             Assert.AreEqual("Result: Foo", ds["Key"]["Value[1]"]);
         }
@@ -298,8 +299,8 @@ Value: 123456, Result: Foo");
             };
 
             var lines = FromPagesText(
-@"Value: 654321",
-@"Value: 123456");
+@"Page1 Value: 654321   Page-2",
+@"Page2 Value: 123456   Page-1");
 
             var parser = new Parser(p);
             var ds = parser.Parse(lines);

@@ -60,10 +60,10 @@ Value: 654321
                 Skip.Lines(3).StartingFromLine(2),
             };
             var lines = FromText(@"
-1 This line won't be ignored                    4
-2 Value: 123456. This line will be ignored      3
-3 This line will be ignored too                 2
-4 This line will be ignored too                 1");
+1 This line won't be ignored                    -4
+2 Value: 123456. This line will be ignored      -3
+3 This line will be ignored too                 -2
+4 This line will be ignored too                 -1");
 
             var parser = new Parser(p, s);
             var ds = parser.Parse(lines);
