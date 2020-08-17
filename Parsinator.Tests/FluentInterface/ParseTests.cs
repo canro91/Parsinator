@@ -235,6 +235,30 @@ This line will be ignored");
             Assert.AreEqual("Any value", ds["Key"]["Value"]);
         }
 
+        [Test]
+        public void Parse_LineMatchesGivenRegex_ParsesMultipleGroupsInMatchedValue()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        Parse.MultiGroupRegex(new Regex(@"Value:\s*(?<First>\d+)\s*(?<Second>\d+)"))
+                    }
+                }
+            };
+            var lines = FromText(@"
+Value: 12345 67890");
+
+            var parser = new Parser(p);
+            var ds = parser.Parse(lines);
+
+            Assert.AreEqual("12345", ds["Key"]["First"]);
+            Assert.AreEqual("67890", ds["Key"]["Second"]);
+        }
+
+
         private List<List<String>> FromText(String str)
         {
             return new List<List<string>> { str.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).Skip(1).ToList() };

@@ -12,6 +12,9 @@ namespace Parsinator.FluentInterface
             };
             return builder;
         }
+
+        public static ParseFromMultiGroupRegex MultiGroupRegex(Regex pattern)
+            => new ParseFromMultiGroupRegex(pattern);
     }
 
     public class KeyBuilder
