@@ -258,6 +258,30 @@ Value: 12345 67890");
             Assert.AreEqual("67890", ds["Key"]["Second"]);
         }
 
+        [Test]
+        public void Parse_LineSeparatedByComma_ParsesValuesBetweenCommas()
+        {
+            var p = new Dictionary<String, IList<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        Parse.Key("Value").SplitBy(",")
+                    }
+                }
+            };
+            var lines = FromText(@"
+Value: 123456, Result: Foo");
+
+            var parser = new Parser(p);
+            var ds = parser.Parse(lines);
+
+            Assert.IsTrue(ds["Key"].ContainsKey("Value[0]"));
+            Assert.IsTrue(ds["Key"].ContainsKey("Value[1]"));
+            Assert.AreEqual("Value: 123456", ds["Key"]["Value[0]"]);
+            Assert.AreEqual("Result: Foo", ds["Key"]["Value[1]"]);
+        }
 
         private List<List<String>> FromText(String str)
         {

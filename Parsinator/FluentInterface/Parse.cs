@@ -56,6 +56,9 @@ namespace Parsinator.FluentInterface
             };
             return builder;
         }
+
+        public ParseFromSplitting SplitBy(string separator)
+            => new ParseFromSplitting(Key, separator);
     }
 
     public class FromLineBuilder
