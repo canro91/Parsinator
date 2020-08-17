@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace Parsinator.FluentInterface
+namespace Parsinator.Fluent
 {
     public static class Skip
     {

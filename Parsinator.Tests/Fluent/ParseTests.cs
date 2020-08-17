@@ -1,11 +1,11 @@
 ﻿using NUnit.Framework;
-using Parsinator.FluentInterface;
+using Parsinator.Fluent;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace Parsinator.Tests.FluentInterface
+namespace Parsinator.Tests.Fluent
 {
     [TestFixture]
     public class ParseTests
