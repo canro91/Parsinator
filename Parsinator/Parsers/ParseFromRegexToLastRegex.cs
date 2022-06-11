@@ -9,10 +9,10 @@ namespace Parsinator
         private readonly Regex FirstPattern;
         private readonly Regex SecondPattern;
 
-        private List<String> _content;
-        private Boolean _hasAtLeastOneMatch;
+        private List<string> _content;
+        private bool _hasAtLeastOneMatch;
 
-        public ParseFromRegexToLastRegex(String key, Regex first, Regex second, Func<IDictionary<String, String>, String> factory, Func<String> @default)
+        public ParseFromRegexToLastRegex(string key, Regex first, Regex second, Func<IDictionary<string, string>, string> factory, Func<string> @default)
             : base(key, factory)
         {
             this.FirstPattern = first;
@@ -22,7 +22,7 @@ namespace Parsinator
             this._hasAtLeastOneMatch = false;
         }
 
-        public ParseFromRegexToLastRegex(String key, Regex first, Regex second)
+        public ParseFromRegexToLastRegex(string key, Regex first, Regex second)
             : this(key, first, second, factory: (allLines) => string.Join(" ", allLines.Values), @default: null)
         {
         }

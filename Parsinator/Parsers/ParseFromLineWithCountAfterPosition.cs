@@ -42,7 +42,7 @@ namespace Parsinator
                     var length = (CharCount < 0) ? line.Length + CharCount - startIndex : CharCount;
 
                     var substring = line.Substring(startIndex, length);
-                    var value = (HasFactory) ? Factory(substring) : substring;
+                    var value = HasFactory ? Factory(substring) : substring;
                     return new Dictionary<string, string> { { Key, value.Trim() } };
                 }
             }

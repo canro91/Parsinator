@@ -22,8 +22,8 @@ namespace Parsinator
             _results = new Dictionary<IParse, IDictionary<string, string>>();
         }
 
-        public String Key { get; private set; }
-        public Int32? PageNumber
+        public string Key { get; private set; }
+        public int? PageNumber
         {
             get
             {
@@ -36,7 +36,7 @@ namespace Parsinator
                 return _lastParsedPage;
             }
         }
-        public Func<String> Default
+        public Func<string> Default
         {
             get
             {

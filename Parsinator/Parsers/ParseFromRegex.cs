@@ -8,33 +8,33 @@ namespace Parsinator
     {
         public Regex Pattern { get; private set; }
 
-        public ParseFromRegex(String key, Regex pattern, Int32? pageNumber, Func<IDictionary<String, String>, String> factory, Func<String> @default)
+        public ParseFromRegex(string key, Regex pattern, int? pageNumber, Func<IDictionary<string, string>, string> factory, Func<string> @default)
             : base(key, pageNumber, factory, @default)
         {
             this.Pattern = pattern;
         }
 
-        public ParseFromRegex(String key, Regex pattern, Func<String> @default)
+        public ParseFromRegex(string key, Regex pattern, Func<string> @default)
             : this(key, pattern, null, null, @default)
         {
         }
 
-        public ParseFromRegex(String key, Regex pattern, Func<IDictionary<String, String>, String> factory)
+        public ParseFromRegex(string key, Regex pattern, Func<IDictionary<string, string>, string> factory)
             : this(key, pattern, null, factory, null)
         {
         }
 
-        public ParseFromRegex(String key, Regex pattern, Int32 pageNumber)
+        public ParseFromRegex(string key, Regex pattern, Int32 pageNumber)
             : this(key, pattern, pageNumber, null, null)
         {
         }
 
-        public ParseFromRegex(String key, Regex pattern)
+        public ParseFromRegex(string key, Regex pattern)
             : this(key, pattern, null, null, null)
         {
         }
 
-        public override IDictionary<String, String> Parse(String line, int lineNumber, int lineNumberFromBottom)
+        public override IDictionary<string, string> Parse(string line, int lineNumber, int lineNumberFromBottom)
         {
             // TODO Check pattern is not null
 

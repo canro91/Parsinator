@@ -11,7 +11,7 @@ namespace Parsinator
         private bool _firstHasMatched;
         private IDictionary<string, string> _firstResult;
 
-        public AndThen(String key, Func<IDictionary<string, string>, string> factory, IParse first, IParse second)
+        public AndThen(string key, Func<IDictionary<string, string>, string> factory, IParse first, IParse second)
             : base(key, factory)
         {
             First = first;
@@ -23,7 +23,7 @@ namespace Parsinator
             _firstResult = new Dictionary<string, string>();
         }
 
-        public AndThen(Func<IDictionary<string, string>, String> factory, IParse first, IParse second)
+        public AndThen(Func<IDictionary<string, string>, string> factory, IParse first, IParse second)
             : this($"{first.Key}&{second.Key}", factory, first, second)
         {
         }
@@ -53,7 +53,7 @@ namespace Parsinator
                 if (Second.HasMatched)
                 {
                     HasMatched = true;
-                    var accumulated = new Dictionary<String, String>(_firstResult).Merge(result2);
+                    var accumulated = new Dictionary<string, string>(_firstResult).Merge(result2);
                     return (HasFactory)
                                 ? new Dictionary<string, string> { { Key, Factory(accumulated) } }
                                 : accumulated;

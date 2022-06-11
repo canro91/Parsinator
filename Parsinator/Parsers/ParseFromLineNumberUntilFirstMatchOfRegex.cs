@@ -9,10 +9,10 @@ namespace Parsinator
         private readonly int LineNumber;
         private readonly Regex Pattern;
 
-        private List<String> _content;
-        private Boolean _hasAtLeastOneMatch;
+        private List<string> _content;
+        private bool _hasAtLeastOneMatch;
 
-        public ParseFromLineNumberUntilFirstMatchOfRegex(String key, int lineNumber, Regex pattern, Func<IDictionary<String, String>, String> factory)
+        public ParseFromLineNumberUntilFirstMatchOfRegex(string key, int lineNumber, Regex pattern, Func<IDictionary<string, string>, string> factory)
             : base(key, factory)
         {
             this.LineNumber = lineNumber;
@@ -22,12 +22,12 @@ namespace Parsinator
             _hasAtLeastOneMatch = false;
         }
 
-        public ParseFromLineNumberUntilFirstMatchOfRegex(String key, int lineNumber, Regex pattern)
+        public ParseFromLineNumberUntilFirstMatchOfRegex(string key, int lineNumber, Regex pattern)
             : this(key: key, lineNumber: lineNumber, pattern: pattern, factory: (allLines) => string.Join(" ", allLines.Values))
         {
         }
 
-        public override IDictionary<String, String> Parse(String line, int lineNumber, int lineNumberFromBottom)
+        public override IDictionary<string, string> Parse(string line, int lineNumber, int lineNumberFromBottom)
         {
             if (lineNumber == this.LineNumber || (this.LineNumber < 0 && lineNumberFromBottom == this.LineNumber))
             {
