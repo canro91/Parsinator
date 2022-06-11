@@ -5,7 +5,7 @@ namespace Parsinator
 {
     public static class ISkipExtensions
     {
-        public static IEnumerable<IEnumerable<string>> Chain(this IEnumerable<ISkip> skips, IEnumerable<IEnumerable<string>> lines)
+        internal static IEnumerable<IEnumerable<string>> Chain(this IEnumerable<ISkip> skips, IEnumerable<IEnumerable<string>> lines)
         {
             var pages = lines;
             if (skips != null && skips.Any())

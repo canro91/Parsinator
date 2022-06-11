@@ -46,7 +46,7 @@ namespace Parsinator
             return dataSet;
         }
 
-        internal static Dictionary<String, Dictionary<String, String>> AddOrMerge(this Dictionary<string, Dictionary<string, string>> self, String key, Dictionary<string, string> dict)
+        internal static Dictionary<string, Dictionary<string, string>> AddOrMerge(this Dictionary<string, Dictionary<string, string>> self, String key, Dictionary<string, string> dict)
         {
             if (!self.ContainsKey(key))
                 self[key] = dict;
@@ -60,7 +60,7 @@ namespace Parsinator
             return self;
         }
 
-        internal static IDictionary<String, String> Merge(this IDictionary<String, String> self, IDictionary<string, string> dict)
+        internal static IDictionary<string, string> Merge(this IDictionary<string, string> self, IDictionary<string, string> dict)
         {
             foreach (var item in dict)
             {
