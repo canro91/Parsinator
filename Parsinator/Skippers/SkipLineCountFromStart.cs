@@ -9,10 +9,10 @@ namespace Parsinator
 
         public SkipLineCountFromStart(int lineCount = 1)
         {
-            this.LineCount = lineCount;
+            LineCount = lineCount;
         }
 
-        public List<List<string>> Skip(List<List<string>> lines)
+        public IEnumerable<IEnumerable<string>> Skip(IEnumerable<IEnumerable<string>> lines)
         {
             var skipped = lines.Select(l => l.Skip(LineCount).ToList())
                                .ToList();

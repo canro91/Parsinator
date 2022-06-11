@@ -10,10 +10,10 @@ namespace Parsinator
 
         public SkipIfDoesNotMatch(Regex pattern)
         {
-            this.Pattern = pattern;
+            Pattern = pattern;
         }
 
-        public List<List<string>> Skip(List<List<string>> lines)
+        public IEnumerable<IEnumerable<string>> Skip(IEnumerable<IEnumerable<string>> lines)
         {
             var skipped = lines.Select(l => l.Where(t => Pattern.IsMatch(t)).ToList())
                                .ToList();

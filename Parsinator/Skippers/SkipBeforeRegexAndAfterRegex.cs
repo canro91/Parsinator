@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Linq;
 
@@ -12,11 +11,11 @@ namespace Parsinator
 
         public SkipBeforeRegexAndAfterRegex(Regex before, Regex after)
         {
-            this.Before = before;
-            this.After = after;
+            Before = before;
+            After = after;
         }
 
-        public List<List<String>> Skip(List<List<String>> lines)
+        public IEnumerable<IEnumerable<string>> Skip(IEnumerable<IEnumerable<string>> lines)
         {
             var skipped = lines.Select(l => l.SkipWhile(t => !Before.IsMatch(t))
                                              // To skip the regex match itself

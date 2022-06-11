@@ -15,7 +15,7 @@ namespace Parsinator
             Last = last;
         }
 
-        public List<List<string>> Skip(List<List<string>> lines)
+        public IEnumerable<IEnumerable<string>> Skip(IEnumerable<IEnumerable<string>> lines)
         {
             var skipped = lines.Select(l => l.TakeWhile(t => !First.IsMatch(t))
                                              .Union(l.SkipWhile(t => !Last.IsMatch(t))
