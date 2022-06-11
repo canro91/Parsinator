@@ -36,7 +36,7 @@ namespace Parsinator.Tests
                             .WithColumn("StreetName")
                             .WithColumn("City"));
 
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "FullName",
@@ -85,7 +85,7 @@ Street name: Main; City: Wonderland");
                             .WithColumn("City"))
                         .WithRelation("PersonalInformation", "Address");
 
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "FullName",
@@ -137,7 +137,7 @@ Street name: Main; City: Wonderland");
                         .WithRelation("FullName", "Address")
                         .WithRelation("Address", "Country");
 
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "FullName",
@@ -190,7 +190,7 @@ State: Somewhere; Country: United States of Wonderland");
                         .WithTable(new DataTable("NotExistingTableName")
                             .WithColumn("ColumnName"));
 
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",

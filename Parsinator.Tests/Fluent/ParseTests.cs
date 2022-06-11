@@ -13,7 +13,7 @@ namespace Parsinator.Tests.Fluent
         [Test]
         public void Parse_LineMatchesRegex_ParsesMatchedValue()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -36,7 +36,7 @@ Value: 123456");
         [Test]
         public void Parse_AnyInput_ReturnsGivenValue()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -58,7 +58,7 @@ Value: 123456");
         [Test]
         public void Parse_MultipleLineStringUntilRegex_ParsesStringFromLineNumberUntilRegex()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -82,7 +82,7 @@ Value: 123456");
         [Test]
         public void Parse_PatternAndLineNumber_ParsesRegexInTheLine()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -106,7 +106,7 @@ Value: 123456");
         [Test]
         public void Parse_MultipleLineStringBetweenTwoRegexes_ParseStringBetweenRegexes()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -133,7 +133,7 @@ This line will be ignored");
         [Test]
         public void Parse_MultipleLineStringBetweenTwoRegexes_ParseStringBetweenRegexesIncludingFirst()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -160,7 +160,7 @@ This line will be ignored");
         [Test]
         public void Parse_MultipleLineStringBetweenTwoRegexes_ParseStringBetweenRegexesIncludingSecond()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -187,7 +187,7 @@ This line will be ignored");
         [Test]
         public void Parse_MultipleLineStringBetweenTwoRegexes_ParseStringBetweenRegexesIncludingFirstAndSecond()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -214,7 +214,7 @@ This line will be ignored");
         [Test]
         public void Parse_PositionAndCountInLine_ParsesStringInGivenPosition()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -238,7 +238,7 @@ This line will be ignored");
         [Test]
         public void Parse_LineMatchesGivenRegex_ParsesMultipleGroupsInMatchedValue()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -261,7 +261,7 @@ Value: 12345 67890");
         [Test]
         public void Parse_LineSeparatedByComma_ParsesValuesBetweenCommas()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -287,7 +287,7 @@ Value: 123456, Result: Foo");
         [Test]
         public void Parse_GivenPageAndMatchingPattern_ParsesPatternFromGivenPage()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -309,12 +309,12 @@ Value: 123456, Result: Foo");
             Assert.AreEqual("123456", ds["Key"]["Value"]);
         }
 
-        private List<List<String>> FromText(String str)
+        private List<List<string>> FromText(string str)
         {
             return new List<List<string>> { str.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).Skip(1).ToList() };
         }
 
-        private List<List<String>> FromPagesText(params String[] str)
+        private List<List<string>> FromPagesText(params string[] str)
         {
             return str.Select(t => t.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).ToList()).ToList();
         }

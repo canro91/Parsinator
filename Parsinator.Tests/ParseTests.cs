@@ -12,7 +12,7 @@ namespace Parsinator.Tests
         [Test]
         public void Parse_LineMatchesGivenRegex_ParsesMatchedValue()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -34,7 +34,7 @@ Value: 123456");
         [Test]
         public void Parse_LineDoesNotMatchGivenRegex_ParsesDefaultValue()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -56,7 +56,7 @@ This line doesn't match the given regex");
         [Test]
         public void Parse_SingleCategoryAndMultipleParses_AppliesMutlipleParsers()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -80,7 +80,7 @@ Value: 123456");
         [Test]
         public void Parse_MultipleCategories_AppliesParsesForEveryCategory()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -109,7 +109,7 @@ Value: 123456");
         [Test]
         public void Parse_MultipleLineStringUntilRegex_ParseStringFromLineNumberUntilRegex()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -133,7 +133,7 @@ value
         [Test]
         public void Parse_MultipleLineStringUntilRegex_ParseStringsAndConcatenateThemByDefault()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -157,7 +157,7 @@ value
         [Test]
         public void Parse_PatternAndLineNumber_ParsesRegexInTheLine()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -181,7 +181,7 @@ value
         [Test]
         public void Parse_PatternInMultipleLinesAndLineNumber_ParsesRegexInTheGivenLine()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -205,7 +205,7 @@ value
         [Test]
         public void Parse_PatternAndNegativeLineNumber_ParsesRegexInTheLineFromBottom()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -229,7 +229,7 @@ value
         [Test]
         public void Parse_MultipleLineStringBetweenTwoRegexes_ParseStringBetweenRegexes()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -256,7 +256,7 @@ This line will be ignored");
         [Test]
         public void Parse_MultipleLineStringBetweenTwoRegexes_ParseStringBetweenRegexesAndConcatenateThemByDefault()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -283,7 +283,7 @@ This line will be ignored");
         [Test]
         public void Parse_MultipleLineStringBetweenTwoRegexes_ParseStringBetweenRegexesIncludingFirst()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -310,7 +310,7 @@ This line will be ignored");
         [Test]
         public void Parse_MultipleLineStringBetweenTwoRegexes_ParseStringBetweenRegexesIncludingSecond()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -337,7 +337,7 @@ This line will be ignored");
         [Test]
         public void Parse_MultipleLineStringBetweenTwoRegexes_ParseStringBetweenRegexesIncludingFirstAndSecond()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -364,7 +364,7 @@ This line will be ignored");
         [Test]
         public void Parse_EmpytLineAndFixedValueParser_ParseFixedValue()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -385,7 +385,7 @@ This line will be ignored");
         [Test]
         public void Parse_NotEmpytLineAndFixedValueParser_ParseFixedValue()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -407,7 +407,7 @@ Anything");
         [Test]
         public void Parse_PositionAndCountInLine_ParsesStringInGivenPosition()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -431,7 +431,7 @@ Anything");
         [Test]
         public void Parse_PositionAndNegativeCountInLine_ParsesStringWithCountFromEnd()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -455,7 +455,7 @@ Anything");
         [Test]
         public void Parse_PositionAfterHalfLengthAndNegativeCountInLine_ParsesStringWithCountFromEnd()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -480,7 +480,7 @@ Anything");
         [Test]
         public void Parse_NegativePositionAndCountInLine_ParsesStringInPositionFromEnd()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -504,7 +504,7 @@ Anything");
         [Test]
         public void Parse_NegativePositionAndNegativeCountInLine_ParsesStringWithPositionAndCountFromEnd()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -528,7 +528,7 @@ Anything");
         [Test]
         public void Parse_PositionAndZeroCountInLine_DoesNotParse()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -552,7 +552,7 @@ Anything");
         [Test]
         public void Parse_PositionAndCountInLineWithFactory_ParsesAndAppliesFactory()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -576,7 +576,7 @@ Anything");
         [Test]
         public void Parse_OrElseAndMatchInTheFirstParser_ParsesValueFromFirstParser()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -601,7 +601,7 @@ Value: 123456");
         [Test]
         public void Parse_OrElseAndMatchInTheSecondParser_ParsesValueFromSecondParser()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -626,7 +626,7 @@ Result: 123456");
         [Test]
         public void Parse_RequiredAndPatternNotFound_ThrowsException()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -649,7 +649,7 @@ This line doesn't match");
         [Test]
         public void Parse_RequiredWithDefaultValueInInnerParser_DoesNotThrowException()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -673,7 +673,7 @@ This line doesn't match");
         [Test]
         public void Parse_RequiredAndValueParsed_DoesNotThrowException()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -697,7 +697,7 @@ Value: 123456");
         [Test]
         public void Parse_RequiredAndValueToMatchIsNotInFirstLine_ParsesValueAndDoesNotThrowException()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -724,7 +724,7 @@ Value: 123456");
         [Test]
         public void Parse_ValidateAndValueParsedThatSatisfyPredicate_ParsesValueAndDoesNotThrowException()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -749,7 +749,7 @@ Value: 123456 This value has 6 chars, so it's valid");
         [Test]
         public void Parse_ValidationAndValueParseThatDoesNotSatisfyPredicate_ParsesValueAndThrowsException()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -774,7 +774,7 @@ Value: 123456 This value doesn't have more than 10 chars, so it's invalid");
         [Test]
         public void Parse_ExceptionInCustomFactory_ThrowsException()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -798,7 +798,7 @@ Value: 123456");
         [Test]
         public void Parse_AndThenAndMatchInBothParsers_ParsersValueFromBothParsers()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -825,7 +825,7 @@ Result: 456");
         [Test]
         public void Parse_AndThenAndFirstParserDoesNotMatch_DoesNotParse()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -852,7 +852,7 @@ Result: 456");
         [Test]
         public void Parse_AndThenAndSecondParserDoesNotMatch_DoesNotParse()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -879,7 +879,7 @@ Result: This line doesn't match");
         [Test]
         public void Parse_AndThenAndMatchInBothParsersInTheSameLine_ParsersValueFromBothParsers()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -905,7 +905,7 @@ Value: 123 Result: 456");
         [Test]
         public void Parse_MatchingParserToParseFrom_ParsesFromOutputOfParser()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -936,7 +936,7 @@ Value: 123 Result: 456");
         public void Parse_NonMatchingParserToParseFrom_DoesNotParseFromOutputOfParser()
         {
             var greatherThanLineLength = 100;
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -966,7 +966,7 @@ Value: 123 Result: 456");
         [Test]
         public void Parse_LineMatchesGivenRegex_ParsesMultipleGroupsInMatchedValue()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -989,7 +989,7 @@ Value: 12345 67890");
         [Test]
         public void Parse_IfWithMatchingParserAndTruePredicate_ParsesThenParser()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -1016,7 +1016,7 @@ Result: 654321");
         [Test]
         public void Parse_IfWithMatchingParserInTheSameLine_ParsesThenParser()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -1042,7 +1042,7 @@ Value: 123456 This value has 6 chars, so it's valid Result: 654321");
         [Test]
         public void Parse_IfWithMatchingParserAndTruePredicate_DoesNotAddThenParserIfItDoesNotParse()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -1070,7 +1070,7 @@ Result: This line doesn't match");
         [Test]
         public void Parse_IfWithMatchingParserAndFalsePredicate_ParsesElseParser()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -1100,7 +1100,7 @@ Foo: Bar");
         [Test]
         public void Parse_IfWithNonMatchingParserAndTruePredicate_DoesNotParseSingleThenParser()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -1127,7 +1127,7 @@ Result: 654321");
         [Test]
         public void Parse_SingleMatchingLineAndMultipleNonMatchingLines_ParsesMatchedValueAndStopsParsing()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -1154,7 +1154,7 @@ This line doesn't match");
         [Test]
         public void Parse_NotParseAndAMatchingParser_ThrowsException()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -1177,7 +1177,7 @@ Value: 123456");
         [Test]
         public void Parse_NotParseAndANonMatchingParserWithDefaultValue_ThrowsException()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -1200,7 +1200,7 @@ This line doesn't match the given regex");
         [Test]
         public void Parse_NotParseAndANonMatchingParserWithoutDefaultValue_DoesNotThrowException()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -1222,7 +1222,7 @@ This line doesn't match the given regex");
         [Test]
         public void Parse_TwoMatchingParsers_ParsesValueAndConcatenatesThem()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -1249,7 +1249,7 @@ Result: Foo");
         [Test]
         public void Parse_TwoNonMatchingParsersWithDefaultValues_ParsesValueAndConcatenatesDefaultValues()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -1276,7 +1276,7 @@ This line doesn't match");
         [Test]
         public void Parse_AMatchingAndNonMatchingParsersWithDefaultValue_ParsesValueAndConcatenatesParsedAndDefaultValues()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -1303,7 +1303,7 @@ This line doesn't match");
         [Test]
         public void Parse_LineSeparatedByComma_ParsesValuesBetweenCommas()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -1328,7 +1328,7 @@ Value: 123456, Result: Foo");
         [Test]
         public void Parse_LineSeparatedByCommaAndIgnoreTwoSegments_ParsesValuesAfterTheSecondComma()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",

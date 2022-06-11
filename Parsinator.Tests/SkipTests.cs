@@ -12,7 +12,7 @@ namespace Parsinator.Tests
         [Test]
         public void Parse_SkipBeforeRegexAndAfterRegex_DoNotParseTextBeforeRegex()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -43,7 +43,7 @@ This line won't be ignored
         [Test]
         public void Parse_SkipBeforeRegexAndAfterRegex_DoNotParseTextAfterRegex()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -74,7 +74,7 @@ Value: 123456
         [Test]
         public void Parse_SkipBeforeRegexAndAfterRegex_ParseTextBetweenRegex()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -104,7 +104,7 @@ Value: 123456
         [Test]
         public void Parse_SkipBlankLines_ParsesTextInNonBlankLines()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -135,7 +135,7 @@ Value: 123456");
         [Test]
         public void Parse_SkipFromFirstMatchOfRegex_DoNotParseValueAfterMatch()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -164,7 +164,7 @@ Value: 123456 This line will be ignored too");
         [Test]
         public void Parse_SkipIfDoesNotMatch_DoNotParseValueInLinesWithMatch()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -193,7 +193,7 @@ This line will be ignored");
         [Test]
         public void Parse_SkipIfDoesNotMatch_ParsesTextInLinesThatDontMatch()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -224,7 +224,7 @@ This line will be ignored
         [Test]
         public void Parse_SkipIfMatches_DoNotParseValueInLinesWithMatch()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -253,7 +253,7 @@ This line will be ignored");
         [Test]
         public void Parse_SkipLineCountFromStart_DoNotParseValueInLinesFromStart()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -282,7 +282,7 @@ This line will be ignored");
         [Test]
         public void Parse_SkipLineCountFromEnd_DoNotParseValueInLinesFromEnd()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -311,7 +311,7 @@ This line will be ignored");
         [Test]
         public void Parse_SkipLineCountFromLineNumber_DoNotParseValueInLinesInRange()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -340,7 +340,7 @@ This line will be ignored");
         [Test]
         public void Parse_SkipFromFirstRegexToLastRegex_DoNotParseValueBetweenRegexes()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -369,7 +369,7 @@ This line will be ignored");
         [Test]
         public void Parse_SkipFromFirstRegexToLastRegex_ParseValueBeforeFirstRegex()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -400,7 +400,7 @@ Value: 654321
         [Test]
         public void Parse_SkipFromFirstRegexToLastRegex_ParseValueAfterLastRegex()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -431,7 +431,7 @@ Value: 654321");
         [Test]
         public void Parse_SkipFromFirstRegexToLastRegexWithoutMatchingPattern_ParseValue()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",

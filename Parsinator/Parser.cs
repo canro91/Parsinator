@@ -6,12 +6,12 @@ namespace Parsinator
     public class Parser
     {
         private readonly Dictionary<string, Dictionary<string, string>> _output;
-        private readonly IDictionary<string, IList<IParse>> _headerParsers;
-        private readonly IList<ISkip> _headerSkipers;
+        private readonly IDictionary<string, IEnumerable<IParse>> _headerParsers;
+        private readonly IEnumerable<ISkip> _headerSkipers;
         private readonly ITransform _transform;
-        private readonly IDictionary<string, IList<IParse>> _detailParsers;
+        private readonly IDictionary<string, IEnumerable<IParse>> _detailParsers;
 
-        public Parser(IDictionary<string, IList<IParse>> headerParsers, IList<ISkip> headerSkipers, ITransform transform, IDictionary<string, IList<IParse>> detailParsers)
+        public Parser(IDictionary<string, IEnumerable<IParse>> headerParsers, IEnumerable<ISkip> headerSkipers, ITransform transform, IDictionary<string, IEnumerable<IParse>> detailParsers)
         {
             _headerParsers = headerParsers;
             _headerSkipers = headerSkipers;
@@ -20,12 +20,12 @@ namespace Parsinator
             _output = new Dictionary<string, Dictionary<string, string>>();
         }
 
-        public Parser(IDictionary<string, IList<IParse>> headerParsers, IList<ISkip> headerSkipers)
+        public Parser(IDictionary<string, IEnumerable<IParse>> headerParsers, IEnumerable<ISkip> headerSkipers)
             : this(headerParsers, headerSkipers, null, null)
         {
         }
 
-        public Parser(IDictionary<string, IList<IParse>> headerParsers)
+        public Parser(IDictionary<string, IEnumerable<IParse>> headerParsers)
             : this(headerParsers, new List<ISkip>(), null, null)
         {
         }
@@ -56,7 +56,7 @@ namespace Parsinator
             return _output;
         }
 
-        private IDictionary<string, IEnumerable<IParse>> FindPasersForPage(IDictionary<string, IList<IParse>> parsers, int pageIndex, int totalPages)
+        private IDictionary<string, IEnumerable<IParse>> FindPasersForPage(IDictionary<string, IEnumerable<IParse>> parsers, int pageIndex, int totalPages)
         {
             bool isInPage(IParse t)
                 => (pageIndex == 0)
@@ -101,7 +101,7 @@ namespace Parsinator
             }
         }
 
-        private void ParseInEveryLine(IDictionary<string, IList<IParse>> toParse, IEnumerable<string> page)
+        private void ParseInEveryLine(IDictionary<string, IEnumerable<IParse>> toParse, IEnumerable<string> page)
         {
             foreach (var item in toParse)
             {
