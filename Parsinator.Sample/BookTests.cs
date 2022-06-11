@@ -99,7 +99,7 @@ Contents
                 Skip.BlankLines
             };
 
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "GeneralInfo",
@@ -115,7 +115,7 @@ Contents
             var transformation = new TransformFromSingleSkip(
                 Skip.IfDoesNotMatch(new Regex(@"^(\s*)CHAPTER(.*)")));
 
-            var d = new Dictionary<String, IList<IParse>>
+            var d = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Chapter",
@@ -137,7 +137,7 @@ Contents
             Assert.AreEqual(ExpectedXml, xml);
         }
 
-        private List<List<String>> FromText(String str)
+        private List<List<string>> FromText(string str)
         {
             return new List<List<string>> { str.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).Skip(1).ToList() };
         }

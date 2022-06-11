@@ -10,7 +10,7 @@ namespace Parsinator.Sample
     [TestFixture]
     public class InvoiceTest
     {
-        private readonly String InputFile = @"
+        private readonly string InputFile = @"
 +-------------------------------------------------------------------------------------------------------------------------------------+
 |                                                             STARK INDUSTRIES                                                        |
 +-------------------------------------------------------------------------------------------------------------------------------------+
@@ -27,7 +27,7 @@ namespace Parsinator.Sample
 |                                                                                                           |          1,000,000.00   |
 +-----------------------------------------------------------------------------------------------------------+-------------------------+";
 
-        private readonly String ExpectedXml = @"<Invoice>
+        private readonly string ExpectedXml = @"<Invoice>
   <Billing Number=""1000"" Date=""2015-04-15"" Total=""1,000,000.00"" />
   <Customer Name=""James Rhodey Rhodes"">
     <Address AddressLine=""1-23 Main St."" City=""Los Angeles"" />
@@ -70,7 +70,7 @@ namespace Parsinator.Sample
                 new SkipIfMatches(new Regex(@"(\+([\-\+])+\+)"))
             };
 
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Billing",
@@ -112,7 +112,7 @@ namespace Parsinator.Sample
                     after: new Regex(@"\|\s+\|\s+T O T A L\s+\|")));
 
             var detailRegex = new Regex(@"\|\s+(?<Code>[\w\-]+)\s+(?<Description>[\w\s]{1,48})\s+(?<Quantity>\d+)\s+(?<UnitPrice>[\d\,\.]+)\s+(?<Total>[\d\,\.]+)\s+\|");
-            var d = new Dictionary<String, IList<IParse>>
+            var d = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Product",
@@ -137,7 +137,7 @@ namespace Parsinator.Sample
             Assert.AreEqual(ExpectedXml, xml);
         }
 
-        private List<List<String>> FromText(String str)
+        private List<List<string>> FromText(string str)
         {
             return new List<List<string>> { str.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).Skip(1).ToList() };
         }

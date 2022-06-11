@@ -40,7 +40,7 @@ var lines = new List<List<string>>
     }
 };
 
-var parsers = new Dictionary<string, IList<IParser>>
+var parsers = new Dictionary<string, IEnumerable<IParser>>
 {
     {
         "PersonalData",
@@ -66,7 +66,7 @@ Alternatively, Parsinator has a fluent API to create skippers and parsers. Refer
 ```csharp
 using Parsinator.Fluent;
 
-var parsers = new Dictionary<string, IList<IParser>>
+var parsers = new Dictionary<string, IEnumerable<IParser>>
 {
     {
         "PersonalData",

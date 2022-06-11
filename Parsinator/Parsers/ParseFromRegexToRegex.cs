@@ -9,10 +9,10 @@ namespace Parsinator
         private readonly Regex FirstPattern;
         private readonly Regex SecondPattern;
 
-        private List<String> _content;
-        private Boolean _hasAtLeastOneMatch;
+        private List<string> _content;
+        private bool _hasAtLeastOneMatch;
 
-        public ParseFromRegexToRegex(String key, Regex first, Regex second, Func<IDictionary<String, String>, String> factory, Func<String> @default)
+        public ParseFromRegexToRegex(string key, Regex first, Regex second, Func<IDictionary<string, string>, string> factory, Func<string> @default)
             : base(key, factory)
         {
             this.FirstPattern = first;
@@ -22,17 +22,17 @@ namespace Parsinator
             this._hasAtLeastOneMatch = false;
         }
 
-        public ParseFromRegexToRegex(String key, Regex first, Regex second, Func<IDictionary<String, String>, String> factory)
+        public ParseFromRegexToRegex(string key, Regex first, Regex second, Func<IDictionary<string, string>, string> factory)
             : this(key: key, first: first, second: second, factory: factory, @default: null)
         {
         }
 
-        public ParseFromRegexToRegex(String key, Regex first, Regex second)
+        public ParseFromRegexToRegex(string key, Regex first, Regex second)
             : this(key: key, first: first, second: second, factory: (allLines) => string.Join(" ", allLines.Values), @default: null)
         {
         }
 
-        public override IDictionary<String, String> Parse(String line, int lineNumber, int lineNumberFromBottom)
+        public override IDictionary<string, string> Parse(string line, int lineNumber, int lineNumberFromBottom)
         {
             // TODO Check pattern is not null
 

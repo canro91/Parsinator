@@ -5,7 +5,7 @@ namespace Parsinator
 {
     public static class DataSetExtensions
     {
-        public static DataTable WithColumn(this DataTable table, String name, MappingType type = MappingType.Attribute)
+        public static DataTable WithColumn(this DataTable table, string name, MappingType type = MappingType.Attribute)
         {
             table.Columns.Add(new DataColumn(name, typeof(string)) { ColumnMapping = type });
             return table;
@@ -22,12 +22,12 @@ namespace Parsinator
             return table;
         }
 
-        private static String NameForEmptyColumn(this DataTable table)
+        private static string NameForEmptyColumn(this DataTable table)
         {
             return $"{table.TableName}-Empty";
         }
 
-        public static DataSet WithRelation(this DataSet dataSet, String parentTableName, String childTableName)
+        public static DataSet WithRelation(this DataSet dataSet, string parentTableName, string childTableName)
         {
             if (!dataSet.Tables.Contains(parentTableName))
                 throw new ArgumentNullException($"DataSet [{dataSet.DataSetName}] doesn't contain table [{parentTableName}]");

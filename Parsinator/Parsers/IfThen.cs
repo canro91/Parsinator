@@ -6,7 +6,7 @@ namespace Parsinator
 {
     public class IfThen : IParse
     {
-        private readonly Func<String, bool> Predicate;
+        private readonly Func<string, bool> Predicate;
         private readonly IParse If;
         private readonly IParse Then;
         private readonly IParse Else;
@@ -26,14 +26,14 @@ namespace Parsinator
             _output = new Dictionary<string, string>();
         }
 
-        public IfThen(Func<String, bool> predicate, IParse @if, IParse then)
+        public IfThen(Func<string, bool> predicate, IParse @if, IParse then)
             : this(predicate, @if, then, null)
         {
         }
 
-        public String Key { get; private set; }
-        public Int32? PageNumber { get; private set; }
-        public Func<String> Default
+        public string Key { get; private set; }
+        public int? PageNumber { get; private set; }
+        public Func<string> Default
         {
             get
             {

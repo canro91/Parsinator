@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -11,7 +10,7 @@ namespace Parsinator.Tests
         [Test]
         public void Parse_GivenPageAndMatchingPattern_ParsesPatternFromGivenPage()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -36,7 +35,7 @@ namespace Parsinator.Tests
         [Test]
         public void Parse_GivenNegativePageAndMatchingPattern_ParsesPatternFromLastPage()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -60,7 +59,7 @@ namespace Parsinator.Tests
         [Test]
         public void Parse_GivenNegativePageAndSinglePageText_ParsesPatternFromLastPage()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -83,7 +82,7 @@ Value: 123456");
         [Test]
         public void Parse_ParserWithoutPage_ParsesPatternInFirstPage()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -109,7 +108,7 @@ Value: 123456");
         [Test]
         public void Parse_SingleParserWithPageAndPatternInMultiplePages_ParsesPatternOnlyInGivenPage()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -133,7 +132,7 @@ Value: 123456");
         [Test]
         public void Parse_RequiredInnerParserWithPageAndValueParsed_DoesNotThrowException()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -158,7 +157,7 @@ Value: 123456");
         [Test]
         public void Parse_ValidateInnerParserWithPageAndValueParsedThatSatisfyPredicate_ParsesValueAndDoesNotThrowException()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -184,7 +183,7 @@ Value: 123456");
         [Test]
         public void Parse_OrElseAndMatchInTheFirstParserWithPage_ParsesValueFromFirstParserInGivenPage()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -211,7 +210,7 @@ Value: 123456");
         [Test]
         public void Parse_OrElseAndMatchInTheSecondParserWithPage_ParsesValueFromFirstParserInGivenPage()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -238,7 +237,7 @@ Value: 123456");
         [Test]
         public void Parse_AndThenAndMatchInBothParsersWithPages_ParsersValueFromBothParsersInGivenPages()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -266,7 +265,7 @@ Value: 123456");
         [Test]
         public void Parse_ConcatenateTwoPagedParsers_ParsersValueFromBothParsersInGivenPages()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -294,7 +293,7 @@ Value: 123456");
         [Test]
         public void Parse_ConcatenateTwoPagedParsersAndNegativePageNumber_ParsersValueFromBothParsersInGivenPages()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -322,7 +321,7 @@ Value: 123456");
         [Test]
         public void Parse_ConcatenateTwoPagedParsersAnNegativePageNumberFirst_ParsersValueFromBothParsersInGivenPages()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",

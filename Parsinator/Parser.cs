@@ -1,46 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace Parsinator
 {
     public class Parser
     {
-        private readonly Dictionary<String, Dictionary<String, String>> _output;
-        private readonly IDictionary<String, IList<IParse>> _headerParsers;
-        private readonly IList<ISkip> _headerSkipers;
+        private readonly Dictionary<string, Dictionary<string, string>> _output;
+        private readonly IDictionary<string, IEnumerable<IParse>> _headerParsers;
+        private readonly IEnumerable<ISkip> _headerSkipers;
         private readonly ITransform _transform;
-        private readonly IDictionary<String, IList<IParse>> _detailParsers;
+        private readonly IDictionary<string, IEnumerable<IParse>> _detailParsers;
 
-        public Parser(IDictionary<String, IList<IParse>> headerParsers, IList<ISkip> headerSkipers, ITransform transform, IDictionary<String, IList<IParse>> detailParse)
+        public Parser(IDictionary<string, IEnumerable<IParse>> headerParsers, IEnumerable<ISkip> headerSkipers, ITransform transform, IDictionary<string, IEnumerable<IParse>> detailParsers)
         {
             _headerParsers = headerParsers;
             _headerSkipers = headerSkipers;
             _transform = transform;
-            _detailParsers = detailParse;
+            _detailParsers = detailParsers;
             _output = new Dictionary<string, Dictionary<string, string>>();
         }
 
-        public Parser(IDictionary<string, IList<IParse>> headerParsers, IList<ISkip> headerSkipers)
+        public Parser(IDictionary<string, IEnumerable<IParse>> headerParsers, IEnumerable<ISkip> headerSkipers)
             : this(headerParsers, headerSkipers, null, null)
         {
         }
 
-        public Parser(IDictionary<string, IList<IParse>> headerParsers)
+        public Parser(IDictionary<string, IEnumerable<IParse>> headerParsers)
             : this(headerParsers, new List<ISkip>(), null, null)
         {
         }
 
-        public Dictionary<string, Dictionary<string, string>> Parse(List<List<String>> lines)
+        public Dictionary<string, Dictionary<string, string>> Parse(IEnumerable<IEnumerable<string>> lines)
         {
-            List<List<String>> pages = _headerSkipers.Chain(lines);
+            var pages = _headerSkipers.Chain(lines);
 
             // WARNING: To find values from header, the parsers are only applied
             // on the first page, if a page number isn't specified
             foreach (var page in pages.Select((Content, Number) => new { Number, Content }))
             {
-                var parsers = FindPasersForPage(_headerParsers, page.Number, lines.Count);
+                var parsers = FindPasersForPage(_headerParsers, page.Number, lines.Count());
                 if (parsers.Any())
                     ParseOnceInPage(parsers, page.Content);
             }
@@ -48,7 +46,7 @@ namespace Parsinator
             if (_detailParsers != null && _detailParsers.Any())
             {
                 // WARNING: Remove from the equation wrapping lines from page to the next
-                List<String> details = (_transform != null)
+                var details = (_transform != null)
                         ? _transform.Transform(pages)
                         : pages.SelectMany(t => t).ToList();
 
@@ -58,7 +56,7 @@ namespace Parsinator
             return _output;
         }
 
-        private IDictionary<string, IEnumerable<IParse>> FindPasersForPage(IDictionary<string, IList<IParse>> parsers, int pageIndex, int totalPages)
+        private IDictionary<string, IEnumerable<IParse>> FindPasersForPage(IDictionary<string, IEnumerable<IParse>> parsers, int pageIndex, int totalPages)
         {
             bool isInPage(IParse t)
                 => (pageIndex == 0)
@@ -71,7 +69,7 @@ namespace Parsinator
                     : new Dictionary<string, IEnumerable<IParse>>();
         }
 
-        private void ParseOnceInPage(IDictionary<string, IEnumerable<IParse>> toParse, List<string> page)
+        private void ParseOnceInPage(IDictionary<string, IEnumerable<IParse>> toParse, IEnumerable<string> page)
         {
             foreach (var item in toParse)
             {
@@ -87,7 +85,7 @@ namespace Parsinator
                     // TODO Call only once a parser if it has line number
                     foreach (var parser in parsers.Where(t => !t.HasMatched))
                     {
-                        var result = parser.Parse(line.Content, line.Number + 1, line.Number - page.Count);
+                        var result = parser.Parse(line.Content, line.Number + 1, line.Number - page.Count());
                         if (parser.HasMatched)
                         {
                             row.Merge(result);
@@ -103,7 +101,7 @@ namespace Parsinator
             }
         }
 
-        private void ParseInEveryLine(IDictionary<string, IList<IParse>> toParse, List<string> page)
+        private void ParseInEveryLine(IDictionary<string, IEnumerable<IParse>> toParse, IEnumerable<string> page)
         {
             foreach (var item in toParse)
             {
@@ -116,7 +114,7 @@ namespace Parsinator
 
                     foreach (var parser in parsers)
                     {
-                        var result = parser.Parse(line.Content, line.Number + 1, line.Number - page.Count);
+                        var result = parser.Parse(line.Content, line.Number + 1, line.Number - page.Count());
                         if (parser.HasMatched)
                         {
                             row.Merge(result);

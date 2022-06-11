@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace Parsinator
@@ -10,14 +9,15 @@ namespace Parsinator
 
         public TransformFromSingleSkip(ISkip skip)
         {
-            this.ToSkip = skip;
+            ToSkip = skip;
         }
 
-        public List<string> Transform(List<List<string>> allPages)
+        public IEnumerable<string> Transform(IEnumerable<IEnumerable<string>> allPages)
         {
-            List<String> details = ToSkip.Skip(allPages)
-                                         .SelectMany(t => t)
-                                         .ToList();
+            var details = ToSkip.Skip(allPages)
+                                .SelectMany(t => t)
+                                .ToList();
+
             return details;
         }
     }

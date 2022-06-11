@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Parsinator
 {
     public interface ISkip
     {
-        List<List<String>> Skip(List<List<String>> lines);
+        IEnumerable<IEnumerable<string>> Skip(IEnumerable<IEnumerable<string>> lines);
     }
 }

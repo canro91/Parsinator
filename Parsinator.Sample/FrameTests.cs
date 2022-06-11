@@ -14,7 +14,7 @@ namespace Parsinator.Sample
         {
             var frame = "242400676315802812345699553131333035392E30302C412C313032342E37363537392C4E2C30373532382E30313237392C572C302E3030302C2C3235303131377C31322E327C3139347C303030307C303030302C303030307C3032383033303433395BF80D0A";
 
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -50,7 +50,7 @@ namespace Parsinator.Sample
         {
             var frame = "242400676315802812345699553131333035392E30302C412C313032342E37363537392C4E2C30373532382E30313237392C572C302E3030302C2C3235303131377C31322E327C3139347C303030307C303030302C303030307C3032383033303433395BF80D0A";
 
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -117,7 +117,7 @@ namespace Parsinator.Sample
         {
             var frame = "24240064621700171234569999013135323331342C412C313032322E373936332C4E2C30373532392E303135312C572C3030302C3333322C3139303731377C31322E327C3139347C304230307C303030302C303439387C3030303030303030324BAA0D0A";
 
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",

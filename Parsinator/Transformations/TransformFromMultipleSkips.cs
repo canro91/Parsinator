@@ -1,23 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace Parsinator.Transformers
 {
     public class TransformFromMultipleSkips : ITransform
     {
-        private readonly IList<ISkip> ToSkip;
+        private readonly IEnumerable<ISkip> ToSkip;
 
-        public TransformFromMultipleSkips(IList<ISkip> skippers)
+        public TransformFromMultipleSkips(IEnumerable<ISkip> skippers)
         {
             ToSkip = skippers;
         }
 
-        public List<string> Transform(List<List<string>> allPages)
+        public IEnumerable<string> Transform(IEnumerable<IEnumerable<string>> allPages)
         {
-            List<String> details = ToSkip.Chain(allPages)
-                                         .SelectMany(t => t)
-                                         .ToList();
+            var details = ToSkip.Chain(allPages)
+                                .SelectMany(t => t)
+                                .ToList();
+
             return details;
         }
     }

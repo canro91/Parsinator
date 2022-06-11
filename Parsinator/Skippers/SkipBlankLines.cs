@@ -5,7 +5,7 @@ namespace Parsinator
 {
     public class SkipBlankLines : ISkip
     {
-        public List<List<string>> Skip(List<List<string>> lines)
+        public IEnumerable<IEnumerable<string>> Skip(IEnumerable<IEnumerable<string>> lines)
         {
             var skipped = lines.Select(l => l.Where(t => !string.IsNullOrEmpty(t))
                                              .ToList())

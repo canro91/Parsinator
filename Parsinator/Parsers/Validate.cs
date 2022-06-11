@@ -6,10 +6,10 @@ namespace Parsinator
 {
     public class Validate : IParse
     {
-        private readonly Predicate<IDictionary<String, String>> Predicate;
+        private readonly Predicate<IDictionary<string, string>> Predicate;
         private readonly IParse P;
 
-        public Validate(Predicate<IDictionary<String, String>> predicate, IParse p)
+        public Validate(Predicate<IDictionary<string, string>> predicate, IParse p)
         {
             this.Predicate = predicate;
             this.P = p;
@@ -18,9 +18,9 @@ namespace Parsinator
             this.Default = p.Default;
         }
 
-        public String Key { get; private set; }
-        public Int32? PageNumber { get; }
-        public Func<String> Default { get; private set; }
+        public string Key { get; private set; }
+        public int? PageNumber { get; }
+        public Func<string> Default { get; private set; }
         public bool HasMatched { get; private set; }
 
         public IDictionary<string, string> Parse(string line, int lineNumber, int lineNumberFromBottom)

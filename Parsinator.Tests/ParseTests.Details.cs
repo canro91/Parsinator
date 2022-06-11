@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
@@ -10,7 +9,7 @@ namespace Parsinator.Tests
 		[Test]
 		public void Parse_Details_ApplyDetailsInEveryLine()
 		{
-			var p = new Dictionary<String, IList<IParse>>
+			var p = new Dictionary<string, IEnumerable<IParse>>
 			{
 				{
 					"Header",
@@ -26,7 +25,7 @@ namespace Parsinator.Tests
 								before: new Regex(@"-- Details --"),
 								after: new Regex(@"-- End of Details --")));
 
-			var d = new Dictionary<String, IList<IParse>>
+			var d = new Dictionary<string, IEnumerable<IParse>>
 			{
 				{
 					"Details",
@@ -61,7 +60,7 @@ Value: 20
 		[Test]
 		public void Parse_Details_ApplyDetailsInEveryLine2()
 		{
-			var p = new Dictionary<String, IList<IParse>>
+			var p = new Dictionary<string, IEnumerable<IParse>>
 			{
 				{
 					"Header",
@@ -77,7 +76,7 @@ Value: 20
 								before: new Regex(@"-- Details --"),
 								after: new Regex(@"-- End of Details --")));
 
-			var d = new Dictionary<String, IList<IParse>>
+			var d = new Dictionary<string, IEnumerable<IParse>>
 			{
 				{
 					"Details",

@@ -8,7 +8,7 @@ namespace Parsinator
         private readonly Func<T, T> Next;
         private T _current;
 
-        public ParseFromGenerator(String key, T seed, Func<T, T> next)
+        public ParseFromGenerator(string key, T seed, Func<T, T> next)
         {
             this.Key = key;
             this.Default = null;
@@ -17,9 +17,9 @@ namespace Parsinator
             this._current = seed;
         }
 
-        public String Key { get; private set; }
-        public Int32? PageNumber { get; private set; }
-        public Func<String> Default { get; private set; }
+        public string Key { get; private set; }
+        public int? PageNumber { get; private set; }
+        public Func<string> Default { get; private set; }
         public bool HasMatched { get; private set; }
 
         public IDictionary<string, string> Parse(string line, int lineNumber, int lineNumberFromBottom)

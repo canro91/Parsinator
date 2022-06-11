@@ -13,7 +13,7 @@ namespace Parsinator.Tests.Fluent
         [Test]
         public void Parse_SkipBeforeRegexAndAfterRegex_DoNotParseTextBeforeOrAfterRegexes()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -45,7 +45,7 @@ Value: 654321
         [Test]
         public void Parse_SkipLineCountFromLineNumber_DoNotParseValueInLinesInRange()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",
@@ -74,7 +74,7 @@ Value: 654321
         [Test]
         public void Parse_SkipFromFirstRegexToLastRegex_DoNotParseValueBetweenRegexes()
         {
-            var p = new Dictionary<String, IList<IParse>>
+            var p = new Dictionary<string, IEnumerable<IParse>>
             {
                 {
                     "Key",

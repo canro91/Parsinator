@@ -9,7 +9,7 @@ namespace Parsinator
         private readonly int LineNumber;
         private readonly Regex Pattern;
 
-        public ParseFromLineNumberWithRegex(String key, int lineNumber, Regex pattern, Func<IDictionary<String, String>, String> factory)
+        public ParseFromLineNumberWithRegex(string key, int lineNumber, Regex pattern, Func<IDictionary<string, string>, string> factory)
             : base(key, factory)
         {
             this.LineNumber = lineNumber;
@@ -21,7 +21,7 @@ namespace Parsinator
         {
         }
 
-        public override IDictionary<String, String> Parse(String line, int lineNumber, int lineNumberFromBottom)
+        public override IDictionary<string, string> Parse(string line, int lineNumber, int lineNumberFromBottom)
         {
             if (lineNumber == this.LineNumber || (this.LineNumber < 0 && lineNumberFromBottom == this.LineNumber))
             {
