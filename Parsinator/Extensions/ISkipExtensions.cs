@@ -7,15 +7,9 @@ namespace Parsinator
     {
         internal static IEnumerable<IEnumerable<string>> Chain(this IEnumerable<ISkip> skips, IEnumerable<IEnumerable<string>> lines)
         {
-            var pages = lines;
-            if (skips != null && skips.Any())
-            {
-                foreach (var s in skips)
-                {
-                    pages = s.Skip(pages);
-                }
-            }
-            return pages;
+            return skips != null && skips.Any()
+                ? skips.Aggregate(lines, (pages, skip) => skip.Skip(pages))
+                : lines;
         }
     }
 }
