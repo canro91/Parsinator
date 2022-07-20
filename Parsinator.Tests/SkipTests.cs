@@ -457,8 +457,40 @@ Value: 654321");
             Assert.AreEqual("123456", ds["Key"]["Value"]);
         }
 
+        [Test]
+        public void Parse_MultipleSkippers_ParseValue()
+        {
+            var p = new Dictionary<string, IEnumerable<IParse>>
+            {
+                {
+                    "Key",
+                    new List<IParse>
+                    {
+                        new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"))
+                    }
+                }
+            };
+            var s = new List<ISkip>
+            {
+                new SkipLineCountFromStart(2),
+                new SkipFromFirstRegexToLastRegex(first: new Regex(@"--BEGIN--"), last: new Regex(@"--END--")),
+            };
+            var lines = FromText(@"
+1 This line will be ignored...Value: 123
+2 This line will be ignored...Value: 456
+--BEGIN--
+3 Value: 123456 This line will be ignored too
+--END--
+4 Value: 654321");
 
-        private List<List<String>> FromText(String str)
+            var parser = new Parser(p, s);
+            var ds = parser.Parse(lines);
+
+            Assert.IsTrue(ds["Key"].ContainsKey("Value"));
+            Assert.AreEqual("654321", ds["Key"]["Value"]);
+        }
+
+        private List<List<string>> FromText(string str)
         {
             return new List<List<string>> { str.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).Skip(1).ToList() };
         }
