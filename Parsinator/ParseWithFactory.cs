@@ -19,24 +19,18 @@ namespace Parsinator
         }
 
         protected ParseWithFactory(string key, Func<IDictionary<string, string>, string> factory, Func<string> @default)
+            : this(key, null, factory, @default)
         {
-            Key = key;
-            Default = @default;
-
-            _func = factory;
         }
 
         protected ParseWithFactory(string key, Func<IDictionary<string, string>, string> factory)
+            : this(key, null, factory, null)
         {
-            Key = key;
-
-            _func = factory;
         }
 
         protected ParseWithFactory(string key, Func<string, string> factory)
+            : this(key, null, null, null)
         {
-            Key = key;
-
             _func2 = factory;
         }
 
