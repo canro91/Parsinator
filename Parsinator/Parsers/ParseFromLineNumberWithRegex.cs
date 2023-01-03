@@ -4,24 +4,24 @@ using System.Text.RegularExpressions;
 
 namespace Parsinator
 {
-    public class ParseFromLineNumberWithRegex : ParseWithFactory
+    public class ParseFromLineNumberWithRegex : IParse
     {
         private readonly int LineNumber;
         private readonly Regex Pattern;
 
-        public ParseFromLineNumberWithRegex(string key, int lineNumber, Regex pattern, Func<IDictionary<string, string>, string> factory)
-            : base(key, factory)
+        public ParseFromLineNumberWithRegex(string key, int lineNumber, Regex pattern)
         {
+            this.Key = key;
             this.LineNumber = lineNumber;
             this.Pattern = pattern;
         }
 
-        public ParseFromLineNumberWithRegex(string key, int lineNumber, Regex pattern)
-            : this(key, lineNumber, pattern, null)
-        {
-        }
+        public string Key { get; private set; }
+        public int? PageNumber { get; private set; }
+        public Func<string> Default { get; private set; }
+        public bool HasMatched { get; private set; }
 
-        public override IDictionary<string, string> Parse(string line, int lineNumber, int lineNumberFromBottom)
+        public IDictionary<string, string> Parse(string line, int lineNumber, int lineNumberFromBottom)
         {
             if (lineNumber == this.LineNumber || (this.LineNumber < 0 && lineNumberFromBottom == this.LineNumber))
             {
@@ -29,7 +29,7 @@ namespace Parsinator
                 if (matches.Success)
                 {
                     HasMatched = true;
-                    var value = (HasFactory) ? Factory(matches.Enumerate(Pattern)) : matches.Groups[1].Value;
+                    var value = matches.Groups[1].Value;
                     return new Dictionary<string, string> { { Key, value.Trim() } };
                 }
             }

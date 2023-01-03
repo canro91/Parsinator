@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Parsinator
 {
-    public class AndThen : ParseWithFactory
+    public class AndThen : IParse
     {
         private readonly IParse First;
         private readonly IParse Second;
@@ -11,9 +11,10 @@ namespace Parsinator
         private bool _firstHasMatched;
         private IDictionary<string, string> _firstResult;
 
-        public AndThen(string key, Func<IDictionary<string, string>, string> factory, IParse first, IParse second)
-            : base(key, factory)
+        public AndThen(string key, IParse first, IParse second)
         {
+            Key = key;
+
             First = first;
             Second = second;
             PageNumber = first.PageNumber;
@@ -23,18 +24,17 @@ namespace Parsinator
             _firstResult = new Dictionary<string, string>();
         }
 
-        public AndThen(Func<IDictionary<string, string>, string> factory, IParse first, IParse second)
-            : this($"{first.Key}&{second.Key}", factory, first, second)
-        {
-        }
-
         public AndThen(IParse first, IParse second)
-            : this($"{first.Key}&{second.Key}", null, first, second)
+            : this($"{first.Key}&{second.Key}", first, second)
         {
         }
 
+        public string Key { get; private set; }
+        public int? PageNumber { get; private set; }
+        public Func<string> Default { get; private set; }
+        public bool HasMatched { get; private set; }
 
-        public override IDictionary<string, string> Parse(string line, int lineNumber, int lineNumberFromBottom)
+        public IDictionary<string, string> Parse(string line, int lineNumber, int lineNumberFromBottom)
         {
             if (!_firstHasMatched)
             {
@@ -53,12 +53,10 @@ namespace Parsinator
                 if (Second.HasMatched)
                 {
                     HasMatched = true;
-                    var accumulated = new Dictionary<string, string>(_firstResult).Merge(result2);
-                    return (HasFactory)
-                                ? new Dictionary<string, string> { { Key, Factory(accumulated) } }
-                                : accumulated;
+                    return _firstResult.Merge(result2);
                 }
             }
+
             return new Dictionary<string, string>();
         }
     }

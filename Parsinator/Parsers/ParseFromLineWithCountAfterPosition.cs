@@ -3,26 +3,26 @@ using System.Collections.Generic;
 
 namespace Parsinator
 {
-    public class ParseFromLineWithCountAfterPosition : ParseWithFactory
+    public class ParseFromLineWithCountAfterPosition : IParse
     {
         private readonly int LineNumber;
         private readonly int StartPosition;
         private readonly int CharCount;
 
-        public ParseFromLineWithCountAfterPosition(string key, int lineNumber, int startPosition, int charCount, Func<String, String> factory)
-            : base(key, factory)
+        public ParseFromLineWithCountAfterPosition(string key, int lineNumber, int startPosition, int charCount)
         {
+            this.Key = key;
             this.LineNumber = lineNumber;
             this.StartPosition = startPosition;
             this.CharCount = charCount;
         }
 
-        public ParseFromLineWithCountAfterPosition(string key, int lineNumber, int startPosition, int charCount)
-            : this(key, lineNumber, startPosition, charCount, null)
-        {
-        }
+        public string Key { get; private set; }
+        public int? PageNumber { get; private set; }
+        public Func<string> Default { get; private set; }
+        public bool HasMatched { get; private set; }
 
-        public override IDictionary<string, string> Parse(string line, int lineNumber, int lineNumberFromBottom)
+        public IDictionary<string, string> Parse(string line, int lineNumber, int lineNumberFromBottom)
         {
             if (lineNumber == this.LineNumber || (this.LineNumber < 0 && lineNumberFromBottom == this.LineNumber))
             {
@@ -42,10 +42,10 @@ namespace Parsinator
                     var length = (CharCount < 0) ? line.Length + CharCount - startIndex : CharCount;
 
                     var substring = line.Substring(startIndex, length);
-                    var value = HasFactory ? Factory(substring) : substring;
-                    return new Dictionary<string, string> { { Key, value.Trim() } };
+                    return new Dictionary<string, string> { { Key, substring.Trim() } };
                 }
             }
+
             return new Dictionary<string, string>();
         }
     }

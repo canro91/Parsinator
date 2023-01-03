@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace Parsinator
 {
-    public class ParseFromRegexToRegex : ParseWithFactory
+    public class ParseFromRegexToRegex : IParse
     {
         private readonly Regex FirstPattern;
         private readonly Regex SecondPattern;
@@ -12,9 +12,10 @@ namespace Parsinator
         private List<string> _content;
         private bool _hasAtLeastOneMatch;
 
-        public ParseFromRegexToRegex(string key, Regex first, Regex second, Func<IDictionary<string, string>, string> factory, Func<string> @default)
-            : base(key, factory)
+        public ParseFromRegexToRegex(string key, Regex first, Regex second, Func<string> @default)
         {
+            this.Key = key;
+            this.Default = @default;
             this.FirstPattern = first;
             this.SecondPattern = second;
 
@@ -22,17 +23,17 @@ namespace Parsinator
             this._hasAtLeastOneMatch = false;
         }
 
-        public ParseFromRegexToRegex(string key, Regex first, Regex second, Func<IDictionary<string, string>, string> factory)
-            : this(key: key, first: first, second: second, factory: factory, @default: null)
-        {
-        }
-
         public ParseFromRegexToRegex(string key, Regex first, Regex second)
-            : this(key: key, first: first, second: second, factory: (allLines) => string.Join(" ", allLines.Values), @default: null)
+            : this(key: key, first: first, second: second, @default: null)
         {
         }
 
-        public override IDictionary<string, string> Parse(string line, int lineNumber, int lineNumberFromBottom)
+        public string Key { get; private set; }
+        public int? PageNumber { get; private set; }
+        public Func<string> Default { get; private set; }
+        public bool HasMatched { get; private set; }
+
+        public IDictionary<string, string> Parse(string line, int lineNumber, int lineNumberFromBottom)
         {
             // TODO Check pattern is not null
 
@@ -46,8 +47,7 @@ namespace Parsinator
                 if (matches.Success)
                 {
                     HasMatched = true;
-                    var value = Factory(_content.Enumerate()) ?? Default();
-                    return new Dictionary<string, string> { { Key, value } };
+                    return _content.Enumerate(prefix: Key);
                 }
                 else
                 {

@@ -42,7 +42,7 @@ namespace Parsinator.Tests
 Value: 20
 -- Details --
 1 Item1 10
-2 Item2 10
+2 Item2 20
 -- End of Details --");
 
 			var parser = new Parser(p, s, t, d);
@@ -52,9 +52,11 @@ Value: 20
 
 			Assert.IsTrue(ds.ContainsKey("Details[1]"));
 			Assert.AreEqual("Item1", ds["Details[1]"]["Name"]);
+			Assert.AreEqual("10", ds["Details[1]"]["Value"]);
 
 			Assert.IsTrue(ds.ContainsKey("Details[2]"));
 			Assert.AreEqual("Item2", ds["Details[2]"]["Name"]);
+			Assert.AreEqual("20", ds["Details[2]"]["Value"]);
 		}
 
 		[Test]
