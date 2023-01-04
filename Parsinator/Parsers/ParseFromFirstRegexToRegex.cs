@@ -42,6 +42,7 @@ namespace Parsinator
                 if (matches.Success)
                 {
                     HasMatched = true;
+                    // Do not add the line matching SecondPattern
                     return _content.Enumerate(prefix: Key);
                 }
                 else

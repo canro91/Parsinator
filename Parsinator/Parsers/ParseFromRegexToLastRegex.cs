@@ -34,6 +34,7 @@ namespace Parsinator
             if (!_hasAtLeastOneMatch && FirstPattern.IsMatch(line))
             {
                 _hasAtLeastOneMatch = true;
+                // Do not add the line matching FirstPattern
             }
             else if (_hasAtLeastOneMatch)
             {

@@ -40,6 +40,7 @@ namespace Parsinator
             if (!_hasAtLeastOneMatch && FirstPattern.IsMatch(line))
             {
                 _hasAtLeastOneMatch = true;
+                // Do not add the line matching FirstPattern
             }
             else if (_hasAtLeastOneMatch)
             {
@@ -47,6 +48,7 @@ namespace Parsinator
                 if (matches.Success)
                 {
                     HasMatched = true;
+                    // Do not add the line matching SecondPattern
                     return _content.Enumerate(prefix: Key);
                 }
                 else
