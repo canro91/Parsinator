@@ -1369,12 +1369,12 @@ This segment will be ignored, This segment will be ignored too, Value: 123456, R
             Assert.AreEqual("Result: Foo", ds["Key"]["Value[1]"]);
         }
 
-        private List<List<String>> FromPagesText(params String[] str)
+        private List<List<string>> FromPagesText(params string[] str)
         {
             return str.Select(t => t.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).ToList()).ToList();
         }
 
-        private List<List<String>> FromText(String str)
+        private List<List<string>> FromText(string str)
         {
             return new List<List<string>> { str.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).Skip(1).ToList() };
         }
