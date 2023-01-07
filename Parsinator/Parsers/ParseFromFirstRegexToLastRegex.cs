@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace Parsinator
 {
-    public class ParseFromFirstRegexToLastRegex : ParseWithFactory
+    public class ParseFromFirstRegexToLastRegex : IParse
     {
         private readonly Regex FirstPattern;
         private readonly Regex SecondPattern;
@@ -12,9 +12,10 @@ namespace Parsinator
         private List<string> _content;
         private bool _hasAtLeastOneMatch;
 
-        public ParseFromFirstRegexToLastRegex(string key, Regex first, Regex second, Func<IDictionary<string, string>, string> factory, Func<string> @default)
-            : base(key, factory, @default)
+        public ParseFromFirstRegexToLastRegex(string key, Regex first, Regex second)
         {
+            this.Key = key;
+
             this.FirstPattern = first;
             this.SecondPattern = second;
 
@@ -22,12 +23,12 @@ namespace Parsinator
             this._hasAtLeastOneMatch = false;
         }
 
-        public ParseFromFirstRegexToLastRegex(string key, Regex first, Regex second)
-            : this(key, first, second, factory: (allLines) => string.Join(" ", allLines.Values), @default: null)
-        {
-        }
+        public string Key { get; private set; }
+        public int? PageNumber { get; private set; }
+        public Func<string> Default { get; private set; }
+        public bool HasMatched { get; private set; }
 
-        public override IDictionary<string, string> Parse(string line, int lineNumber, int lineNumberFromBottom)
+        public IDictionary<string, string> Parse(string line, int lineNumber, int lineNumberFromBottom)
         {
             // TODO Check pattern is not null
 
@@ -43,8 +44,7 @@ namespace Parsinator
                 {
                     HasMatched = true;
                     _content.Add(line.Trim());
-                    var value = Factory(_content.Enumerate()) ?? Default();
-                    return new Dictionary<string, string> { { Key, value } };
+                    return _content.Enumerate(prefix: Key);
                 }
                 else
                 {

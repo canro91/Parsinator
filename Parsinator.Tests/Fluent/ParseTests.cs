@@ -76,7 +76,8 @@ Value: 123456");
             var parser = new Parser(p);
             var ds = parser.Parse(lines);
 
-            Assert.AreEqual("1 Any 2 value", ds["Key"]["Value"]);
+            Assert.AreEqual("1 Any", ds["Key"]["Value[0]"]);
+            Assert.AreEqual("2 value", ds["Key"]["Value[1]"]);
         }
 
         [Test]
@@ -127,7 +128,8 @@ This line will be ignored");
             var parser = new Parser(p);
             var ds = parser.Parse(lines);
 
-            Assert.AreEqual("Any value", ds["Key"]["Value"]);
+            Assert.AreEqual("Any", ds["Key"]["Value[0]"]);
+            Assert.AreEqual("value", ds["Key"]["Value[1]"]);
         }
 
         [Test]
@@ -154,7 +156,9 @@ This line will be ignored");
             var parser = new Parser(p);
             var ds = parser.Parse(lines);
 
-            Assert.AreEqual("--Begin-- Any value", ds["Key"]["Value"]);
+            Assert.AreEqual("--Begin--", ds["Key"]["Value[0]"]);
+            Assert.AreEqual("Any", ds["Key"]["Value[1]"]);
+            Assert.AreEqual("value", ds["Key"]["Value[2]"]);
         }
 
         [Test]
@@ -181,7 +185,9 @@ This line will be ignored");
             var parser = new Parser(p);
             var ds = parser.Parse(lines);
 
-            Assert.AreEqual("Any value --End--", ds["Key"]["Value"]);
+            Assert.AreEqual("Any", ds["Key"]["Value[0]"]);
+            Assert.AreEqual("value", ds["Key"]["Value[1]"]);
+            Assert.AreEqual("--End--", ds["Key"]["Value[2]"]);
         }
 
         [Test]
@@ -208,7 +214,10 @@ This line will be ignored");
             var parser = new Parser(p);
             var ds = parser.Parse(lines);
 
-            Assert.AreEqual("--Begin-- Any value --End--", ds["Key"]["Value"]);
+            Assert.AreEqual("--Begin--", ds["Key"]["Value[0]"]);
+            Assert.AreEqual("Any", ds["Key"]["Value[1]"]);
+            Assert.AreEqual("value", ds["Key"]["Value[2]"]);
+            Assert.AreEqual("--End--", ds["Key"]["Value[3]"]);
         }
 
         [Test]

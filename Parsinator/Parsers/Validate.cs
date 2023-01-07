@@ -6,10 +6,10 @@ namespace Parsinator
 {
     public class Validate : IParse
     {
-        private readonly Predicate<IDictionary<string, string>> Predicate;
+        private readonly Func<IDictionary<string, string>, bool> Predicate;
         private readonly IParse P;
 
-        public Validate(Predicate<IDictionary<string, string>> predicate, IParse p)
+        public Validate(Func<IDictionary<string, string>, bool> predicate, IParse p)
         {
             this.Predicate = predicate;
             this.P = p;

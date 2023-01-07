@@ -243,10 +243,11 @@ Value: 123456");
                     "Key",
                     new List<IParse>
                     {
-                        new AndThen(
+                        new Flatten(
                             (output) => $"{string.Join("", output.Values)}",
-                            new ParseFromRegex(key: "Value", pageNumber: 2, pattern: new Regex(@"Value:\s*(\d+)")),
-                            new ParseFromRegex(key: "Result", pageNumber: 3, pattern: new Regex(@"Result:\s*(\d+)")))
+                            new AndThen(
+                                new ParseFromRegex(key: "Value", pageNumber: 2, pattern: new Regex(@"Value:\s*(\d+)")),
+                                new ParseFromRegex(key: "Result", pageNumber: 3, pattern: new Regex(@"Result:\s*(\d+)"))))
                     }
                 }
             };

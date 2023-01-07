@@ -4,14 +4,19 @@ using System.Text.RegularExpressions;
 
 namespace Parsinator
 {
-    public class ParseFromRegex : ParseWithFactory
+    public class ParseFromRegex : IParse
     {
-        public Regex Pattern { get; private set; }
+        private readonly Regex Pattern;
+        private readonly Func<IDictionary<string, string>, string> Factory;
 
         public ParseFromRegex(string key, Regex pattern, int? pageNumber, Func<IDictionary<string, string>, string> factory, Func<string> @default)
-            : base(key, pageNumber, factory, @default)
         {
+            this.Key = key;
+            this.PageNumber = pageNumber;
+            this.Default = @default;
+
             this.Pattern = pattern;
+            this.Factory = factory;
         }
 
         public ParseFromRegex(string key, Regex pattern, Func<string> @default)
@@ -24,7 +29,7 @@ namespace Parsinator
         {
         }
 
-        public ParseFromRegex(string key, Regex pattern, Int32 pageNumber)
+        public ParseFromRegex(string key, Regex pattern, int pageNumber)
             : this(key, pattern, pageNumber, null, null)
         {
         }
@@ -34,7 +39,12 @@ namespace Parsinator
         {
         }
 
-        public override IDictionary<string, string> Parse(string line, int lineNumber, int lineNumberFromBottom)
+        public string Key { get; private set; }
+        public int? PageNumber { get; protected set; }
+        public Func<string> Default { get; private set; }
+        public bool HasMatched { get; protected set; }
+
+        public IDictionary<string, string> Parse(string line, int lineNumber, int lineNumberFromBottom)
         {
             // TODO Check pattern is not null
 
@@ -42,9 +52,12 @@ namespace Parsinator
             if (matches.Success)
             {
                 HasMatched = true;
-                var value = (HasFactory) ? Factory(matches.Enumerate(Pattern)) : matches.Groups[1].Value;
+                var value = Factory != null
+                    ? Factory(matches.Enumerate(Pattern))
+                    : matches.Groups[1].Value;
                 return new Dictionary<string, string> { { Key, value.Trim() } };
             }
+
             return new Dictionary<string, string>();
         }
     }

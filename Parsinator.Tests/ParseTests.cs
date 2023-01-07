@@ -115,7 +115,9 @@ Value: 123456");
                     "Key",
                     new List<IParse>
                     {
-                        new ParseFromLineNumberUntilFirstMatchOfRegex(key: "Value", lineNumber: 1, pattern: new Regex(@"--End--"), factory: (allLines) => string.Join(" ", allLines.Values)),
+                        new Flatten(
+                            parsed => string.Join(" ", parsed.Values),
+                            new ParseFromLineNumberUntilFirstMatchOfRegex(key: "Value", lineNumber: 1, pattern: new Regex(@"--End--")))
                     }
                 }
             };
@@ -131,7 +133,7 @@ value
         }
 
         [Test]
-        public void Parse_MultipleLineStringUntilRegex_ParseStringsAndConcatenateThemByDefault()
+        public void Parse_MultipleLineStringUntilRegex_ParseStringsAndEnumerateThem()
         {
             var p = new Dictionary<string, IEnumerable<IParse>>
             {
@@ -151,7 +153,8 @@ value
             var parser = new Parser(p);
             var ds = parser.Parse(lines);
 
-            Assert.AreEqual("Any value", ds["Key"]["Value"]);
+            Assert.AreEqual("Any", ds["Key"]["Value[0]"]);
+            Assert.AreEqual("value", ds["Key"]["Value[1]"]);
         }
 
         [Test]
@@ -235,7 +238,9 @@ value
                     "Key",
                     new List<IParse>
                     {
-                        new ParseFromRegexToRegex(key: "Value", first: new Regex(@"--Begin--"), second: new Regex(@"--End--"), factory: (allLines) => string.Join(" ", allLines.Values)),
+                        new Flatten(
+                            parsed => string.Join(" ", parsed.Values),
+                            new ParseFromRegexToRegex(key: "Value", first: new Regex(@"--Begin--"), second: new Regex(@"--End--"))),
                     }
                 }
             };
@@ -254,7 +259,7 @@ This line will be ignored");
         }
 
         [Test]
-        public void Parse_MultipleLineStringBetweenTwoRegexes_ParseStringBetweenRegexesAndConcatenateThemByDefault()
+        public void Parse_MultipleLineStringBetweenTwoRegexes_ParseStringBetweenRegexesAndEnumerateThem()
         {
             var p = new Dictionary<string, IEnumerable<IParse>>
             {
@@ -277,7 +282,8 @@ This line will be ignored");
             var parser = new Parser(p);
             var ds = parser.Parse(lines);
 
-            Assert.AreEqual("Any value", ds["Key"]["Value"]);
+            Assert.AreEqual("Any", ds["Key"]["Value[0]"]);
+            Assert.AreEqual("value", ds["Key"]["Value[1]"]);
         }
 
         [Test]
@@ -289,7 +295,9 @@ This line will be ignored");
                     "Key",
                     new List<IParse>
                     {
-                        new ParseFromFirstRegexToRegex(key: "Value", first: new Regex(@"--Begin--"), second: new Regex(@"--End--")),
+                        new Flatten(
+                            parsed => string.Join(" ", parsed.Values),
+                            new ParseFromFirstRegexToRegex(key: "Value", first: new Regex(@"--Begin--"), second: new Regex(@"--End--")))
                     }
                 }
             };
@@ -316,7 +324,9 @@ This line will be ignored");
                     "Key",
                     new List<IParse>
                     {
-                        new ParseFromRegexToLastRegex(key: "Value", first: new Regex(@"--Begin--"), second: new Regex(@"--End--")),
+                        new Flatten(
+                            parsed => string.Join(" ", parsed.Values),
+                            new ParseFromRegexToLastRegex(key: "Value", first: new Regex(@"--Begin--"), second: new Regex(@"--End--")))
                     }
                 }
             };
@@ -343,7 +353,9 @@ This line will be ignored");
                     "Key",
                     new List<IParse>
                     {
-                        new ParseFromFirstRegexToLastRegex(key: "Value", first: new Regex(@"--Begin--"), second: new Regex(@"--End--")),
+                        new Flatten(
+                            allLines => string.Join(" ", allLines.Values),
+                            new ParseFromFirstRegexToLastRegex(key: "Value", first: new Regex(@"--Begin--"), second: new Regex(@"--End--")))
                     }
                 }
             };
@@ -550,7 +562,7 @@ Anything");
         }
 
         [Test]
-        public void Parse_PositionAndCountInLineWithFactory_ParsesAndAppliesFactory()
+        public void Parse_PositionAndCountInLine_ParsesAndFlattensResult()
         {
             var p = new Dictionary<string, IEnumerable<IParse>>
             {
@@ -558,7 +570,9 @@ Anything");
                     "Key",
                     new List<IParse>
                     {
-                        new ParseFromLineWithCountAfterPosition(key: "Value", lineNumber: 2, startPosition: 5, charCount: 9, factory: (str) => str.ToUpper())
+                        new Flatten(
+                            parsed => parsed["Value"].ToUpper(),
+                            new ParseFromLineWithCountAfterPosition(key: "Value", lineNumber: 2, startPosition: 5, charCount: 9))
                     }
                 }
             };
@@ -772,7 +786,7 @@ Value: 123456 This value doesn't have more than 10 chars, so it's invalid");
         }
 
         [Test]
-        public void Parse_ExceptionInCustomFactory_ThrowsException()
+        public void Parse_ExceptionInFlatten_ThrowsException()
         {
             var p = new Dictionary<string, IEnumerable<IParse>>
             {
@@ -780,7 +794,9 @@ Value: 123456 This value doesn't have more than 10 chars, so it's invalid");
                     "Key",
                     new List<IParse>
                     {
-                        new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)"), factory: (groups) => throw new Exception("An exception"))
+                        new Flatten(
+                            parsed => throw new Exception("An unexpected exception"),
+                            new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")))
                     }
                 }
             };
@@ -804,10 +820,11 @@ Value: 123456");
                     "Key",
                     new List<IParse>
                     {
-                        new AndThen(
+                        new Flatten(
                             (output) => $"{string.Join("", output.Values)}",
-                            new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")),
-                            new ParseFromRegex(key: "Result", pattern: new Regex(@"Result: \s*(\d+)")))
+                            new AndThen(
+                                new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")),
+                                new ParseFromRegex(key: "Result", pattern: new Regex(@"Result: \s*(\d+)"))))
                     }
                 }
             };
@@ -831,10 +848,11 @@ Result: 456");
                     "Key",
                     new List<IParse>
                     {
-                        new AndThen(
+                        new Flatten(
                             (output) => $"{string.Join("", output.Values)}",
-                            new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")),
-                            new ParseFromRegex(key: "Result", pattern: new Regex(@"Result: \s*(\d+)")))
+                            new AndThen(
+                                new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")),
+                                new ParseFromRegex(key: "Result", pattern: new Regex(@"Result: \s*(\d+)"))))
                     }
                 }
             };
@@ -858,10 +876,11 @@ Result: 456");
                     "Key",
                     new List<IParse>
                     {
-                        new AndThen(
+                        new Flatten(
                             (output) => $"{string.Join("", output.Values)}",
-                            new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")),
-                            new ParseFromRegex(key: "Result", pattern: new Regex(@"Result: \s*(\d+)")))
+                            new AndThen(
+                                new ParseFromRegex(key: "Value", pattern: new Regex(@"Value:\s*(\d+)")),
+                                new ParseFromRegex(key: "Result", pattern: new Regex(@"Result: \s*(\d+)"))))
                     }
                 }
             };
@@ -1350,12 +1369,12 @@ This segment will be ignored, This segment will be ignored too, Value: 123456, R
             Assert.AreEqual("Result: Foo", ds["Key"]["Value[1]"]);
         }
 
-        private List<List<String>> FromPagesText(params String[] str)
+        private List<List<string>> FromPagesText(params string[] str)
         {
             return str.Select(t => t.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).ToList()).ToList();
         }
 
-        private List<List<String>> FromText(String str)
+        private List<List<string>> FromText(string str)
         {
             return new List<List<string>> { str.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).Skip(1).ToList() };
         }

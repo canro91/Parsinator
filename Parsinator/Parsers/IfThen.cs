@@ -15,7 +15,7 @@ namespace Parsinator
         private bool _wasEvaluated;
         private bool _predicateHolds;
 
-        public IfThen(Func<String, bool> predicate, IParse @if, IParse then, IParse @else)
+        public IfThen(Func<string, bool> predicate, IParse @if, IParse then, IParse @else)
         {
             this.Predicate = predicate;
             this.If = @if;

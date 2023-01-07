@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace Parsinator
 {
-    public class ParseFromLineNumberUntilFirstMatchOfRegex : ParseWithFactory
+    public class ParseFromLineNumberUntilFirstMatchOfRegex : IParse
     {
         private readonly int LineNumber;
         private readonly Regex Pattern;
@@ -12,9 +12,9 @@ namespace Parsinator
         private List<string> _content;
         private bool _hasAtLeastOneMatch;
 
-        public ParseFromLineNumberUntilFirstMatchOfRegex(string key, int lineNumber, Regex pattern, Func<IDictionary<string, string>, string> factory)
-            : base(key, factory)
+        public ParseFromLineNumberUntilFirstMatchOfRegex(string key, int lineNumber, Regex pattern)
         {
+            this.Key = key;
             this.LineNumber = lineNumber;
             this.Pattern = pattern;
 
@@ -22,12 +22,12 @@ namespace Parsinator
             _hasAtLeastOneMatch = false;
         }
 
-        public ParseFromLineNumberUntilFirstMatchOfRegex(string key, int lineNumber, Regex pattern)
-            : this(key: key, lineNumber: lineNumber, pattern: pattern, factory: (allLines) => string.Join(" ", allLines.Values))
-        {
-        }
+        public string Key { get; private set; }
+        public int? PageNumber { get; private set; }
+        public Func<string> Default { get; private set; }
+        public bool HasMatched { get; private set; }
 
-        public override IDictionary<string, string> Parse(string line, int lineNumber, int lineNumberFromBottom)
+        public IDictionary<string, string> Parse(string line, int lineNumber, int lineNumberFromBottom)
         {
             if (lineNumber == this.LineNumber || (this.LineNumber < 0 && lineNumberFromBottom == this.LineNumber))
             {
@@ -40,14 +40,15 @@ namespace Parsinator
                 if (matches.Success)
                 {
                     HasMatched = true;
-                    var value = Factory(_content.Enumerate());
-                    return new Dictionary<string, string> { { Key, value } };
+                    // Do not add the line matching Pattern
+                    return _content.Enumerate(prefix: Key);
                 }
                 else
                 {
                     _content.Add(line.Trim());
                 }
             }
+            
             return new Dictionary<string, string>();
         }
     }
