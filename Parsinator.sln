@@ -1,13 +1,17 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27428.2015
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parsinator.Tests", "Parsinator.Tests\Parsinator.Tests.csproj", "{7170007D-5B14-4788-B4DB-38157897AD7D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Parsinator.Tests", "Parsinator.Tests\Parsinator.Tests.csproj", "{7170007D-5B14-4788-B4DB-38157897AD7D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parsinator", "Parsinator\Parsinator.csproj", "{D6A3A129-56E4-43F9-9115-B5302F519C25}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Parsinator", "Parsinator\Parsinator.csproj", "{D6A3A129-56E4-43F9-9115-B5302F519C25}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parsinator.Sample", "Parsinator.Sample\Parsinator.Sample.csproj", "{58437AB6-E1A0-41D3-8F93-15403620937D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Parsinator.Sample", "Parsinator.Sample\Parsinator.Sample.csproj", "{58437AB6-E1A0-41D3-8F93-15403620937D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F6ADB03D-BD41-44B4-A46D-D5692A10FC08}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
