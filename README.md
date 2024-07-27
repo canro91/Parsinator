@@ -6,7 +6,7 @@ Parsinator turns structured and unstructured text into a header-detail represent
 
 ## Why
 
-Parsinator extracts relevant data from text files based on defined rules. It doesn't use any OCR technology.
+Parsinator extracts relevant data from text files based on defined rules. It doesn't use any OCR technology or AI. Sorry!
 
 You parse a text file by composing small functions to read or ignore text at the page or line level. Parsinator was heavily inspired by functional parsers combinators.
 
@@ -54,9 +54,14 @@ var parsers = new Dictionary<string, IEnumerable<IParser>>
 var parsinator = new Parser(parsers);
 Dictionary<string, Dictionary<string, string>> parsed = parsinator.Parse(lines);
 
-Assert.IsTrue(parsed.ContainsKey("PersonalData"));
-Assert.AreEqual("Alice", parsed["PersonalData"]["FullName"]);
-Assert.AreEqual("Wonderland", parsed["PersonalData"]["Address"]);
+parsed.ContainsKey("PersonalData");
+// true
+
+parsed["PersonalData"]["FullName"];
+// "Alice"
+
+parsed["PersonalData"]["Address"];
+// "Wonderland"
 ```
 
 ### Use a Fluent Interface
@@ -102,8 +107,7 @@ var parsinator = new Parser(parser);
 Dictionary<string, Dictionary<string, string>> parsed = parsinator.Parse(lines);
 
 var xml = parsed.ToDataSet(dataSet).GetXml();
-
-Assert.AreEqual("<Author><PersonalInfo Name="Alice" /></Author>", xml);
+// "<Author><PersonalInfo Name="Alice" /></Author>"
 ```
 
 Please, take a look at the [Sample project](https://github.com/canro91/Parsinator/tree/master/Parsinator.Sample) to see how to parse a plain-text invoice, a GPS frame, and an ebook table of content.
